@@ -15,15 +15,23 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_margin="16dp"
+        android:gravity="center"
         android:orientation="horizontal">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/productsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@drawable/products" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/ReportsBtn"
@@ -31,6 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/reports" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <LinearLayout
@@ -38,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_margin="16dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageButton
@@ -45,7 +58,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@drawable/orders"/>
 
         <ImageButton
@@ -53,7 +65,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@drawable/clients"/>
     </LinearLayout>
 
@@ -62,22 +73,36 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_margin="16dp"
+        android:gravity="center"
         android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/AssembliesBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@drawable/ensambles"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/InfoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@drawable/information"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
     </LinearLayout>
 </LinearLayout>
