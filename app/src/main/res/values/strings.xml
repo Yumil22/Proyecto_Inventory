@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Sales_Partner_V2.1</string>
+    <string name="app_name">Sales Partner V2.1</string>
+    <string name="menu1">Productos</string>
+    <string name="menu2">Ordenes</string>
+    <string name="menu3">Ensambles</string>
+    <string name="menu4">Reportes</string>
+    <string name="menu5">Clientes</string>
+    <string name="menu6">Información</string>
 </resources>
