@@ -305,5 +305,14 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+    public abstract CustomersDao customersDao();
+    public abstract AssembliesDao assembliesDao();
+    public abstract AssembliesProductsDao assembliesProductsDao();
+    public abstract OrdersAssembliesDao ordersAssembliesDao();
+    public abstract OrdersDao ordersDao();
+    public abstract OrderStatusDao orderStatusDao();
+    public abstract ProductsDao productsDao();
+    public abstract ProductsCategoriesDao productsCategoriesDao();
+
 }
 
