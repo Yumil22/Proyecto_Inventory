@@ -173,74 +173,74 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO assemblies (id, description) VALUES (7, 'Gamer #2')");
 
                             // ASSEMBLY PRODUCTS
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 1, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 101, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 205, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 304, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 400, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 509, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (1, 9, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (1, 102, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (1, 206, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (1, 312, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (1, 414, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (1, 508, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (2, 10, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (2, 109, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (2, 207, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (2, 300, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (2, 500, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (2, 601, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 4, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 110, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 207, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 317, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 415, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 510, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (3, 601, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 2, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 119, 2)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 213, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 316, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 409, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 506, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (4, 602, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 8, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 120, 2)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 212, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 318, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 408, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 505, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (5, 602, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 8, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 13, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 116, 2)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 217, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 323, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 407, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 507, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (6, 605, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 8, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 12, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 117, 4)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 218, 2)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 322, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 407, 1)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 504, 2)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 605, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (0, 0, 1, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (1, 0, 101, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (2, 0, 205, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (3, 0, 304, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (4, 0, 400, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (5, 0, 509, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (6, 1, 9, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (7, 1, 102, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (8, 1, 206, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (9, 1, 312, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (10, 1, 414, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (11, 1, 508, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (12, 2, 10, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (13, 2, 109, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (14, 2, 207, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (15, 2, 300, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (16, 2, 500, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (17, 2, 601, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (18, 3, 4, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (19, 3, 110, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (20, 3, 207, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (21, 3, 317, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (22, 3, 415, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (23, 3, 510, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (24, 3, 601, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (25, 4, 2, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (26, 4, 119, 2)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (27, 4, 213, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (28, 4, 316, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (29, 4, 409, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (30, 4, 506, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (31, 4, 602, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (32, 5, 8, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (33, 5, 120, 2)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (34, 5, 212, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (35, 5, 318, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (36, 5, 408, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (37, 5, 505, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (38, 5, 602, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (39, 6, 8, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (40, 6, 13, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (41, 6, 116, 2)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (42, 6, 217, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (43, 6, 323, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (44, 6, 407, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (45, 6, 507, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (46, 6, 605, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (47, 7, 8, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (48, 7, 12, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (49, 7, 117, 4)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (50, 7, 218, 2)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (51, 7, 322, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (52, 7, 407, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (53, 7, 504, 2)");
+                            db.execSQL("INSERT INTO assembly_products (id, assembly_id, product_id, qty) VALUES (54, 7, 605, 1)");
 
                             // CUSTOMERS
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) " +
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
                                     "VALUES (0, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) " +
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
                                     "VALUES (1, 'José', 'Medina', 'C.42 x 51 y 53, Col. Centro', '997-5491235', '997-4561289', NULL, 'medina96@yahoo.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) " +
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
                                     "VALUES (2, 'Erika', 'Mojica', 'C.18 x Av. Sierra, Fracc. La Huerta', '952-4567823', '998-6324582', '998-6541279', 'erikam98@gmail.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) " +
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
                                     "VALUES (3, 'Gabriel', 'Alemán', 'Av. Justo Madero x 44, Col. Boulevard', NULL, NULL, NULL, 'gabasoluciones@live.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) " +
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
                                     "VALUES (4, 'Perla', 'Montalvo', 'C.101B x 98 y 100, Fracc. Vista Alegre', '977-4612536', '995-1268745', NULL, NULL)");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) " +
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
                                     "VALUES (5, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx')");
 
                             // ORDER STATUS
@@ -268,36 +268,36 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (8, 0, 3, '18-03-2017', NULL)");
 
                             // ORDERS ASSEMBLIES
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 0, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 3, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 5, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (1, 1, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (1, 4, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (1, 6, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (1, 7, 4)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (2, 2, 1)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (2, 3, 1)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (3, 2, 4)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (3, 4, 4)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (3, 5, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (3, 7, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (4, 0, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (4, 3, 4)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (4, 4, 4)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (4, 7, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (5, 1, 1)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (5, 2, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (5, 5, 1)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (6, 0, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (6, 1, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (6, 3, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (6, 4, 2)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (6, 6, 4)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (7, 1, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (7, 3, 3)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 0, 1)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 6, 5)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 7, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (0, 0, 0, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (1, 0, 3, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (2, 0, 5, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (3, 1, 1, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (4, 1, 4, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (5, 1, 6, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (6, 1, 7, 4)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (7, 2, 2, 1)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (8, 2, 3, 1)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (9, 3, 2, 4)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (10, 3, 4, 4)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (11, 3, 5, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (12, 3, 7, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (13, 4, 0, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (14, 4, 3, 4)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (15, 4, 4, 4)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (16, 4, 7, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (17, 5, 1, 1)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (18, 5, 2, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (19, 5, 5, 1)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (20, 6, 0, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (21, 6, 1, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (22, 6, 3, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (23, 6, 4, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (24, 6, 6, 4)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (25, 7, 1, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (26, 7, 3, 3)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (27, 8, 0, 1)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (28, 8, 6, 5)");
+                            db.execSQL("INSERT INTO order_assemblies (id, order_id, assembly_id, qty) VALUES (29, 8, 7, 3)");
                             // FIN DE LA BASE DE DATOS
                         }
                     })

@@ -6,4 +6,8 @@
     <string name="menu4">Reportes</string>
     <string name="menu5">Clientes</string>
     <string name="menu6">Información</string>
+    <string name="action_search">Buscar</string>
+    <string name="search_assembly">Buscar ensamble por texto: </string>
+    <string name="filter">Introducir filtro</string>
+    <string name="action_add">Agregar</string>
 </resources>

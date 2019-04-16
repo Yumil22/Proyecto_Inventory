@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "products_categories")
+@Entity(tableName = "product_categories")
 public class ProductsCategories {
     @PrimaryKey (autoGenerate = true)
     @ColumnInfo(name = "id")

@@ -18,14 +18,13 @@ public class Orders {
     private int status_id;
 
     @NonNull
-    @ColumnInfo(name = "costumer_id")
+    @ColumnInfo(name = "customer_id")
     private int customer_id;
 
     @NonNull
     @ColumnInfo(name = "date")
     private String date;
 
-    @NonNull
     @ColumnInfo(name = "change_log")
     private String change_log;
 

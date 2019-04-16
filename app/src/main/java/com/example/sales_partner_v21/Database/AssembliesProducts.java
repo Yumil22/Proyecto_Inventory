@@ -13,12 +13,24 @@ public class AssembliesProducts {
     private int id;
 
     @NonNull
-    @ColumnInfo(name = "producto_id")
+    @ColumnInfo(name = "assembly_id")
+    private int assembly_id;
+
+    @NonNull
+    @ColumnInfo(name = "product_id")
     private int product_id;
 
     @NonNull
     @ColumnInfo(name = "qty")
     private int qty;
+
+    public int getAssembly_id() {
+        return assembly_id;
+    }
+
+    public void setAssembly_id(int assembly_id) {
+        this.assembly_id = assembly_id;
+    }
 
     public int getId() {
         return id;
@@ -44,8 +56,9 @@ public class AssembliesProducts {
         this.qty = qty;
     }
 
-    public AssembliesProducts(int id, int product_id, int qty) {
+    public AssembliesProducts(int id, int assembly_id, int product_id, int qty) {
         this.id = id;
+        this.assembly_id = assembly_id;
         this.product_id = product_id;
         this.qty = qty;
     }
