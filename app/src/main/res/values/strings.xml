@@ -7,7 +7,17 @@
     <string name="menu5">Clientes</string>
     <string name="menu6">Información</string>
     <string name="action_search">Buscar</string>
-    <string name="search_assembly">Buscar ensamble por texto: </string>
+    <string name="search_assembly">Buscar ensamble: </string>
     <string name="filter">Introducir filtro</string>
     <string name="action_add">Agregar</string>
+    <string name="assembly">Ensamble: </string>
+    <string name="AboutAssembly">Especificaciones del ensamble</string>
+    <string name="TotalCost">Costo total: </string>
+    <string name="AboutProduct">Especificaciones del producto</string>
+    <string name="category">Categoria: </string>
+    <string name="description">Descripción</string>
+    <string name="price">Precio: </string>
+    <string name="quantity">Cantidad en Stock: </string>
+    <string name="categoriesSpinner">Categorias</string>
+    <string name="search_product">Buscar producto</string>
 </resources>

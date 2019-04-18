@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "order_assemblies")
 public class OrderAssemblies {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
     private int id;
@@ -56,8 +56,7 @@ public class OrderAssemblies {
         this.qty = qty;
     }
 
-    public OrderAssemblies(int id, int order_id, int assembly_id, int qty) {
-        this.id = id;
+    public OrderAssemblies(int order_id, int assembly_id, int qty) {
         this.order_id = order_id;
         this.assembly_id = assembly_id;
         this.qty = qty;

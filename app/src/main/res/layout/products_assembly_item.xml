@@ -9,24 +9,20 @@
     android:layout_margin="10dp">
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/productDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         tools:text="Descripcion"
+        android:maxLength="30"
         style="?android:listSeparatorTextViewStyle" />
 
     <TextView
-        android:id="@+id/number_products"
+        android:layout_weight="1"
+        android:id="@+id/required_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:listSeparatorTextViewStyle"
         tools:text="Numero de productos"/>
-
-    <TextView
-        android:id="@+id/total_cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Costo total del ensamble"/>
 
 </LinearLayout>
