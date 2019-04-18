@@ -222,16 +222,6 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
         getMenuInflater().inflate(R.menu.assemblies_menu,menu);
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.app_bar_search:
-                Toast.makeText(this,"Buscando...",Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
 
     @Override
     public void onBackPressed() {

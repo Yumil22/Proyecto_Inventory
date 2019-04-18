@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:layout_gravity="center"
         android:orientation="horizontal">
         <LinearLayout
@@ -28,14 +28,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/categoriesSpinner"
                 android:textSize="20sp"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:textStyle="bold"/>
             <Spinner
                 android:id="@+id/categories_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="16dp"/>
+                android:layout_margin="5dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="@string/search_product"/>
@@ -52,9 +52,10 @@
                 android:id="@+id/search_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:singleLine="true"
                 android:lines="1"
+                android:textAlignment="center"
                 android:visibility="visible"
                 android:layout_gravity="center"
                 android:hint="Filtrar producto"/>
@@ -64,5 +65,5 @@
         android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
+        android:layout_margin="5dp"/>
 </LinearLayout>
