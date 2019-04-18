@@ -20,4 +20,5 @@
     <string name="quantity">Cantidad en Stock: </string>
     <string name="categoriesSpinner">Categorias</string>
     <string name="search_product">Buscar producto</string>
+    <string name="a">{item.getItemId()}</string>
 </resources>

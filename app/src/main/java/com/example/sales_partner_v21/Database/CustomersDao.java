@@ -9,6 +9,6 @@ import java.util.List;
 public interface CustomersDao {
 
     @Query("SELECT * FROM CUSTOMERS ORDER BY id")
-    public List<Customers> getAllCustomers();
+     List<Customers> getAllCustomers();
 
 }
