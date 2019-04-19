@@ -2,6 +2,8 @@ package com.example.sales_partner_v21;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,9 +29,11 @@ import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
 
 import java.util.List;
-
+import android.app.Dialog;
 
  class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
+
+
 
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
@@ -40,6 +44,9 @@ import java.util.List;
         private TextView txtx_email;
 
         private Customers customers;
+
+
+
 
 
         public ViewHolder(@NonNull final View itemView ) {
@@ -86,22 +93,46 @@ import java.util.List;
 
         }
 
+        public String CUSTOMER_ID = "CUSTOMER_ID";
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
                 switch (item.getItemId()){
-                            case 0:
-
-                                //Dialogo para mosrar informacion completa
-                                return true;
-
                             case 1:
-                                
-                                //nueva ventana para editar
+
+            new Dialog_customers(itemView.getContext(),customers);
+
                                 return true;
 
                             case 2:
+
+                                Intent intent2 = new Intent(itemView.getContext(), edit_custormer.class);
+                                ClientesActivity a = new ClientesActivity();
+                                intent2.putExtra(CUSTOMER_ID, customers.getId());
+                                a.startActivityForResult(intent2, edit_custormer.edit_REQUEST_CODE);
+                                a.finish();
+                                //nueva ventana para editar
+                                return true;
+
+                            case 3:
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+
+                                builder.setMessage("Are you sure you want delete the costumer?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //accion de eliminar
+                                        //TOAST
+                                    }
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        //no realiza nada
+                                    }
+                                });
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
                                 //Dialogo confirmacion de accion
                                default: return true;
                         }
@@ -110,6 +141,7 @@ import java.util.List;
 
 
     }
+
 
 
 
@@ -136,6 +168,7 @@ import java.util.List;
     }
 
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.bind(customers.get(i));
@@ -149,6 +182,7 @@ import java.util.List;
 
 
 }
+
 public class ClientesActivity extends AppCompatActivity  {
 
 
@@ -159,7 +193,6 @@ public class ClientesActivity extends AppCompatActivity  {
     private RecyclerView recyclerView;
     private CustomerAdapter adapter;
     public List<Customers> customersAll;
-
 
 
     @Override
@@ -198,6 +231,9 @@ public class ClientesActivity extends AppCompatActivity  {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public int getID(int position){
+        return customersAll.get(position).getId();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -208,6 +244,11 @@ public class ClientesActivity extends AppCompatActivity  {
                 return true;
             case R.id.add_button_item:
 //agregamos un activity para anexar a nuevo usuario
+
+                Intent intent2 = new Intent(ClientesActivity.this, new_user.class);
+                ClientesActivity.super.finish();
+                startActivityForResult(intent2, new_user.NEW_USER_REQUEST_CODE);
+
                 Toast.makeText(this, "New Activity...", Toast.LENGTH_SHORT).show();
 
                 return true;
@@ -220,13 +261,6 @@ public class ClientesActivity extends AppCompatActivity  {
         }
 
     }
-
-
-
-
-
-
-
 
 
 }

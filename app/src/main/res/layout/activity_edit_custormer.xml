@@ -22,11 +22,11 @@
 
             android:layout_height="wrap_content"
 
-            android:text="*First name: "/>
+            android:text="First name: "/>
 
         <EditText
 
-            android:id="@+id/add_first_name"
+            android:id="@+id/ed_first_name_dialog"
 
             android:layout_width="match_parent"
 
@@ -45,13 +45,13 @@
 
             android:layout_height="wrap_content"
 
-            android:text="*Last name:"
+            android:text="Last name:"
 
             />
 
         <EditText
 
-            android:id="@+id/add_last_name"
+            android:id="@+id/ed_last_name_dialog"
 
             android:layout_width="match_parent"
 
@@ -70,11 +70,11 @@
 
             android:layout_height="wrap_content"
 
-            android:text="*Address: "/>
+            android:text="Address: "/>
 
         <EditText
 
-            android:id="@+id/add_address"
+            android:id="@+id/ed_address_dialog"
 
             android:layout_width="match_parent"
 
@@ -92,11 +92,11 @@
 
             android:layout_height="wrap_content"
 
-            android:text="*E-mail"/>
+            android:text="E-mail"/>
 
         <EditText
 
-            android:id="@+id/add_email"
+            android:id="@+id/ed_email_dialog"
 
             android:layout_width="match_parent"
 
@@ -114,11 +114,11 @@
 
             android:layout_height="wrap_content"
 
-            android:text="*Phone1:"/>
+            android:text="Phone1:"/>
 
         <EditText
 
-            android:id="@+id/add_phone1"
+            android:id="@+id/ed_phone1_dialog"
 
             android:layout_width="match_parent"
 
@@ -139,11 +139,16 @@
 
         <EditText
 
-            android:id="@+id/add_phone2"
+            android:id="@+id/ed_phone2_dialog"
 
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -160,10 +165,14 @@
 
         <EditText
 
-            android:id="@+id/add_phone3"
+            android:id="@+id/ed_phone3_dialog"
 
             android:layout_width="match_parent"
 
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -175,21 +184,16 @@
 
 
         <Button
-            android:id="@+id/button_add"
+            android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Add"/>
+            android:text="Edit"/>
         <Button
-            android:id="@+id/button_cancel_new"
+            android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:lineSpacingMultiplier="4"
-        android:text="You have to complete with al the request with *"/>
 </LinearLayout>
