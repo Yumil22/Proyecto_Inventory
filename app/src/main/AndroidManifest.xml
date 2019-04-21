@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".edit_custormer"></activity>
         <activity android:name=".new_user" />
+=======
+        <activity android:name=".secondaryActivity_product"></activity>
+>>>>>>> 6f90d183d59745bc6572cc9cf8a2a1f1033f0148
         <activity android:name=".tertiaryActivity_assemblies" />
         <activity android:name=".secondaryActivity_assemblies" />
         <activity android:name=".MainActivity">

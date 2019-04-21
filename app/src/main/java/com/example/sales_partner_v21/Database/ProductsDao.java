@@ -12,4 +12,16 @@ public interface ProductsDao {
 
     @Query("SELECT * FROM products WHERE id = :id")
     Products getProductByID(int id);
+
+    @Query("SELECT * FROM products WHERE category_id = :categoryID ORDER BY description")
+    List<Products> getProductsByCategoryID(int categoryID);
+
+    @Query("SELECT * FROM products ORDER BY description")
+    List<Products> getAllProducts();
+
+    @Query("SELECT * FROM products WHERE category_id = :categoryID AND description LIKE '%' || :descriptionSearch  || '%' ORDER BY description")
+    List<Products> getProductsByCategoryIDAndDescription(int categoryID, String descriptionSearch);
+
+    @Query("SELECT * FROM products WHERE description LIKE '%' || :descriptionSearch  || '%' ORDER BY description")
+    List<Products> getProductsByDescription(String descriptionSearch);
 }
