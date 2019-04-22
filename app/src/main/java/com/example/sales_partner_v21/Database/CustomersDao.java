@@ -16,8 +16,6 @@ public interface CustomersDao {
     @Query("SELECT * FROM CUSTOMERS WHERE ID = :id")
     Customers getCustomerById(int id);
 
-
-
-
-
+    @Query("SELECT last_name FROM CUSTOMERS")
+    List<String> getAllCustomerLastNames();
 }
