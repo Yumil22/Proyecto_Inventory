@@ -231,9 +231,7 @@ public class ClientesActivity extends AppCompatActivity  {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public int getID(int position){
-        return customersAll.get(position).getId();
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -249,7 +247,6 @@ public class ClientesActivity extends AppCompatActivity  {
                 ClientesActivity.super.finish();
                 startActivityForResult(intent2, new_user.NEW_USER_REQUEST_CODE);
 
-                Toast.makeText(this, "New Activity...", Toast.LENGTH_SHORT).show();
 
                 return true;
 
