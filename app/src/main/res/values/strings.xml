@@ -21,4 +21,10 @@
     <string name="categoriesSpinner">Categorias</string>
     <string name="search_product">Buscar producto</string>
     <string name="a">{item.getItemId()}</string>
+    <string name="orderStatus">Estado de la orden</string>
+    <string name="clients">Clientes</string>
+    <string name="initialDate">Fecha inicial</string>
+    <string name="finalDate">Fecha final</string>
+    <string name="filterDate">Filtrar fecha</string>
+    <string name="selection">Seleccionar</string>
 </resources>
