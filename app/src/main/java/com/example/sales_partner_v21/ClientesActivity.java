@@ -2,6 +2,7 @@ package com.example.sales_partner_v21;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,10 @@ import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,8 @@ import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import android.app.Dialog;
 
@@ -107,12 +114,13 @@ import android.app.Dialog;
 
                             case 2:
 
+                                //ACTIVITY DESNTRO DEL MENU CONTEXTUAL Y ADEMAS DENTOR DEL VIEW HOLDER
                                 Intent intent2 = new Intent(itemView.getContext(), edit_custormer.class);
-                                ClientesActivity a = new ClientesActivity();
                                 intent2.putExtra(CUSTOMER_ID, customers.getId());
-                                a.startActivityForResult(intent2, edit_custormer.edit_REQUEST_CODE);
-                                a.finish();
-                                //nueva ventana para editar
+
+//TIENES QUE OBTENER EL CONTEXTO PARA PODER CREAR EL ACTIVITY
+                                itemView.getContext().startActivity(intent2);
+//AQUI ES DONDE CREE EL ACTIVITY DESNTRO DEL VIEW HOLDER
                                 return true;
 
                             case 3:
@@ -140,15 +148,14 @@ import android.app.Dialog;
         };
 
 
+
+
+
     }
-
-
-
 
     private List<Customers> customers;
     public CustomerAdapter(List<Customers> customers){
         this.customers = customers;
-
 
     }
 
@@ -174,7 +181,6 @@ import android.app.Dialog;
         viewHolder.bind(customers.get(i));
     }
 
-
     @Override
     public int getItemCount() {
         return customers.size();
@@ -190,30 +196,86 @@ public class ClientesActivity extends AppCompatActivity  {
     public static String CLIENTES_FLAG_KEY = "CLIENTES_FLAG_KEY";
     public static final int CLIENTES_REQUEST_CODE = 1;
 
+    private  Toolbar toolbar;
+    private Spinner customerSpinner;
     private RecyclerView recyclerView;
     private CustomerAdapter adapter;
-    public List<Customers> customersAll;
+    private List<Customers> customersAll ;
+    private ArrayAdapter<String> arrayAdapterCustomer;
+    private EditText searchCustomer;
+    private ArrayList<String> customersList = new ArrayList<>();
+    private CustomersDao dbCusDao;
 
-
+    public int itemSearch = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clientes);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_clients);
+        toolbar = findViewById(R.id.toolbar_clients);
         setSupportActionBar(toolbar);
 
         AppDatabase dbCus = AppDatabase.getAppDatabase(getApplicationContext());
-        CustomersDao dbCusDao = dbCus.customersDao();
+        dbCusDao = dbCus.customersDao();
+        customersAll = null;
         customersAll = dbCusDao.getAllCustomers();
 
+
+        searchCustomer = findViewById(R.id.search_customer);
+        customerSpinner = findViewById(R.id.spinner_checkbox);
         recyclerView = findViewById(R.id.recycler_clients);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         adapter = new CustomerAdapter(customersAll);
         recyclerView.setAdapter(adapter);
 
 
+        customersList.add("First Name");
+        customersList.add("Last Name");
+        customersList.add("Address");
+        customersList.add("E-mail");
+        customersList.add("Phone");
+
+        arrayAdapterCustomer = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, customersList);
+        arrayAdapterCustomer.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        customerSpinner.setAdapter(arrayAdapterCustomer);
+
+        customerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+
+                if(item == "First Name"){
+                            itemSearch =1;
+                           // searchCustomer.setInputType();
+                } else if(item == "Last Name"){
+
+                    itemSearch = 2;
+                }else if(item == "E-mail")
+                {
+                    itemSearch = 3;
+
+                }else if(item == "Phone"){
+
+                    itemSearch = 4;
+
+                }else if(item == "Address"){
+
+                    itemSearch = 5;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                itemSearch = 0;
+                Toast.makeText(ClientesActivity.this, "Select an item", Toast.LENGTH_SHORT);
+            }
+        });
     }
+
+
 
 
     @Override
@@ -237,6 +299,34 @@ public class ClientesActivity extends AppCompatActivity  {
         switch (item.getItemId()){
             case R.id.search_button_item:
 //comenzamos la funcion de busqueda
+                if(itemSearch == 0){
+                    customersAll = dbCusDao.getAllCustomers();
+                }
+                if(itemSearch == 1){
+                    customersAll = dbCusDao.getCustomersbyFirstname(searchCustomer.getText().toString());
+
+                } else if(itemSearch == 2){
+
+                    customersAll = dbCusDao.getCustomersbyLastname(searchCustomer.getText().toString());
+
+                }else if(itemSearch == 3)
+                {
+                    customersAll = dbCusDao.getCustomersbyEmail(searchCustomer.getText().toString());
+
+                }else if(itemSearch == 4){
+
+                    customersAll = dbCusDao.getCustomersbyPhone(searchCustomer.getText().toString());
+
+                }else if(itemSearch == 5){
+
+                    customersAll = dbCusDao.getCustomersbyAddress(searchCustomer.getText().toString());
+
+                }
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                adapter = new CustomerAdapter(customersAll);
+                recyclerView.setAdapter(adapter);
+
                 Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
 
                 return true;
@@ -244,7 +334,7 @@ public class ClientesActivity extends AppCompatActivity  {
 //agregamos un activity para anexar a nuevo usuario
 
                 Intent intent2 = new Intent(ClientesActivity.this, new_user.class);
-                ClientesActivity.super.finish();
+                //ClientesActivity.super.finish();
                 startActivityForResult(intent2, new_user.NEW_USER_REQUEST_CODE);
 
 

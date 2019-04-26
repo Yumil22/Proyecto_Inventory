@@ -3,8 +3,11 @@ package com.example.sales_partner_v21;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,33 +38,67 @@ public class edit_custormer extends AppCompatActivity {
     private CheckBox check_phone2;
     private CheckBox check_phone3;
 
-    public Customers custumer;
-    public Customers customer_edit;
+    private TextView txt_ema;
+    private TextView txt_pho2;
+    private TextView txt_pho3;
+    private TextView txt_name;
+    private TextView txt_lastname;
+    private TextView txt_address;
+    private TextView txt_email;
+    private TextView txt_phone1;
+    private TextView txt_phone2;
+    private TextView txt_phone3;
+
+    private Customers custumer;
+    private Customers customer_edit;
     private CustomersDao dbCusDao;
-    public boolean ema = true;
-    public boolean pho2 = true;
-    public boolean pho3 = true;
+    public boolean ema = false;
+    public boolean pho2 = false;
+    public boolean pho3 = false;
+    private boolean control_edit = false;
+
+
+    static final String NAME = "SAVED_NAME";
+    static final String LAST_NAME = "SAVED_LAST_NAME";
+    static final String ADDRESS = "SAVED_ADDRESS";
+    static final String E_MAIL = "SAVED_E_MAIL";
+    static final String PHONE_1 = "SAVED_PHONE_1";
+    static final String PHONE_2 = "SAVED_PHONE_2";
+    static final String PHONE_3 = "SAVED_PHONE_3";
+    static final String BANDERA_EMAIL = "SAVED_BANDERA_EMAIL";
+    static final String BANDERA_PHONE2 = "SAVED_BANDERA_PHONE2";
+    static final String BANDERA_PHONE3 = "SAVED_BANDERA_PHONE3";
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_custormer);
+
+        Toolbar toolbar = findViewById(R.id.edit_toolbar);
+        setSupportActionBar(toolbar);
+
+
         Intent intent = getIntent();
             Customer_id = intent.getIntExtra(CUSTOMER_ID, 0);
         AppDatabase dbCus = AppDatabase.getAppDatabase(getApplicationContext());
          dbCusDao = dbCus.customersDao();
         custumer = dbCusDao.getCustomerById(Customer_id);
 
-          name = findViewById(R.id.ed_first_name_dialog);
-          last_name = findViewById(R.id.ed_last_name_dialog);
-          address = findViewById(R.id.ed_address_dialog);
-          e_mail = findViewById(R.id.ed_email_dialog);
-          phone1 = findViewById(R.id.ed_phone1_dialog);
-          phone2 = findViewById(R.id.ed_phone2_dialog);
-          phone3 = findViewById(R.id.ed_phone3_dialog);
-          check_e_mail = findViewById(R.id.chk_e_mail);
-          check_phone2 = findViewById(R.id.chk_phone2);
-          check_phone3 = findViewById(R.id.chk_phone3);
+          name = findViewById(R.id.edit_first_name_dialog);
+          last_name = findViewById(R.id.edit_last_name_dialog);
+          address = findViewById(R.id.edit_address_dialog);
+          e_mail = findViewById(R.id.edit_email_dialog);
+          phone1 = findViewById(R.id.edit_phone1_dialog);
+          phone2 = findViewById(R.id.edit_phone2_dialog);
+          phone3 = findViewById(R.id.edit_phone3_dialog);
+          check_e_mail = findViewById(R.id.chk_e_mail_edit);
+          check_phone2 = findViewById(R.id.chk_phone2_edit);
+          check_phone3 = findViewById(R.id.chk_phone3_edit);
+
+          txt_ema = findViewById(R.id.txt_em);
+          txt_pho2 = findViewById(R.id.txt_pho2);
+          txt_pho3 = findViewById(R.id.txt_pho3);
 
         Button cancel = findViewById(R.id.button_cancel);
 
@@ -74,6 +111,44 @@ public class edit_custormer extends AppCompatActivity {
         phone2.setText(custumer.getPhone2());
         phone3.setText(custumer.getPhone3());
         //poner para tomar
+
+        if(savedInstanceState != null){
+            name.setText(savedInstanceState.getString(NAME));
+            last_name.setText(savedInstanceState.getString(LAST_NAME));
+            address.setText(savedInstanceState.getString(ADDRESS));
+            e_mail.setText(savedInstanceState.getString(E_MAIL));
+            phone1.setText(savedInstanceState.getString(PHONE_1));
+            phone2.setText(savedInstanceState.getString(PHONE_2));
+            phone3.setText(savedInstanceState.getString(PHONE_3));
+            ema = savedInstanceState.getBoolean(BANDERA_EMAIL);
+            pho2 = savedInstanceState.getBoolean(BANDERA_PHONE2);
+            pho3 = savedInstanceState.getBoolean(BANDERA_PHONE3);
+        }
+        control_edit = false;
+
+        if(ema = true){
+            check_e_mail.setChecked(true);
+            e_mail.setFocusableInTouchMode(true);
+        }else{
+            check_e_mail.setChecked(false);
+            e_mail.setFocusableInTouchMode(false);
+        }
+        if(pho2){
+            check_phone2.setChecked(true);
+            phone2.setFocusableInTouchMode(true);
+
+        }else {
+            check_phone2.setChecked(false);
+            phone2.setFocusableInTouchMode(false);
+        }
+        if(pho3){
+            check_phone3.setChecked(true);
+            phone3.setFocusableInTouchMode(true);
+
+        }else {
+            check_phone3.setChecked(false);
+            phone3.setFocusableInTouchMode(false);
+        }
 
 
 
@@ -103,14 +178,35 @@ public class edit_custormer extends AppCompatActivity {
 
 
 
+        if(custumer.getEmail() != null){
+            check_e_mail.setChecked(true);
+            e_mail.setFocusableInTouchMode(true);
+        }
+        if(custumer.getPhone2() != null){
+            check_phone2.setChecked(true);
+            phone2.setFocusableInTouchMode(true);
+        }
+
+        if(custumer.getPhone3() != null){
+            check_phone3.setChecked(true);
+            phone3.setFocusableInTouchMode(true);
+        }
 
         check_e_mail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (ema = true){
+                if(isChecked){
+                    //Toast.makeText(edit_custormer.this, "Selected", Toast.LENGTH_SHORT).show();
+                    e_mail.setFocusableInTouchMode(true);
+                    ema = true;
+                }else if(!isChecked){
+                    //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
+                    e_mail.setFocusableInTouchMode(false);
                     ema = false;
+
                 }
+
             }
         });
 
@@ -119,16 +215,29 @@ public class edit_custormer extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (pho2 = true){
+                if(isChecked){
+                    //Toast.makeText(edit_custormer.this, "Selected", Toast.LENGTH_SHORT).show();
+                    phone2.setFocusableInTouchMode(true);
+                    pho2 = true;
+                }else if(!isChecked){
+                    //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
+                    phone2.setFocusableInTouchMode(false);
                     pho2 = false;
                 }
+
             }
         });
 
         check_phone3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (pho3 = true){
+                if(isChecked){
+                    //Toast.makeText(edit_custormer.this, "Selected", Toast.LENGTH_SHORT).show();
+                    phone3.setFocusableInTouchMode(true);
+                    pho3 = true;
+                }else if(!isChecked){
+                    //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
+                    phone3.setFocusableInTouchMode(false);
                     pho3 = false;
                 }
             }
@@ -146,55 +255,105 @@ public class edit_custormer extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.edit_customer_button:
+                control_edit = false;
+                String n;
+                if(name.getText().length() == 0){
+                     n =custumer.getFirstName();
+                     control_edit = true;
+                     Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+                }else {
+                     n = name.getText().toString();
+                }
+                String L;
+                if(last_name.getText().length() == 0){
+                    L = custumer.getLastName();
+                    control_edit= true;
+                    Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
 
-                if(name.getText().toString() == null){
-                    customer_edit.setFirstName(custumer.getFirstName().toString());
                 }else {
-                    customer_edit.setFirstName(name.getText().toString());
+                    L = last_name.getText().toString();
                 }
-                if(last_name.getText().toString() == null){
-                    customer_edit.setLastName(custumer.getLastName().toString());
+                String ad;
+                if(address.getText().length() == 0){
+                    control_edit = true;
+                    Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+
+                    ad = null;
                 }else {
-                    customer_edit.setLastName(last_name.getText().toString());
+                    ad = address.getText().toString();
                 }
-                if(address.getText().toString() == null){
-                    customer_edit.setAddress(custumer.getAddress().toString());
+                String em;
+                if(e_mail.getText().length() == 0){
+                    em = null;
+
+                    if(check_e_mail.isChecked()){
+                        txt_ema.setTextColor(Color.RED);
+                        control_edit = true;
+                        Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+
+                    }
                 }else {
-                    customer_edit.setAddress(address.getText().toString());
+                    em = e_mail.getText().toString();
+
                 }
-                if(e_mail.getText().toString() == null){
-                    customer_edit.setEmail(custumer.getEmail().toString());
+                String ph;
+                if(phone1.getText().length() == 0){
+                    ph = custumer.getPhone1();
+                    control_edit = true;
+                    Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+
                 }else {
-                    customer_edit.setEmail(e_mail.getText().toString());
+                    ph =phone1.getText().toString();
                 }
-                if(phone1.getText().toString() == null){
-                    customer_edit.setPhone1(custumer.getPhone1().toString());
+                String pho2;
+
+                if(phone2.getText().length() == 0){
+                    pho2 = null;
+                    if(check_phone2.isChecked()){
+                        txt_pho2.setTextColor(Color.RED);
+                        control_edit = true;
+                        Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+                    }
                 }else {
-                    customer_edit.setPhone1(phone1.getText().toString());
+                    pho2 = phone2.getText().toString();
                 }
-                if(phone2.getText().toString() == null){
-                    customer_edit.setPhone2(custumer.getPhone2().toString());
+                String pho3;
+                if(phone3.getText().length() == 0){
+                    pho3 = null;
+                    if(check_phone3.isChecked()){
+                        txt_pho3.setTextColor(Color.RED);
+                        control_edit= true;
+                        Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+
+                    }
                 }else {
-                    customer_edit.setPhone2(phone2.getText().toString());
+                    pho3 = phone3.getText().toString();
+
                 }
-                if(phone3.getText().toString() == null){
-                    customer_edit.setPhone3(custumer.getPhone3().toString());
-                }else {
-                    customer_edit.setPhone3(phone3.getText().toString());
-                }
-                if(name.getText().toString() == null ||last_name.getText().toString() == null||address.getText().toString() == null
-                || e_mail.getText().toString() == null || phone1.getText().toString() == null ||phone2.getText().toString() == null
-                ||phone3.getText().toString() == null){
-                    Toast.makeText(this, "La informacion en blanco fue puesta como la anterior a lo editado", Toast.LENGTH_LONG);
+                if(control_edit = true){
+
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(edit_custormer.this);
+
+                    builder.setMessage("Put all the information").setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                            return false;
+                        }
+                    }).setIcon(R.drawable.ic_warning_black_24dp).setTitle("WARNING");
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    control_edit = false;
+                    return true;
+                }else{
+                    customer_edit = new Customers(custumer.getId(), n, L, ad,  ph, pho2, pho3, em );
+                    new Dialog_customers(this ,customer_edit);
+                    //agrego query para actualizar confirmo actualizacion con un Toast
+                    control_edit = false;
+
                 }
 
-                customer_edit.setId(custumer.getId());
-
-
-                //agrego query para actualizar
                 return true;
-
-
 
             default:   return super.onOptionsItemSelected(item);
 
@@ -209,9 +368,7 @@ public class edit_custormer extends AppCompatActivity {
         builder.setMessage("Are you sure you want get out? You will lost your changes").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent2 = new Intent(edit_custormer.this, ClientesActivity.class);
                 edit_custormer.super.finish();
-                startActivityForResult(intent2, ClientesActivity.CLIENTES_REQUEST_CODE);
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -222,6 +379,22 @@ public class edit_custormer extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.getString(NAME, name.getText().toString());
+        savedInstanceState.putString(LAST_NAME, last_name.getText().toString());
+        savedInstanceState.putString(ADDRESS, address.getText().toString());
+        savedInstanceState.putString(E_MAIL, e_mail.getText().toString());
+        savedInstanceState.putString(PHONE_1, phone1.getText().toString());
+        savedInstanceState.putString(PHONE_2, phone2.getText().toString());
+        savedInstanceState.putString(PHONE_3, phone3.getText().toString());
+        savedInstanceState.putBoolean(BANDERA_EMAIL, ema);
+        savedInstanceState.putBoolean(BANDERA_PHONE2, pho2);
+        savedInstanceState.putBoolean(BANDERA_PHONE3, pho3);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

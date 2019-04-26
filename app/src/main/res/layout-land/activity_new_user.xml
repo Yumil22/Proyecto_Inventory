@@ -1,6 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Customer:"
+        android:gravity="center"
+        android:fontFamily="casual"
+        android:textSize="25dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:id="@+id/txt_name_new"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="*First name: "/>
+
+        <EditText
+
+            android:id="@+id/add_first_name"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:inputType="text"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_last_name_new"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="*Last name:"
+
+            />
+
+        <EditText
+
+            android:id="@+id/add_last_name"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:inputType="text"
+
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_address_new"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="*Address: "/>
+
+        <EditText
+
+            android:id="@+id/add_address"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/txt_email_new"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="E-mail"/>
+
+        <EditText
+
+            android:id="@+id/add_email"
+
+            android:layout_width="216dp"
+
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:inputType="textEmailAddress"
+
+            />
+        <CheckBox
+            android:id="@+id/chk_e_mail_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:focusableInTouchMode="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/txt_phone1_new"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="*Phone1:"/>
+
+        <EditText
+
+            android:id="@+id/add_phone1"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:maxLength="11"
+            android:inputType="phone"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/txt_phone2_new"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="Phone2:"/>
+
+        <EditText
+
+            android:id="@+id/add_phone2"
+
+            android:layout_width="175dp"
+
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:inputType="phone"
+            android:maxLength="11" />
+
+        <CheckBox
+            android:id="@+id/chk_phone2_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone2"
+            />
+        <TextView
+
+            android:id="@+id/txt_phone3_new"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="    Phone3:"/>
+
+        <EditText
+
+            android:id="@+id/add_phone3"
+
+            android:layout_width="188dp"
+
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:inputType="phone"
+            android:maxLength="11" />
+        <CheckBox
+            android:id="@+id/chk_phone3_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone3"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Add"/>
+        <Button
+            android:id="@+id/button_cancel_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="4"
+        android:layout_gravity="center"
+        android:text="You have to complete with all the request with *"/>
+</LinearLayout>

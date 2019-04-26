@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -34,7 +37,7 @@
 
         <EditText
 
-            android:id="@+id/edit_first_name_dialog"
+            android:id="@+id/ed_first_name_dialog"
 
             android:layout_width="match_parent"
 
@@ -62,7 +65,7 @@
 
         <EditText
 
-            android:id="@+id/edit_last_name_dialog"
+            android:id="@+id/ed_last_name_dialog"
 
             android:layout_width="match_parent"
 
@@ -86,7 +89,7 @@
 
         <EditText
 
-            android:id="@+id/edit_address_dialog"
+            android:id="@+id/ed_address_dialog"
 
             android:layout_width="match_parent"
 
@@ -111,14 +114,14 @@
 
         <EditText
 
-            android:id="@+id/edit_email_dialog"
+            android:id="@+id/ed_email_dialog"
 
             android:layout_width="216dp"
 
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"/>
         <CheckBox
-            android:id="@+id/chk_e_mail_edit"
+            android:id="@+id/chk_e_mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
@@ -141,7 +144,7 @@
 
         <EditText
 
-            android:id="@+id/edit_phone1_dialog"
+            android:id="@+id/ed_phone1_dialog"
 
             android:layout_width="match_parent"
 
@@ -169,55 +172,44 @@
 
         <EditText
 
-            android:id="@+id/edit_phone2_dialog"
+            android:id="@+id/ed_phone2_dialog"
 
-            android:layout_width="216dp"
+            android:layout_width="164dp"
 
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:focusableInTouchMode="false"
-            android:maxLength="11"
+            android:gravity="center"
             android:inputType="phone"
-            />
-
+            android:maxLength="11" />
 
 
         <CheckBox
-            android:id="@+id/chk_phone2_edit"
+            android:id="@+id/chk_phone2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone2"
             />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-
         <TextView
             android:id="@+id/txt_pho3"
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
 
-            android:text="Phone3:"/>
+            android:text="     Phone3:"/>
 
         <EditText
 
-            android:id="@+id/edit_phone3_dialog"
+            android:id="@+id/ed_phone3_dialog"
 
-            android:layout_width="216dp"
+            android:layout_width="171dp"
 
             android:layout_height="wrap_content"
             android:focusableInTouchMode="false"
-            android:maxLength="11"
             android:inputType="phone"
-            />
+            android:maxLength="11" />
 
         <CheckBox
-            android:id="@+id/chk_phone3_edit"
+            android:id="@+id/chk_phone3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone3"
@@ -225,18 +217,7 @@
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
 
 
-        <Button
-            android:id="@+id/button_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"/>
-    </LinearLayout>
 
 </LinearLayout>

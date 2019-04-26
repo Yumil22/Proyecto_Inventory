@@ -14,10 +14,12 @@
         android:textSize="25dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
 
+            android:id="@+id/txt_name_new"
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
@@ -32,14 +34,18 @@
 
             android:layout_height="wrap_content"
 
-            android:text=""/>
+            android:inputType="text"
+
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/txt_last_name_new"
 
             android:layout_width="wrap_content"
 
@@ -56,15 +62,19 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
+            android:inputType="text"
 
-            android:text=""/>
+
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/txt_address_new"
 
             android:layout_width="wrap_content"
 
@@ -78,29 +88,43 @@
 
             android:layout_width="match_parent"
 
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
 
         <TextView
+            android:id="@+id/txt_email_new"
 
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
 
-            android:text="*E-mail"/>
+            android:text="E-mail"/>
 
         <EditText
 
             android:id="@+id/add_email"
 
-            android:layout_width="match_parent"
+            android:layout_width="216dp"
 
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:inputType="textEmailAddress"
+
+            />
+        <CheckBox
+            android:id="@+id/chk_e_mail_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <LinearLayout
@@ -109,6 +133,7 @@
 
 
         <TextView
+            android:id="@+id/txt_phone1_new"
 
             android:layout_width="wrap_content"
 
@@ -122,14 +147,20 @@
 
             android:layout_width="match_parent"
 
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLength="11"
+            android:inputType="phone"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
 
         <TextView
+            android:id="@+id/txt_phone2_new"
 
             android:layout_width="wrap_content"
 
@@ -141,16 +172,31 @@
 
             android:id="@+id/add_phone2"
 
-            android:layout_width="match_parent"
+            android:layout_width="216dp"
 
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:maxLength="11"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chk_phone2_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone2"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
 
         <TextView
+
+            android:id="@+id/txt_phone3_new"
 
             android:layout_width="wrap_content"
 
@@ -162,9 +208,19 @@
 
             android:id="@+id/add_phone3"
 
-            android:layout_width="match_parent"
+            android:layout_width="216dp"
 
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:maxLength="11"
+            android:inputType="phone"
+            />
+        <CheckBox
+            android:id="@+id/chk_phone3_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone3"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -191,5 +247,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="4"
-        android:text="You have to complete with al the request with *"/>
+        android:layout_gravity="center"
+        android:text="You have to complete with all the request with *"/>
 </LinearLayout>
