@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -253,11 +254,10 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.V
                 OrderStatusDao orderStatusDao = database.orderStatusDao();
                 OrdersDao ordersDao = database.ordersDao();
                 OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
-
-
             }
             case R.id.add_button_item: {
-
+                Intent intent = new Intent(this,activityAddNewOrder.class);
+                startActivity(intent);
             }
             default:
                 return super.onOptionsItemSelected(item);

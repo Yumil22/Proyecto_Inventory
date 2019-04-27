@@ -7,9 +7,11 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Relation;
 import android.support.annotation.NonNull;
 
+import javax.annotation.Nullable;
+
 @Entity(tableName = "orders")
 public class Orders {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
 
@@ -25,6 +27,7 @@ public class Orders {
     @ColumnInfo(name = "date")
     private String date;
 
+    @Nullable
     @ColumnInfo(name = "change_log")
     private String change_log;
 
