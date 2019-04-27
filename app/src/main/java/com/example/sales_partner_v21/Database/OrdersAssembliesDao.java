@@ -10,4 +10,6 @@ import java.util.List;
 public interface OrdersAssembliesDao {
     @Insert
     void InserNewOrdersAssembly(OrderAssemblies orderAssembly);
+
+
 }

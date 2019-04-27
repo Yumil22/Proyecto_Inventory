@@ -12,5 +12,7 @@ public interface OrdersDao {
     void InsertNewOrder(Orders order);
 
     @Query("SELECT MAX(id) FROM orders")
-    public int getMaxID();
+    int getMaxID();
+
+
 }

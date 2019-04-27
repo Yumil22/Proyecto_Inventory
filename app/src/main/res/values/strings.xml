@@ -29,4 +29,5 @@
     <string name="selection">Seleccionar</string>
     <string name="action_save">Guardar</string>
     <string name="client">Cliente: </string>
+    <string name="for_all">Selecciona</string>
 </resources>

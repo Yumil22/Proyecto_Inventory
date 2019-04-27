@@ -10,4 +10,9 @@ public interface OrderStatusDao {
     @Query("SELECT description FROM order_status")
     List<String> getAllOrderStatusDescription();
 
+    @Query("SELECT * FROM order_status WHERE id = :order_id")
+    OrderStatus getOrderStatusByID(int order_id);
+
+    @Query("SELECT id FROM order_status")
+    List<Integer> getAllOrdersIDs();
 }
