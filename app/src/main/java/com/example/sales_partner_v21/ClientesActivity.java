@@ -206,7 +206,17 @@ public class ClientesActivity extends AppCompatActivity  {
     private ArrayList<String> customersList = new ArrayList<>();
     private CustomersDao dbCusDao;
 
+
+    private boolean control_search = false;
+    public String searched;
+    public int type_search = 0;
+
     public int itemSearch = 0;
+
+    static final String CONTROL = "SAVED_CONTROL";
+    static final String SEARCHED = "SAVED_SEARCHED";
+    static final String TYPE_SEARCH = "SAVED_TYPE_SEARCH";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,7 +227,7 @@ public class ClientesActivity extends AppCompatActivity  {
 
         AppDatabase dbCus = AppDatabase.getAppDatabase(getApplicationContext());
         dbCusDao = dbCus.customersDao();
-        customersAll = null;
+        //customersAll = null;
         customersAll = dbCusDao.getAllCustomers();
 
 
@@ -240,6 +250,53 @@ public class ClientesActivity extends AppCompatActivity  {
         arrayAdapterCustomer.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         customerSpinner.setAdapter(arrayAdapterCustomer);
 
+
+        if(savedInstanceState != null){
+
+            type_search = savedInstanceState.getInt(TYPE_SEARCH);
+            control_search = savedInstanceState.getBoolean(CONTROL);
+            searched = savedInstanceState.getString(SEARCHED);
+
+            if(control_search == true){
+
+                if(type_search == 0){
+                    customersAll = dbCusDao.getAllCustomers();
+                }
+                if(type_search == 1){
+                    customersAll = dbCusDao.getCustomersbyFirstname(searched);
+                    control_search = true;
+                    customerSpinner.setSelection(1);
+
+                } else if(type_search == 2){
+
+                    customersAll = dbCusDao.getCustomersbyLastname(searched);
+                    control_search = true;
+                    customerSpinner.setSelection(2);
+
+                }else if(type_search == 3)
+                {
+                    customersAll = dbCusDao.getCustomersbyEmail(searched);
+                    control_search = true;
+                    customerSpinner.setSelection(3);
+
+                }else if(type_search == 4){
+
+                    customersAll = dbCusDao.getCustomersbyPhone(searched);
+                    control_search = true;
+                    customerSpinner.setSelection(4);
+
+                }else if(type_search == 5){
+
+                    customersAll = dbCusDao.getCustomersbyAddress(searched);
+                    control_search = true;
+                    customerSpinner.setSelection(5);
+                }
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                adapter = new CustomerAdapter(customersAll);
+                recyclerView.setAdapter(adapter);
+            }
+
+        }
         customerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -247,21 +304,26 @@ public class ClientesActivity extends AppCompatActivity  {
 
                 if(item == "First Name"){
                             itemSearch =1;
+                    type_search =1;
                            // searchCustomer.setInputType();
                 } else if(item == "Last Name"){
 
                     itemSearch = 2;
+                    type_search =2;
                 }else if(item == "E-mail")
                 {
                     itemSearch = 3;
+                    type_search=3;
 
                 }else if(item == "Phone"){
 
                     itemSearch = 4;
+                    type_search=4;
 
                 }else if(item == "Address"){
 
                     itemSearch = 5;
+                    type_search=5;
 
                 }
             }
@@ -304,22 +366,27 @@ public class ClientesActivity extends AppCompatActivity  {
                 }
                 if(itemSearch == 1){
                     customersAll = dbCusDao.getCustomersbyFirstname(searchCustomer.getText().toString());
+                    control_search = true;
 
                 } else if(itemSearch == 2){
 
                     customersAll = dbCusDao.getCustomersbyLastname(searchCustomer.getText().toString());
+                    control_search = true;
 
                 }else if(itemSearch == 3)
                 {
                     customersAll = dbCusDao.getCustomersbyEmail(searchCustomer.getText().toString());
+                    control_search = true;
 
                 }else if(itemSearch == 4){
 
                     customersAll = dbCusDao.getCustomersbyPhone(searchCustomer.getText().toString());
+                    control_search = true;
 
                 }else if(itemSearch == 5){
 
                     customersAll = dbCusDao.getCustomersbyAddress(searchCustomer.getText().toString());
+                    control_search = true;
 
                 }
 
@@ -349,6 +416,17 @@ public class ClientesActivity extends AppCompatActivity  {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(control_search == true){
 
+            outState.getBoolean(CONTROL, control_search);
+            outState.getString(SEARCHED, searched);
+            outState.getInt(TYPE_SEARCH, type_search);
+
+        }
+
+        super.onSaveInstanceState(outState);
+    }
 }
 

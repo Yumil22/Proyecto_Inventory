@@ -92,9 +92,15 @@ public class edit_custormer extends AppCompatActivity {
           phone1 = findViewById(R.id.edit_phone1_dialog);
           phone2 = findViewById(R.id.edit_phone2_dialog);
           phone3 = findViewById(R.id.edit_phone3_dialog);
-          check_e_mail = findViewById(R.id.chk_e_mail_edit);
-          check_phone2 = findViewById(R.id.chk_phone2_edit);
-          check_phone3 = findViewById(R.id.chk_phone3_edit);
+          check_e_mail = findViewById(R.id.chk_e_mail_edit_edit);
+          check_phone2 = findViewById(R.id.chk_phone2_edit_edit);
+          check_phone3 = findViewById(R.id.chk_phone3_edit_edit);
+
+        txt_name = findViewById(R.id.txt_name_new);
+        txt_lastname = findViewById(R.id.txt_last_name_new);
+        txt_address = findViewById(R.id.txt_address_new);
+        txt_phone1 = findViewById(R.id.txt_phone1_new);
+
 
           txt_ema = findViewById(R.id.txt_em);
           txt_pho2 = findViewById(R.id.txt_pho2);
@@ -124,7 +130,7 @@ public class edit_custormer extends AppCompatActivity {
             pho2 = savedInstanceState.getBoolean(BANDERA_PHONE2);
             pho3 = savedInstanceState.getBoolean(BANDERA_PHONE3);
         }
-        control_edit = false;
+
 
         if(ema = true){
             check_e_mail.setChecked(true);
@@ -255,32 +261,36 @@ public class edit_custormer extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.edit_customer_button:
-                control_edit = false;
                 String n;
                 if(name.getText().length() == 0){
                      n =custumer.getFirstName();
                      control_edit = true;
-                     Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+                     txt_name.setTextColor(Color.RED);
+
                 }else {
                      n = name.getText().toString();
+                    txt_name.setTextColor(Color.GREEN);
+
                 }
                 String L;
                 if(last_name.getText().length() == 0){
                     L = custumer.getLastName();
                     control_edit= true;
-                    Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+                    txt_lastname.setTextColor(Color.RED);
 
                 }else {
                     L = last_name.getText().toString();
+                    txt_lastname.setTextColor(Color.GREEN);
+
                 }
                 String ad;
                 if(address.getText().length() == 0){
                     control_edit = true;
-                    Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
-
+                    txt_address.setTextColor(Color.RED);
                     ad = null;
                 }else {
                     ad = address.getText().toString();
+                    txt_address.setTextColor(Color.GREEN);
                 }
                 String em;
                 if(e_mail.getText().length() == 0){
@@ -289,8 +299,6 @@ public class edit_custormer extends AppCompatActivity {
                     if(check_e_mail.isChecked()){
                         txt_ema.setTextColor(Color.RED);
                         control_edit = true;
-                        Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
-
                     }
                 }else {
                     em = e_mail.getText().toString();
@@ -300,10 +308,11 @@ public class edit_custormer extends AppCompatActivity {
                 if(phone1.getText().length() == 0){
                     ph = custumer.getPhone1();
                     control_edit = true;
-                    Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
+                    txt_phone1.setTextColor(Color.RED);
 
                 }else {
                     ph =phone1.getText().toString();
+                    txt_phone1.setTextColor(Color.GREEN);
                 }
                 String pho2;
 
@@ -312,10 +321,10 @@ public class edit_custormer extends AppCompatActivity {
                     if(check_phone2.isChecked()){
                         txt_pho2.setTextColor(Color.RED);
                         control_edit = true;
-                        Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
                     }
                 }else {
                     pho2 = phone2.getText().toString();
+                    txt_pho2.setTextColor(Color.GREEN);
                 }
                 String pho3;
                 if(phone3.getText().length() == 0){
@@ -323,16 +332,13 @@ public class edit_custormer extends AppCompatActivity {
                     if(check_phone3.isChecked()){
                         txt_pho3.setTextColor(Color.RED);
                         control_edit= true;
-                        Toast.makeText(edit_custormer.this, "AQUI ES EL PEDO", Toast.LENGTH_SHORT);
 
                     }
                 }else {
                     pho3 = phone3.getText().toString();
-
+                    txt_pho3.setTextColor(Color.GREEN);
                 }
-                if(control_edit = true){
-
-
+                if(control_edit == true){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(edit_custormer.this);
 
                     builder.setMessage("Put all the information").setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -348,6 +354,7 @@ public class edit_custormer extends AppCompatActivity {
                 }else{
                     customer_edit = new Customers(custumer.getId(), n, L, ad,  ph, pho2, pho3, em );
                     new Dialog_customers(this ,customer_edit);
+
                     //agrego query para actualizar confirmo actualizacion con un Toast
                     control_edit = false;
 
