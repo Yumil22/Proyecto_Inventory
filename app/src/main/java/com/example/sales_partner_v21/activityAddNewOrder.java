@@ -38,10 +38,8 @@ import com.example.sales_partner_v21.Database.Orders;
 import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
 import com.example.sales_partner_v21.Database.OrdersDao;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.time.MonthDay;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

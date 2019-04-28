@@ -11,5 +11,8 @@ public interface OrdersAssembliesDao {
     @Insert
     void InserNewOrdersAssembly(OrderAssemblies orderAssembly);
 
+    @Query("SELECT SUM(qty) FROM order_assemblies WHERE order_id = :id")
+    int getQtyAssemblies(int id);
+
 
 }

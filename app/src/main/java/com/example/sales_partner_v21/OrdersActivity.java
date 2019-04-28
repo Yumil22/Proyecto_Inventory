@@ -1,7 +1,9 @@
 package com.example.sales_partner_v21;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -175,8 +177,12 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private String SELECTED_STATUSES = "SELECTED_STATUS";
     private String CLIENT_ID = "CLIENT_ID";
     private int ClientID = 0;
-    private Customers customer;
+
+    private List<Customers> customers = new ArrayList<>();
+    private List<Orders> orders;
     private List<OrderStatus> orderStatuses = new ArrayList<>();
+    private List<Integer> qtyAssemblies;
+    private List<Integer> totalCosts;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -340,26 +346,128 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
             OrdersDao ordersDao = database.ordersDao();
             OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
 
-            customer = customersDao.getCustomerById(ClientID);
-
-            if (orderStatuses.size() != 0){
-                orderStatuses.clear();
+            // Clientes
+            if (ClientID == customersDao.getMaxId() + 1){
+                customers = customersDao.getAllCustomers();
+            }
+            else {
+                customers.add(customersDao.getCustomerById(ClientID));
+            }
+            int[] clientsIDs = new int[customers.size()];
+            int counter = 0;
+            for (Customers customer : customers){
+                clientsIDs[counter] = customer.getId();
+                counter++;
             }
 
-            for (int status : orderStatusesSelected){
-                orderStatuses.add(orderStatusDao.getOrderStatusByID(Integer.valueOf(status)));
+            // Estados de las ordenes
+            if (orderStatuses != null){
+                if (orderStatuses.size() != 0){
+                    orderStatuses.clear();
+                }
+
+                for (int status : orderStatusesSelected){
+                    orderStatuses.add(orderStatusDao.getOrderStatusByID(status));
+                }
+
+                int[] statuses = new int[orderStatusesSelected.size()];
+                int count = 0;
+                for (OrderStatus orderStatus : orderStatuses){
+                    statuses[count] = orderStatus.getId();
+                    count++;
+                }
+                // Ordenes
+                if (initialDateCheckbox.isChecked() && finalDateCheckbox.isChecked()){
+                    String monthInicial;
+                    if (initialMonth < 10){
+                        monthInicial = "0" + initialMonth;
+                    }
+                    else {
+                        monthInicial = String.valueOf(initialMonth);
+                    }
+                    String dayInicial;
+                    if (initialDayOfMonth < 10){
+                        dayInicial = "0" + initialDayOfMonth;
+                    }
+                    else {
+                        dayInicial = String.valueOf(initialDayOfMonth);
+                    }
+                    String initialFilterDate = String.valueOf(initialYear) + "-" + monthInicial + "-" + String.valueOf(dayInicial);
+
+                    String monthFinal;
+                    if (finalMonth <  10){
+                        monthFinal = "0" + finalMonth;
+                    }
+                    else {
+                        monthFinal = String.valueOf(finalMonth);
+                    }
+                    String dayFinal;
+                    if (finalMonth < 10){
+                        dayFinal = "0" + finalDayOfMonth;
+                    }
+                    else {
+                        dayFinal = String.valueOf(finalMonth);
+                    }
+                    String finalFilterDate = String.valueOf(finalYear) + "-" + monthFinal + "-" + String.valueOf(dayFinal);
+
+                    // FILTRADO POR FECHA, CLIENTES Y ESTADOS
+                    orders = ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses);
+
+                    if (orders != null){
+                        for (Orders order: orders){
+                            qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
+                        }
+
+                    }
+
+
+                }
+                else if (initialDateCheckbox.isChecked()){
+                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
+                    alertdialog.setTitle("Error");
+                    alertdialog.setMessage("Es necesario especificar una fecha final de filtrado");
+
+                    alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = alertdialog.create();
+                    alertdialog.show();
+                }
+                else if (finalDateCheckbox.isChecked()){
+                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
+                    alertdialog.setTitle("Error");
+                    alertdialog.setMessage("Es necesario especificar una fecha inicial de filtrado");
+
+                    alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = alertdialog.create();
+                    alertdialog.show();
+                }
+                else {
+
+                }
             }
+            else {
+                AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
+                alertdialog.setTitle("Error");
+                alertdialog.setMessage("No se ha seleccionado ningun estado de filtrado");
 
-            if (initialDateCheckbox.isChecked() && finalDateCheckbox.isChecked()){
-
+                alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = alertdialog.create();
+                alertdialog.show();
             }
-            else if (initialDateCheckbox.isChecked()){
-
-            }
-            else if (finalDateCheckbox.isChecked()){
-
-            }
-
         }
         else if(item.getItemId() == R.id.add_button_item){
             Intent intent = new Intent(this,activityAddNewOrder.class);

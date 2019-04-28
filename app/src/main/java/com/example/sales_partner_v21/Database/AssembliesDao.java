@@ -18,9 +18,6 @@ public interface AssembliesDao {
     @Query("SELECT * FROM assemblies WHERE description LIKE '%' || :searchText  || '%' ORDER BY description")
     List<Assemblies> getAllAssembliesByText(String searchText);
 
-    @Query("SELECT * FROM assemblies WHERE id IN (:ids) ORDER BY description")
-    List<Assemblies> getAssembliesByID(int[] ids);
-
     @Query("SELECT * FROM assemblies WHERE id = :assemblyID")
     Assemblies getAssemblyByID(int assemblyID);
 
