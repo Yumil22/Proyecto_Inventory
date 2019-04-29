@@ -9,14 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Sales_summary_mounth"></activity>
+        <activity android:name=".OrdersDetails"></activity>
+        <activity android:name=".Sales_summary_mounth" />
         <activity android:name=".orders_simulator" />
         <activity android:name=".sales_summary" />
-
-        <activity android:name=".activityAddNewAssembly"></activity>
+        <activity android:name=".activityAddNewAssembly" />
         <activity android:name=".activityAddNewOrder" />
-
         <activity android:name=".edit_custormer" />
         <activity android:name=".new_user" />
         <activity android:name=".secondaryActivity_product" />

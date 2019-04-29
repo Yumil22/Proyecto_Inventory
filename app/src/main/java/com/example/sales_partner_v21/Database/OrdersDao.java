@@ -14,6 +14,18 @@ public interface OrdersDao {
     @Query("SELECT MAX(id) FROM orders")
     int getMaxID();
 
-    @Query("SELECT * FROM orders WHERE (REPLACE(date,'-','') BETWEEN :initialDate AND :finalDate) AND customer_id IN (:ids) AND status_id IN (:statuses);")
+    @Query("SELECT * FROM orders WHERE date BETWEEN :initialDate AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses);")
     List<Orders> getFilterOrders(String initialDate, String finalDate, int[] ids, int[] statuses);
+
+    @Query("SELECT * FROM orders WHERE customer_id IN (:ids) AND status_id IN (:statuses)")
+    List<Orders> getFilterOrdersByIDAndStatus(int[] ids, int[] statuses);
+
+    @Query("SELECT customers.* FROM orders INNER JOIN customers ON customers.id = orders.customer_id WHERE orders.id = :order_id")
+    Customers getCustomerFromOrderID(int order_id);
+
+    @Query("SELECT order_status.* FROM orders INNER JOIN order_status ON orders.status_id = order_status.id WHERE orders.id = :order_id")
+    OrderStatus getOrderStatusFromOrderID(int order_id);
+
+    @Query("SELECT * FROM orders WHERE id = :order_id")
+    Orders getOrderByID(int order_id);
 }
