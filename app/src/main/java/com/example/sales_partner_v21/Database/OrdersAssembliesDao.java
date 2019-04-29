@@ -4,6 +4,8 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface OrdersAssembliesDao {
     @Insert
@@ -15,4 +17,7 @@ public interface OrdersAssembliesDao {
     // SUPER QUERY
     @Query("SELECT SUM(order_assemblies.qty * products.price) FROM order_assemblies INNER JOIN assembly_products INNER JOIN products ON assembly_products.product_id = products.id AND order_assemblies.assembly_id = assembly_products.id WHERE order_assemblies.order_id = :id")
     int getTotalCostOrdersAssemblies(int id);
+
+    @Query("SELECT * FROM order_assemblies")
+    public List<OrderAssemblies> getAllorderAssemblies();
 }

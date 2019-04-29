@@ -20,4 +20,7 @@ public interface AssembliesProductsDao {
 
     @Query("SELECT * FROM assembly_products WHERE assembly_id = :assemblyID")
     List<AssembliesProducts> getAllAssembliesProducts(int assemblyID);
+
+    @Query("SELECT * FROM assembly_products")
+    List<AssembliesProducts> getAllAssemblies();
 }

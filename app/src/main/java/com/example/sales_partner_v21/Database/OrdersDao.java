@@ -28,4 +28,8 @@ public interface OrdersDao {
 
     @Query("SELECT * FROM orders WHERE id = :order_id")
     Orders getOrderByID(int order_id);
+
+    @Query("SELECT * FROM orders WHERE status_id = 0")
+    public List<Orders> getordersforComfirm();
+
 }
