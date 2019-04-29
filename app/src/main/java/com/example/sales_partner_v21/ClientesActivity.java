@@ -52,10 +52,6 @@ import android.app.Dialog;
 
         private Customers customers;
 
-
-
-
-
         public ViewHolder(@NonNull final View itemView ) {
             super(itemView);
 

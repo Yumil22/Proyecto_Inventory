@@ -17,4 +17,15 @@ public interface OrdersDao {
     @Query("SELECT * FROM orders WHERE status_id = 0")
     public List<Orders> getordersforComfirm();
 
+
+    @Query("SELECT * FROM orders")
+    public List<Orders> getAllorders();
+
+    @Query("SELECT date FROM orders")
+    public List<String> getDates();
+
+    @Query("SELECT date FROM orders WHERE date >= (:Year +'-01-01') " +
+            "AND date <= (:Year +'-12-31')")
+    public List<String> getDatesbyyear(String Year);
+
 }
