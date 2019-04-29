@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -124,6 +125,14 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
         };
     }
 
+    public OrdersAdapter(List<Customers> customers, List<Orders> orders, List<OrderStatus> orderStatuses, List<Integer> qtyAssemblies, List<Integer> totalCosts) {
+        this.customers = customers;
+        this.orders = orders;
+        this.orderStatuses = orderStatuses;
+        this.qtyAssemblies = qtyAssemblies;
+        this.totalCosts = totalCosts;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -169,7 +178,6 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private String FINAL_DAY = "FINAL_DAY";
     private Calendar calendar;
     private ArrayAdapter<String> arrayAdapterClients;
-    private OrderStatusAdapter orderStatusAdapter;
     private ArrayList<String> ordersStatusList;
     private ArrayList<OrderStatusItem> orderStatusItems = new ArrayList<>();
     private ArrayList<String> clientsList;
@@ -181,8 +189,8 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private List<Customers> customers = new ArrayList<>();
     private List<Orders> orders;
     private List<OrderStatus> orderStatuses = new ArrayList<>();
-    private List<Integer> qtyAssemblies;
-    private List<Integer> totalCosts;
+    private List<Integer> qtyAssemblies = new ArrayList<>();
+    private List<Integer> totalCosts = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -416,11 +424,11 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                     if (orders != null){
                         for (Orders order: orders){
                             qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
+                            totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-
                     }
-
-
+                    ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts));
                 }
                 else if (initialDateCheckbox.isChecked()){
                     AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
