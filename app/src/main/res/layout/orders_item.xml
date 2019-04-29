@@ -5,28 +5,26 @@
     android:orientation="horizontal"
     style="?android:listSeparatorTextViewStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/client"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         tools:text="Cliente"
-        android:maxLength="20"
         style="?android:listSeparatorTextViewStyle" />
 
     <TextView
-        android:layout_weight="1"
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLength="6"
         style="?android:listSeparatorTextViewStyle"
         tools:text="Estado"/>
 
     <TextView
-        android:layout_weight="1"
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,14 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Cantidad de ensambles"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_weight="1"/>
+        style="?android:listSeparatorTextViewStyle" />
 
     <TextView
         android:id="@+id/total_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Precio total"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_weight="1"/>
+        style="?android:listSeparatorTextViewStyle" />
 </LinearLayout>

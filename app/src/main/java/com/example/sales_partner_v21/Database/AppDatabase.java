@@ -253,19 +253,20 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (0, 'Pendiente', 1, '-', '1,2')");
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (1, 'Cancelado', 0, '0', '-')");
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (2, 'Confirmado', 0, '-', '3')");
-                            db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (3, 'En tránsito', 0, '-', '4')");
+                            db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (3, 'Tránsito', 0, '-', '4')");
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (4, 'Finalizado', 0, '-', '-')");
 
                             // ORDERS
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (0, 4, 5, '2016-10-05', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (1, 4, 2, '2016-11-12', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (2, 4, 2, '2026-12-26', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (3, 3, 4, '2017-01-03', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (4, 1, 1, '2017-01-15', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (5, 3, 0, '2017-02-04', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (6, 2, 1, '2017-03-05', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (7, 0, 4, '2017-03-12', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (8, 0, 3, '2017-03-18', NULL)");
+
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (0, 4, 5, '20161005', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (1, 4, 2, '20161112', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (2, 4, 2, '20161226', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (3, 3, 4, '20170103', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (4, 1, 1, '20170115', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (5, 3, 0, '20170204', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (6, 2, 1, '20170305', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (7, 0, 4, '20170312', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (8, 0, 3, '20170318', NULL)");
 
                             // ORDERS ASSEMBLIES
                             db.execSQL("INSERT INTO order_assemblies (order_id, assembly_id, qty) VALUES (0, 0, 2)");

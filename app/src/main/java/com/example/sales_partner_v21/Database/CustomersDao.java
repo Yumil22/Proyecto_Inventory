@@ -13,7 +13,7 @@ public interface CustomersDao {
     @Query("SELECT * FROM CUSTOMERS ORDER BY id")
      List<Customers> getAllCustomers();
 
-    @Query("SELECT * FROM CUSTOMERS WHERE ID = :id")
+    @Query("SELECT * FROM customers WHERE id = :id")
     Customers getCustomerById(int id);
 
     @Query("SELECT last_name FROM CUSTOMERS")
@@ -36,4 +36,7 @@ public interface CustomersDao {
 
     @Query("SELECT id FROM CUSTOMERS ORDER BY id DESC LIMIT 1")
     int getMaxId();
+
+    @Query("SELECT MAX(id) FROM customers")
+    int getLastID();
 }

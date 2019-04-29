@@ -189,7 +189,6 @@ public class activityAddNewOrder extends AppCompatActivity {
     private String ASSEMBLIES_IDS = "ASSEMBLIES_IDS";
     public String ENSAMBLE_ID = "ENSAMBLE_ID";
     public String QTYS = "QTYS";
-    public static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -318,7 +317,7 @@ public class activityAddNewOrder extends AppCompatActivity {
                         else {
                             month = String.valueOf(Month);
                         }
-                        final String date = String.valueOf(Year) + "-" + month + "-" + String.valueOf(DayOfMonth);
+                        final String date = Year  + month  + DayOfMonth;
                         Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null);
                         ordersDao.InsertNewOrder(NewOrder);
                         int counter = 0;
