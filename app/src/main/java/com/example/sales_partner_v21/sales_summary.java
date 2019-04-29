@@ -58,6 +58,8 @@ class ProductsAdapter2 extends RecyclerView.Adapter<ProductsAdapter2.ViewHolder>
             qty_final = product.getCategoryId() - product.getQty();
             if( qty_final < 0){
                 qtyStock.setTextColor(Color.RED);
+            }else{
+                qtyStock.setTextColor(Color.RED);
             }
             qtyStock.setText(String.valueOf(qty_final).toString());
         }
@@ -118,7 +120,7 @@ public class sales_summary extends AppCompatActivity {
     private List<AssembliesProducts> assembliesProductsList2;
     private List<Products> productsList2;
 
-    public String auc = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,9 +152,10 @@ public class sales_summary extends AppCompatActivity {
 
             for(int i=0; i <productsList.size();i++){
 
-                if(productsList.get(i).getCategoryId() - productsList.get(i).getQty() > 0||productsList.get(i).getCategoryId() - productsList.get(i).getQty() == 0){
-                    //productsList.remove(i);
-                    productsList.remove(productsList.get(i));
+                if(productsList.get(i).getCategoryId() - productsList.get(i).getQty() > 0||productsList.get(i).getCategoryId() - productsList.get(i).getQty() == 0
+                ||productsList.get(i).getCategoryId() - productsList.get(i).getQty() == 1){
+                    productsList.remove(Integer.valueOf(i));
+                   // productsList.remove(productsList.get(i));
                 }
             }
             recycler_reports.setLayoutManager(new LinearLayoutManager(sales_summary.this));
@@ -164,8 +167,6 @@ public class sales_summary extends AppCompatActivity {
             recycler_reports.setAdapter(new ProductsAdapter2(productsList2));
             Toast.makeText(this, "DONT", Toast.LENGTH_SHORT);
         }
-
-
 
     }
 
