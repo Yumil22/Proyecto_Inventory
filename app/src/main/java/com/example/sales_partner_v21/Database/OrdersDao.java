@@ -31,5 +31,4 @@ public interface OrdersDao {
 
     @Query("SELECT * FROM orders WHERE status_id = 0")
     public List<Orders> getordersforComfirm();
-
 }
