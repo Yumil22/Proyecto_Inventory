@@ -411,7 +411,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                     String finalFilterDate = String.valueOf(finalYear) + "-" + monthFinal + "-" + String.valueOf(dayFinal);
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
-                    orders = ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses);
+                    //orders = ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses);
 
                     if (orders != null){
                         for (Orders order: orders){

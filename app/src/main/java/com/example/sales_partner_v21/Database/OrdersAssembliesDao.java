@@ -15,4 +15,6 @@ public interface OrdersAssembliesDao {
     int getQtyAssemblies(int id);
 
 
+    @Query("SELECT * FROM order_assemblies")
+    public List<OrderAssemblies> getAllorderAssemblies();
 }

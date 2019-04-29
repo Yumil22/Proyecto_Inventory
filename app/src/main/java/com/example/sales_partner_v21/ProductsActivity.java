@@ -115,6 +115,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     private String SEARCH_BUTTON_PRESS = "SEARCH_BUTTON_PRESS";
     private String PRODUCT_ID = "PRODUCT_ID";
 
+    private static final String DATA_BASE= "productsactivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

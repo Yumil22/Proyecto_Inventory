@@ -14,6 +14,7 @@ public interface OrdersDao {
     @Query("SELECT MAX(id) FROM orders")
     int getMaxID();
 
-    @Query("SELECT * FROM orders WHERE (REPLACE(date,'-','') BETWEEN :initialDate AND :finalDate) AND customer_id IN (:ids) AND status_id IN (:statuses);")
-    List<Orders> getFilterOrders(String initialDate, String finalDate, int[] ids, int[] statuses);
+    @Query("SELECT * FROM orders WHERE status_id = 0")
+    public List<Orders> getordersforComfirm();
+
 }

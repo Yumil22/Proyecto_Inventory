@@ -259,7 +259,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             // ORDERS
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (0, 4, 5, '2016-10-05', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (1, 4, 2, '2016-11-12', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (2, 4, 2, '2016-12-26', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (2, 4, 2, '2026-12-26', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (3, 3, 4, '2017-01-03', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (4, 1, 1, '2017-01-15', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (5, 3, 0, '2017-02-04', NULL)");
