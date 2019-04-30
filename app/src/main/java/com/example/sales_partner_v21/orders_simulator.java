@@ -179,20 +179,6 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
 
             auxiliar = savedInstanceState.getString(ITEMS);
             controlcount = savedInstanceState.getInt(CONTROLAUX);
-           // if(controlcount >0 ){
-           //     String [] split = auxiliar.split("-");
-           //     customerNameList = ordersDao.getcustomerForComfirm();
-           //     for(int g =0; g< controlcount; g++){
-           //         ppp =1;
-           //             for(int h = 0; h<customerNameList.size(); h++){
-           //                 if(customerNameList.get(g) == split[g]){
-           //                     spinner_optional.setSelection(ppp);
-           //                 }
-           //                 ppp++;
-           //             }
-//
-           //         }
-           // }
             CONTROL_DATE = savedInstanceState.getBoolean(CONTROLDATE, false);
             CONTROL_AMOUNT = savedInstanceState.getBoolean(CONTROLAMOUNT, false);
             CONTROL_CUSTOMER = savedInstanceState.getBoolean(CONTROLCUSTOMER, false);
@@ -200,8 +186,55 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
         }
         if(CONTROL_CUSTOMER == true){
 
-            customerNameList3.addAll(Arrays.asList(savedInstanceState.getStringArray(LISTCUSTOMER)));
-            //= Arrays.asList(savedInstanceState.getStringArray(LISTCUSTOMER));
+            customerNameList3 = savedInstanceState.getStringArrayList(LISTCUSTOMER);
+            if(customerNameList3 != null){
+
+                customerList = new ArrayList<>();
+                if( customerNameList3 != null){
+
+                    for(int i = 0; i< customerNameList3.size(); i++) {
+                        customerList.add(customersDao.getCustomersbyFirstname(customerNameList3.get(i)).get(0));
+                    }
+
+
+                    verificacion = new ArrayList<>();
+                    for(int j=0; j< customerList.size();j++){
+                        checkProducts = productsDao.getproductsNeeded(customerList.get(j).getId());
+                        for(int a =0; a<checkProducts.size(); a++){
+                            for(int b=0; b< Allproducts.size(); b++){
+                                if(checkProducts.get(a).getId() == Allproducts.get(b).getId()){
+                                    if(Allproducts.get(b).getQty()- checkProducts.get(a).getQty() < 0){
+                                        Control_verificacion = true;
+                                        Allproducts.get(b).setQty(0);
+                                        aux++;
+                                    }else{
+                                        Allproducts.get(b).setQty(Allproducts.get(b).getQty()- checkProducts.get(a).getQty());
+
+                                    }
+                                }
+                            }
+
+                        }
+                        if(Control_verificacion == true){
+                            verificacion.add(0);
+                            if(aux == checkProducts.size()){
+                                verificacion.add(3);
+                            }
+                            Control_verificacion = false;
+                        }else{
+                            verificacion.add(1);
+                            Control_verificacion = false;
+                        }
+                    }
+                    CONTROL_CUSTOMER = true;
+                    recyclerView_last.setLayoutManager(new LinearLayoutManager(orders_simulator.this));
+                    recyclerView_last.setAdapter(new SimulatorAdapter(customerList, verificacion, orders_simulator.this));
+                    //Allproducts = productsDao.getAllProducts();
+                    //no lo actualizo para demostrar el funcionamiento correcto, de que se gastan los productos necesarios
+
+                }
+            }
+
         }
         if(CONTROL_AMOUNT == true){
             spinner_final.setSelection(2);
@@ -218,7 +251,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
 
                     CONTROL_DATE = false;
                     CONTROL_AMOUNT= false;
-                    CONTROL_CUSTOMER = false;
+                    //CONTROL_CUSTOMER = false;
 
                     customerNameList = new ArrayList<>();
                     customerList = new ArrayList<>();
@@ -232,8 +265,8 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                     spinner_optional.setFocusableInTouchMode(true);
 
                 }else if (item =="Date"){
-CONTROL_DATE= true;
-CONTROL_AMOUNT = false;
+                    CONTROL_DATE= true;
+                    CONTROL_AMOUNT = false;
                     CONTROL_CUSTOMER= false;
                     Allproducts = productsDao.getAllProducts();
                     orders = ordersDao.getCountsOrders();//LISTA CON LS ORDER_ID
