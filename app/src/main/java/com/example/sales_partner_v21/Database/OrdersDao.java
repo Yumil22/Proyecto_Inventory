@@ -38,7 +38,7 @@ public interface OrdersDao {
     @Query("SELECT date FROM orders")
     public List<String> getDates();
 
-<<<<<<< HEAD
+
     @Query("SELECT * FROM orders WHERE date >= :date " +
             "AND date <= :date2")
     public List<Orders> getordersbydate(String date, String date2);
@@ -50,12 +50,26 @@ public interface OrdersDao {
             " INNER JOIN products p ON ap.product_id = p.id " +
             " WHERE date >= :date AND date <= :date2 AND o.status_id = 4 OR o.status_id = 3")
     public int getCountbyDate(String date, String date2);
-=======
+
     @Query("SELECT date FROM orders WHERE date >= (:Year +'-01-01') " +
             "AND date <= (:Year +'-12-31')")
     public List<String> getDatesbyyear(String Year);
 
     @Query("UPDATE orders SET status_id = :newStatusID WHERE id = :order_id")
     void UpdateStatusID(int order_id, int newStatusID);
->>>>>>> 554a569e6615e8e61d6c429d521f1c32b5c5385c
+
+    @Query("SELECT  c.first_name FROM orders o " +
+            "INNER JOIN customers c ON c.id = o.customer_id " +
+            " WHERE status_id = 0")
+    public List<String> getcustomerForComfirm();
+
+    @Query(" SELECT count() FROM orders WHERE customer_id = :id_cus")
+    int getOrdercountbyid(int id_cus);
+
+    @Query(" SELECT o.id FROM orders o " +
+            " INNER JOIN order_assemblies oa ON o.id = oa.order_id  " +
+            " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id " +
+            " INNER JOIN products p ON p.id = ap.product_id " +
+            "  WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)DESC")
+    List<Integer> getCountsOrders();
 }

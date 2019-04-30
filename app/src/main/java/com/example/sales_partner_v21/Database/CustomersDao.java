@@ -39,4 +39,25 @@ public interface CustomersDao {
 
     @Query("SELECT MAX(id) FROM customers")
     int getLastID();
+
+    @Query(" SELECT o.customer_id as id, c.first_name, c.last_name, c.address, c.phone1, c.phone2, c.phone3, c.email FROM customers c " +
+            " INNER JOIN orders o ON c.id = o.customer_id " +
+            " WHERE o.id = :oder")
+    public Customers getcustomerbyOrderId(int oder);
+
+    @Query("SELECT o.id FROM customers C " +
+            " INNER JOIN orders o ON o.customer_id = c.id " +
+            " INNER JOIN order_assemblies oa ON oa.order_id = o.id " +
+            " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id" +
+            " INNER JOIN products p ON p.id = ap.product_id" +
+            " WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)DESC")
+    List<Integer> getIdHighercount();
+
+    @Query("SELECT o.id FROM customers C " +
+            " INNER JOIN orders o ON o.customer_id = c.id " +
+            " INNER JOIN order_assemblies oa ON oa.order_id = o.id " +
+            " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id" +
+            " INNER JOIN products p ON p.id = ap.product_id" +
+            " WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)ASC")
+    List<Integer> getIdLesscount();
 }
