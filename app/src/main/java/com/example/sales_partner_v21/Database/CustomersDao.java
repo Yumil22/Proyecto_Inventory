@@ -20,19 +20,19 @@ public interface CustomersDao {
     @Query("SELECT last_name FROM CUSTOMERS")
     List<String> getAllCustomerLastNames();
 
-    @Query("SELECT * FROM CUSTOMERS WHERE first_name LIKE :name")
+    @Query("SELECT * FROM CUSTOMERS WHERE first_name LIKE '%' || :name  || '%' ")
     List<Customers> getCustomersbyFirstname (String name);
 
-    @Query("SELECT * FROM CUSTOMERS WHERE last_name LIKE :last_name")
+    @Query("SELECT * FROM CUSTOMERS WHERE last_name LIKE '%' || :last_name || '%'  ")
     List<Customers> getCustomersbyLastname (String last_name);
 
-    @Query("SELECT * FROM CUSTOMERS WHERE address LIKE :address")
+    @Query("SELECT * FROM CUSTOMERS WHERE address LIKE '%' || :address || '%'  ")
     List<Customers> getCustomersbyAddress (String address);
 
-    @Query("SELECT * FROM CUSTOMERS WHERE email LIKE :email")
+    @Query("SELECT * FROM CUSTOMERS WHERE email LIKE '%' || :email  || '%' ")
     List<Customers> getCustomersbyEmail (String email);
 
-    @Query("SELECT * FROM CUSTOMERS WHERE phone1 LIKE :phone OR phone2 LIKE :phone OR phone3 LIKE :phone")
+    @Query("SELECT * FROM CUSTOMERS WHERE phone1 LIKE '%' || :phone || '%' OR phone2 || '%' LIKE '%' || :phone || '%'OR phone3 LIKE '%' || :phone || '%'")
     List<Customers> getCustomersbyPhone (String phone);
 
     @Query("SELECT id FROM CUSTOMERS ORDER BY id DESC LIMIT 1")
@@ -41,6 +41,10 @@ public interface CustomersDao {
     @Query("SELECT MAX(id) FROM customers")
     int getLastID();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
     @Insert
     void InsertNewUser(Customers customer);
 
@@ -67,4 +71,8 @@ public interface CustomersDao {
             " INNER JOIN products p ON p.id = ap.product_id" +
             " WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)ASC")
     List<Integer> getIdLesscount();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
 }

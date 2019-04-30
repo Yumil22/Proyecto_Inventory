@@ -349,29 +349,33 @@ public class ClientesActivity extends AppCompatActivity  {
                 if(itemSearch == 0){
                     customersAll = dbCusDao.getAllCustomers();
                 }
-                if(itemSearch == 1){
+                if(itemSearch == 1 && !searchCustomer.getText().toString().isEmpty()){
+
                     customersAll = dbCusDao.getCustomersbyFirstname(searchCustomer.getText().toString());
                     control_search = true;
 
-                } else if(itemSearch == 2){
+                } else if(itemSearch == 2 && !searchCustomer.getText().toString().isEmpty()){
 
                     customersAll = dbCusDao.getCustomersbyLastname(searchCustomer.getText().toString());
                     control_search = true;
 
-                }else if(itemSearch == 3)
+                }else if(itemSearch == 3 && !searchCustomer.getText().toString().isEmpty())
                 {
                     customersAll = dbCusDao.getCustomersbyEmail(searchCustomer.getText().toString());
                     control_search = true;
 
-                }else if(itemSearch == 4){
+                }else if(itemSearch == 4 && !searchCustomer.getText().toString().isEmpty()){
 
                     customersAll = dbCusDao.getCustomersbyPhone(searchCustomer.getText().toString());
                     control_search = true;
 
-                }else if(itemSearch == 5){
+                }else if(itemSearch == 5 && !searchCustomer.getText().toString().isEmpty()){
 
                     customersAll = dbCusDao.getCustomersbyAddress(searchCustomer.getText().toString());
                     control_search = true;
+
+                } else {
+                    customersAll = dbCusDao.getAllCustomers();
 
                 }
 
