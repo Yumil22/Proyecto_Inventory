@@ -48,7 +48,7 @@ class EstrangeAdapter extends RecyclerView.Adapter<EstrangeAdapter.ViewHolder> {
         }
         public void bind(OrderAssemblies orderAssemblies, String s) {
 
-            int aux = assembliesDao.getPriceyAssembled(orderAssemblies.getOrder_id());
+            int aux = assembliesDao.getPriceyAssembled(orderAssemblies.getAssembly_id());
             tat_assembly.setText(s);
             txt_income_2.setText(String.valueOf(orderAssemblies.getQty()*aux));
             txt_quantity.setText(String.valueOf(orderAssemblies.getQty()));
@@ -99,6 +99,8 @@ public class secundary_Sales extends AppCompatActivity {
     public List<String> descriptionAssemblies;
 
     public RecyclerView recyclersecundarySales;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,4 +124,6 @@ public class secundary_Sales extends AppCompatActivity {
 
 
     }
+
+
 }

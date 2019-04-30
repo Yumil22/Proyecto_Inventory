@@ -28,6 +28,7 @@ import com.example.sales_partner_v21.Database.ProductsDao;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 class ProductsAdapter2 extends RecyclerView.Adapter<ProductsAdapter2.ViewHolder> {
@@ -119,6 +120,7 @@ public class sales_summary extends AppCompatActivity {
     private List<OrderAssemblies> orderAssembliesList2 ;
     private List<AssembliesProducts> assembliesProductsList2;
     private List<Products> productsList2;
+    public ArrayList list = new ArrayList();
 
 
     @Override
@@ -148,18 +150,23 @@ public class sales_summary extends AppCompatActivity {
 
 
 
+        productsList2 = new ArrayList<>(list);
+
         if(productsList != null){
 
             for(int i=0; i <productsList.size();i++){
 
                 if(productsList.get(i).getCategoryId() - productsList.get(i).getQty() > 0||productsList.get(i).getCategoryId() - productsList.get(i).getQty() == 0
                 ||productsList.get(i).getCategoryId() - productsList.get(i).getQty() == 1){
-                    productsList.remove(Integer.valueOf(i));
+                    productsList.remove(i);
+
                    // productsList.remove(productsList.get(i));
+                }else {
+                    productsList2.add(productsList.get(i));
                 }
             }
             recycler_reports.setLayoutManager(new LinearLayoutManager(sales_summary.this));
-            recycler_reports.setAdapter(new ProductsAdapter2(productsList));
+            recycler_reports.setAdapter(new ProductsAdapter2(productsList2));
 
         }
         else{

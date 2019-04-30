@@ -144,6 +144,14 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
     private ArrayAdapter<String> arrayAdapterSales;
 
 
+    static final String SAVED_YEAR = "SAVED_YEAR";
+    static final String SAVE_SELECTED_ITEM = "SAVE_SELECTED_ITEM";
+    static final String SAVED_CONTROL = "SAVED_CONTROL";
+
+    public String save_year_searched;
+    public int save_selected_item =0;
+    public boolean control = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +166,108 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
         button_search_dates = findViewById(R.id.search_dates);
 
 
+        if(savedInstanceState != null){
+
+            control = savedInstanceState.getBoolean(SAVED_CONTROL);
+            int selected;
+            selected = savedInstanceState.getInt(SAVE_SELECTED_ITEM);
+            spinner_year.setSelection(selected);
+            if(control ==true){
+                mounths = new ArrayList<>(list);
+                countSales = new ArrayList<>(list);
+                assemblyDate = new ArrayList<>(list);
+                inCome = new ArrayList<>(list);
+               year = savedInstanceState.getString(SAVED_YEAR);
+                if(!ordersDao.getordersbydate(year +"0101",year + "0131").isEmpty()){
+                    mounths.add("Enero");
+                    countSales.add(ordersDao.getordersbydate(year +"0101",year + "0131").size());
+                    assemblyDate.add(year+"0101"+year + "0131");
+                    inCome.add(ordersDao.getCountbyDate(year +"0101",year + "0131"));
+                }
+                if(!ordersDao.getordersbydate(year + "0201", year +"0229").isEmpty()){
+                    mounths.add("Febrero");
+                    countSales.add(ordersDao.getordersbydate(year +"0201",year + "0229").size());
+                    assemblyDate.add(year+"0201"+year + "0229");
+                    inCome.add(ordersDao.getCountbyDate(year + "0201", year +"0229"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "0301", year + "0331").isEmpty()){
+                    mounths.add("Marzo");
+                    countSales.add(ordersDao.getordersbydate(year +"0301",year + "0331").size());
+                    assemblyDate.add(year+"0301"+year + "0331");
+                    inCome.add(ordersDao.getCountbyDate(year + "0301", year +"0331"));
+
+                }
+                if(!ordersDao.getordersbydate( year + "0401",  year +"0431").isEmpty()){
+                    mounths.add("Abril");
+                    countSales.add(ordersDao.getordersbydate(year +"0401",year + "0431").size());
+                    assemblyDate.add(year+"0401"+year + "0431");
+                    inCome.add(ordersDao.getCountbyDate(year + "0401", year +"0431"));
+
+                }
+                if(!ordersDao.getordersbydate(year +"0501", year + "0531").isEmpty()){
+                    mounths.add("Mayo");
+                    countSales.add(ordersDao.getordersbydate(year +"0501",year + "0531").size());
+                    assemblyDate.add(year+"0501"+year + "0531");
+                    inCome.add(ordersDao.getCountbyDate(year + "0501", year +"0531"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "0601", year + "0631").isEmpty()){
+                    mounths.add("Junio");
+                    countSales.add(ordersDao.getordersbydate(year +"0601",year + "0631").size());
+                    assemblyDate.add(year+"0601"+year + "0631");
+                    inCome.add(ordersDao.getCountbyDate(year + "0601", year +"0631"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "0701", year + "0731").isEmpty()){
+                    mounths.add("Julio");
+                    countSales.add(ordersDao.getordersbydate(year +"0701",year + "0731").size());
+                    assemblyDate.add(year+"0701"+year + "0731");
+                    inCome.add(ordersDao.getCountbyDate(year + "0701", year +"0731"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "0801", year + "0831").isEmpty()){
+                    mounths.add("Agosto");
+                    countSales.add(ordersDao.getordersbydate(year +"0801",year + "0831").size());
+                    assemblyDate.add(year+"0801"+year + "0831");
+                    inCome.add(ordersDao.getCountbyDate(year + "0801", year +"0831"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "0901", year + "0931").isEmpty()){
+                    mounths.add("Septiembre");
+                    countSales.add(ordersDao.getordersbydate(year +"0901",year + "0931").size());
+                    assemblyDate.add(year+"0901"+year + "0931");
+                    inCome.add(ordersDao.getCountbyDate(year + "0901", year +"0931"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "1001", year + "1031").isEmpty()){
+                    mounths.add("Octubre");
+                    countSales.add(ordersDao.getordersbydate(year +"1001",year + "1031").size());
+                    assemblyDate.add(year+"1001"+year + "1031");
+                    inCome.add(ordersDao.getCountbyDate(year + "1001", year +"1031"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "1101", year + "1131").isEmpty()){
+                    mounths.add("Nomviembre");
+                    countSales.add(ordersDao.getordersbydate(year +"1101",year + "1131").size());
+                    assemblyDate.add(year+"1101"+year + "1131");
+                    inCome.add(ordersDao.getCountbyDate(year + "1101", year +"1131"));
+
+                }
+                if(!ordersDao.getordersbydate(year + "1201", year + "1231").isEmpty()) {
+                    mounths.add("Diciembre");
+                    countSales.add(ordersDao.getordersbydate(year +"1201",year + "1231").size());
+                    assemblyDate.add(year+"1201"+year + "1231");
+                    inCome.add(ordersDao.getCountbyDate(year + "1201", year +"1231"));
+
+                }
+
+                recycler_sales.setLayoutManager(new LinearLayoutManager(Sales_summary_mounth.this));
+                recycler_sales.setAdapter(new SalesAdapter(mounths, countSales, assemblyDate, inCome, Sales_summary_mounth.this));
+
+            }
+
+        }
 
         ordersList = ordersDao.getAllorders();
         fechas = ordersDao.getDates();
@@ -192,8 +302,10 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-
+                save_selected_item = position;
+                save_year_searched = item;
                 year = item.toString();
+                //control = true;
             }
 
             @Override
@@ -212,6 +324,7 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
                 assemblyDate = new ArrayList<>(list);
                 inCome = new ArrayList<>(list);
 
+                control= true;
                 if(year == "SeleccionaAlgoWEY"){
 
                     Toast.makeText(Sales_summary_mounth.this, "Selecciona un año", Toast.LENGTH_LONG);
@@ -332,5 +445,14 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
         startActivity(intent);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        outState.putBoolean(SAVED_CONTROL, control);
+        outState.putInt(SAVE_SELECTED_ITEM, save_selected_item);
+            if(control= true){
+                outState.putString(SAVED_YEAR, save_year_searched);
+            }
+    }
 }

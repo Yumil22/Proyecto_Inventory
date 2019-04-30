@@ -22,9 +22,14 @@ public interface OrdersAssembliesDao {
     @Query("SELECT * FROM order_assemblies")
     public List<OrderAssemblies> getAllorderAssemblies();
 
+<<<<<<< HEAD
     @Query("SELECT oa.id as id, oa.id as order_id, oa.assembly_id, oa.qty FROM orders o " +
+=======
+
+    @Query("SELECT oa.id as id, oa.order_id , oa.assembly_id, oa.qty FROM orders o " +
+>>>>>>> 3b179b1bdb32ccc52949f8c1e8cc328d18c3e67f
             "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
-            "INNER JOIN assemblies a ON a.id = oa.assembly_id  " +
+            "INNER JOIN Assemblies a ON a.id = oa.assembly_id  " +
             "WHERE date >= :date AND date <= :date2  ORDER BY oa.order_id")
     public List<OrderAssemblies> getordersAssembliesbyDate(String date, String date2);
 
@@ -36,6 +41,11 @@ public interface OrdersAssembliesDao {
             "WHERE date >= :date AND date <= :date2   ORDER BY oa.order_id")
     public List<String> getDescriptionbyDate(String date, String date2);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3b179b1bdb32ccc52949f8c1e8cc328d18c3e67f
     @Query("SELECT assemblies.* FROM order_assemblies INNER JOIN assemblies ON order_assemblies.assembly_id = assemblies.id WHERE order_assemblies.order_id = :id")
     List<Assemblies> getAllAssembliesByOrderID(int id);
 
@@ -57,3 +67,7 @@ public interface OrdersAssembliesDao {
     @Delete
     void DeleteOrderAssemblies(OrderAssemblies orderAssembly);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b179b1bdb32ccc52949f8c1e8cc328d18c3e67f
