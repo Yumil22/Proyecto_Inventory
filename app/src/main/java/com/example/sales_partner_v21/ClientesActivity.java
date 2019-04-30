@@ -177,7 +177,7 @@ import android.app.Dialog;
     }
 }
 
-public class ClientesActivity extends AppCompatActivity  {
+public class ClientesActivity extends AppCompatActivity  implements MultiSpinner.MultiSpinnerListener{
     public static String CLIENTES_FLAG_KEY = "CLIENTES_FLAG_KEY";
     public static final int CLIENTES_REQUEST_CODE = 1;
 
@@ -190,6 +190,7 @@ public class ClientesActivity extends AppCompatActivity  {
     private EditText searchCustomer;
     private ArrayList<String> customersList = new ArrayList<>();
     private CustomersDao dbCusDao;
+    private List<Integer> optionsSelected = new ArrayList<>();
 
 
     private boolean control_search = false;
@@ -217,7 +218,7 @@ public class ClientesActivity extends AppCompatActivity  {
 
 
         searchCustomer = findViewById(R.id.search_customer);
-        customerSpinner = findViewById(R.id.spinner_checkbox);
+        MultiSpinner customerSpinner = findViewById(R.id.spinner_checkbox);
         recyclerView = findViewById(R.id.recycler_clients);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -236,16 +237,22 @@ public class ClientesActivity extends AppCompatActivity  {
         customersList.add("E-mail");
         customersList.add("Phone");
 
-        arrayAdapterCustomer = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, customersList);
-        arrayAdapterCustomer.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        customerSpinner.setAdapter(arrayAdapterCustomer);
+        int counter = 0;
+        for (int i = 0; i < 5; i++){
+            optionsSelected.add(counter);
+            counter++;
+        }
+
+        customerSpinner.setItems(customersList,getString(R.string.for_all),this,optionsSelected);
 
         if(savedInstanceState != null){
 
             type_search = savedInstanceState.getInt(TYPE_SEARCH);
             control_search = savedInstanceState.getBoolean(CONTROL);
             searched = savedInstanceState.getString(SEARCHED);
+            optionsSelected = savedInstanceState.getIntegerArrayList("SELECTED_OPTIONS");
 
+            customerSpinner.setItems(customersList,getString(R.string.for_all),this,optionsSelected);
             if(control_search){
 
                 if(type_search == 0){
@@ -346,38 +353,32 @@ public class ClientesActivity extends AppCompatActivity  {
         switch (item.getItemId()){
             case R.id.search_button_item:
 //comenzamos la funcion de busqueda
-                if(itemSearch == 0){
-                    customersAll = dbCusDao.getAllCustomers();
+                String first_name = "";
+                String last_name = "";
+                String direccion = "";
+                String email = "";
+                String phone = "";
+                if (optionsSelected.contains(0)){// STRING NAME
+                    first_name = searchCustomer.getText().toString();
                 }
-                if(itemSearch == 1 && !searchCustomer.getText().toString().isEmpty()){
-
-                    customersAll = dbCusDao.getCustomersbyFirstname(searchCustomer.getText().toString());
-                    control_search = true;
-
-                } else if(itemSearch == 2 && !searchCustomer.getText().toString().isEmpty()){
-
-                    customersAll = dbCusDao.getCustomersbyLastname(searchCustomer.getText().toString());
-                    control_search = true;
-
-                }else if(itemSearch == 3 && !searchCustomer.getText().toString().isEmpty())
-                {
-                    customersAll = dbCusDao.getCustomersbyEmail(searchCustomer.getText().toString());
-                    control_search = true;
-
-                }else if(itemSearch == 4 && !searchCustomer.getText().toString().isEmpty()){
-
-                    customersAll = dbCusDao.getCustomersbyPhone(searchCustomer.getText().toString());
-                    control_search = true;
-
-                }else if(itemSearch == 5 && !searchCustomer.getText().toString().isEmpty()){
-
-                    customersAll = dbCusDao.getCustomersbyAddress(searchCustomer.getText().toString());
-                    control_search = true;
-
-                } else {
-                    customersAll = dbCusDao.getAllCustomers();
-
+                else if (optionsSelected.contains(1)){ // APELLIDO
+                    last_name = searchCustomer.getText().toString();
                 }
+                else if (optionsSelected.contains(2)){ // DIRECCION
+                    direccion = searchCustomer.getText().toString();
+                }
+                else if (optionsSelected.contains(3)){ // EMAIL
+                    email = searchCustomer.getText().toString();
+                }
+                else if (optionsSelected.contains(4)){ // TELEFONO
+                    phone = searchCustomer.getText().toString();
+                }
+                else {
+                    Toast.makeText(this,"Selecciona minimo una opción",Toast.LENGTH_SHORT).show();
+                }
+                AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+                CustomersDao customersDao = database.customersDao();
+
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 adapter = new CustomerAdapter(customersAll,this);
@@ -406,14 +407,56 @@ public class ClientesActivity extends AppCompatActivity  {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if(control_search == true){
-
             outState.getBoolean(CONTROL, control_search);
             outState.getString(SEARCHED, searched);
             outState.getInt(TYPE_SEARCH, type_search);
-
         }
-
+        outState.putIntegerArrayList("SELECTED_OPTIONS",new ArrayList<>(optionsSelected));
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onItemsSelected(boolean[] selected) {
+        if (selected[0]){
+            if (!optionsSelected.contains(0)){
+                optionsSelected.add(0);
+            }
+        }
+        else {
+            optionsSelected.remove(Integer.valueOf(0));
+        }
+        if (selected[1]){
+            if (!optionsSelected.contains(1)){
+                optionsSelected.add(1);
+            }
+        }
+        else{
+            optionsSelected.remove(Integer.valueOf(1));
+        }
+        if (selected[2]){
+            if (!optionsSelected.contains(2)){
+                optionsSelected.add(2);
+            }
+        }
+        else{
+            optionsSelected.remove(Integer.valueOf(2));
+        }
+        if (selected[3]){
+            if (!optionsSelected.contains(3)){
+                optionsSelected.add(3);
+            }
+        }
+        else{
+            optionsSelected.remove(Integer.valueOf(3));
+        }
+        if (selected[4]){
+            if (!optionsSelected.contains(4)){
+                optionsSelected.add(4);
+            }
+        }
+        else{
+            optionsSelected.remove(Integer.valueOf(4));
+        }
     }
 }
 

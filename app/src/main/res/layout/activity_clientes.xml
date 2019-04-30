@@ -50,10 +50,11 @@
                 android:textSize="20sp"
                 android:text="Criterios de filtro"
                 android:layout_gravity="center"/>
-            <Spinner
+            <com.example.sales_partner_v21.MultiSpinner
                 android:id="@+id/spinner_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:prompt="@string/selection"
                 android:layout_margin="16dp" />
         </LinearLayout>
     </LinearLayout>
