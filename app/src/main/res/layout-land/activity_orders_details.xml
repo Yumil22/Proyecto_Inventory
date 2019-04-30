@@ -26,16 +26,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cliente:"
+            android:layout_weight="1"
             android:layout_margin="5dp"
             android:textSize="20sp"
             android:textStyle="italic|bold"/>
 
         <TextView
             android:id="@+id/client_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            android:textStyle="italic|bold"
+            android:text="@string/TotalCost"/>
+
+        <TextView
+            android:id="@+id/total_cost"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="20sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -47,12 +66,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Estado:"
+            android:layout_weight="1"
             android:layout_margin="5dp"
             android:textSize="20sp"
             android:textStyle="italic|bold"/>
 
         <TextView
             android:id="@+id/status_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -61,6 +82,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Fecha:"
             android:layout_margin="5dp"
             android:textSize="20sp"
@@ -68,6 +90,7 @@
 
         <TextView
             android:id="@+id/date_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -77,39 +100,14 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_assemblies"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="120dp"
+        android:layout_margin="5dp"
         android:scrollbars="vertical" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_changes"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="80dp"
+        android:layout_margin="5dp"
         android:scrollbars="vertical" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="20sp"
-            android:textStyle="italic|bold"
-            android:text="@string/TotalCost"/>
-
-        <TextView
-            android:id="@+id/total_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="20sp"/>
-    </LinearLayout>
 </LinearLayout>

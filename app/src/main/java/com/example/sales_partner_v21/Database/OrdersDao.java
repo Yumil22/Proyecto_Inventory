@@ -41,5 +41,7 @@ public interface OrdersDao {
     @Query("SELECT date FROM orders WHERE date >= (:Year +'-01-01') " +
             "AND date <= (:Year +'-12-31')")
     public List<String> getDatesbyyear(String Year);
-    
+
+    @Query("UPDATE orders SET status_id = :newStatusID WHERE id = :order_id")
+    void UpdateStatusID(int order_id, int newStatusID);
 }

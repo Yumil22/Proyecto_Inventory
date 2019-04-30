@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrdersDetails"></activity>
+        <activity android:name=".EditOrder"></activity>
+        <activity android:name=".OrdersDetails" />
         <activity android:name=".Sales_summary_mounth" />
         <activity android:name=".orders_simulator" />
         <activity android:name=".sales_summary" />

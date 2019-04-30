@@ -7,14 +7,16 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-@Database(entities = {ProductsCategories.class,
+@Database(entities = {
+        ProductsCategories.class,
         Products.class,
         Assemblies.class,
         AssembliesProducts.class,
         Customers.class,
         OrderStatus.class,
         Orders.class,
-        OrderAssemblies.class},version = 1,exportSchema = false)
+        OrderAssemblies.class,
+        OrderStatusChanges.class},version = 1,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE = null;
 
@@ -314,6 +316,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract OrderStatusDao orderStatusDao();
     public abstract ProductsDao productsDao();
     public abstract ProductsCategoriesDao productsCategoriesDao();
-
+    public abstract OrderStatusChangesDao orderStatusChangesDao();
 }
 

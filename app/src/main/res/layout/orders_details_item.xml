@@ -10,29 +10,11 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/client"
+        android:id="@+id/assembly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Cliente"
-        android:maxLength="5"
-        style="?android:listSeparatorTextViewStyle" />
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLength="6"
         style="?android:listSeparatorTextViewStyle"
-        tools:text="Estado"/>
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:lines="2"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Fecha"/>
-
+        tools:text="Ensamble"/>
     <TextView
         android:id="@+id/qty_assemblies"
         android:layout_width="wrap_content"

@@ -6,10 +6,12 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +36,8 @@ import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
 import com.example.sales_partner_v21.Database.OrderStatus;
+import com.example.sales_partner_v21.Database.OrderStatusChanges;
+import com.example.sales_partner_v21.Database.OrderStatusChangesDao;
 import com.example.sales_partner_v21.Database.OrderStatusDao;
 import com.example.sales_partner_v21.Database.Orders;
 import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
@@ -95,7 +100,7 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
 
             client.setText(customer.getLastName());
             status.setText(orderStatus.getDescription());
-            date.setText(order.getDate().substring(6,8)+ "-" + order.getDate().substring(4,6)+ "-" + order.getDate().subSequence(0,4)  );
+            date.setText(order.getDate().substring(6,8)+ "-" + order.getDate().substring(4,6)+ "-" + order.getDate().subSequence(0,4));
             assembliesQty.setText(String.valueOf(qtyAssemblies));
             totalPrice.setText("$" + formatter.format(totalCost));
         }
@@ -121,18 +126,18 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                     nextState2.setOnMenuItemClickListener(OrdersListener);
                 }
                 else if (orderStatus.getNext().contains("3")){
-                    MenuItem nextState1 = menu.add(this.getAdapterPosition(),2,0,"Avanzar estado a en tránsito");
+                    MenuItem nextState1 = menu.add(this.getAdapterPosition(),4,0,"Avanzar estado a en tránsito");
                     nextState1.setOnMenuItemClickListener(OrdersListener);
                 }
                 else if (orderStatus.getNext().contains("4")){
-                    MenuItem nextState1 = menu.add(this.getAdapterPosition(),2,0,"Avanzar estado a finalizado");
+                    MenuItem nextState1 = menu.add(this.getAdapterPosition(),5,0,"Avanzar estado a finalizado");
                     nextState1.setOnMenuItemClickListener(OrdersListener);
                 }
             }
 
             // Editable
             if (orderStatus.getEditable() == 1){
-                MenuItem editOrder = menu.add(this.getAdapterPosition(),4,0,"Editar orden");
+                MenuItem editOrder = menu.add(this.getAdapterPosition(),6,0,"Editar orden");
                 editOrder.setOnMenuItemClickListener(OrdersListener);
             }
         }
@@ -141,18 +146,168 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == 0){
+                    // DETALLES
                     Intent detailsIntent = new Intent(context,OrdersDetails.class);
                     detailsIntent.putExtra("ORDER_ID",order.getId());
-                    ((OrdersActivity)context).startActivity(detailsIntent);
+                    (context).startActivity(detailsIntent);
                     return true;
                 }
                 else if (item.getItemId() == 1){
+                    final Calendar calendar = Calendar.getInstance();
+                    final EditText comment;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ((OrdersActivity)context).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.order_dialog,null);
+                    comment = view.findViewById(R.id.comment);
+
+                    builder.setMessage("¿Desea regresar al estado pendiente?");
+                    builder.setView(view).setTitle("Aviso").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppDatabase database = AppDatabase.getAppDatabase(context);
+                            OrdersDao ordersDao = database.ordersDao();
+                            OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
+                            ordersDao.UpdateStatusID(order.getId(),0);
+                            orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),0,comment.getText().toString()));
+                            ((OrdersActivity)context).recreate();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    builder.show();
                     return true;
                 }
                 else if (item.getItemId() == 2){
+                    final Calendar calendar = Calendar.getInstance();
+                    final EditText comment;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ((OrdersActivity)context).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.order_dialog,null);
+                    comment = view.findViewById(R.id.comment);
+
+                    builder.setMessage("¿Desea avanzar al estado cancelado?");
+                    builder.setView(view).setTitle("Aviso").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppDatabase database = AppDatabase.getAppDatabase(context);
+                            OrdersDao ordersDao = database.ordersDao();
+                            OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
+                            ordersDao.UpdateStatusID(order.getId(),1);
+                            orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),1,comment.getText().toString()));
+                            ((OrdersActivity)context).recreate();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    builder.show();
                     return true;
                 }
                 else if (item.getItemId() == 3){
+                    final Calendar calendar = Calendar.getInstance();
+                    final EditText comment;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ((OrdersActivity)context).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.order_dialog,null);
+                    comment = view.findViewById(R.id.comment);
+
+                    builder.setMessage("¿Desea avanzar al estado confirmado?");
+                    builder.setView(view).setTitle("Aviso").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppDatabase database = AppDatabase.getAppDatabase(context);
+                            OrdersDao ordersDao = database.ordersDao();
+                            OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
+                            ordersDao.UpdateStatusID(order.getId(),2);
+                            orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),2,comment.getText().toString()));
+                            ((OrdersActivity)context).recreate();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    builder.show();
+                    return true;
+                }
+                else if (item.getItemId() == 4){
+                    final Calendar calendar = Calendar.getInstance();
+                    final EditText comment;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ((OrdersActivity)context).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.order_dialog,null);
+                    comment = view.findViewById(R.id.comment);
+
+                    builder.setMessage("¿Desea regresar al estado en tránsito?");
+                    builder.setView(view).setTitle("Aviso").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppDatabase database = AppDatabase.getAppDatabase(context);
+                            OrdersDao ordersDao = database.ordersDao();
+                            OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
+                            ordersDao.UpdateStatusID(order.getId(),3);
+                            orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),3,comment.getText().toString()));
+                            ((OrdersActivity)context).recreate();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    builder.show();
+                    return true;
+                }
+                else if (item.getItemId() == 5){
+                    final Calendar calendar = Calendar.getInstance();
+                    final EditText comment;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ((OrdersActivity)context).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.order_dialog,null);
+                    comment = view.findViewById(R.id.comment);
+
+                    builder.setMessage("¿Desea regresar al estado finalizado?");
+                    builder.setView(view).setTitle("Aviso").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppDatabase database = AppDatabase.getAppDatabase(context);
+                            OrdersDao ordersDao = database.ordersDao();
+                            OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
+                            ordersDao.UpdateStatusID(order.getId(),4);
+                            orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),4,comment.getText().toString()));
+                            ((OrdersActivity)context).recreate();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    builder.show();
+                    return true;
+                }
+                else if (item.getItemId() == 6){
+                    Intent editOrder = new Intent(context,EditOrder.class);
+                    editOrder.putExtra("ORDER_ID",order.getId());
+                    editOrder.putExtra("CLIENT_ID",customer.getId());
+                    (context).startActivity(editOrder);
+                    ((OrdersActivity)context).FLAG = true;
                     return true;
                 }
                 else {
@@ -196,7 +351,6 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private Button finalDateBtn;
     private CheckBox initialDateCheckbox;
     private CheckBox finalDateCheckbox;
-    private Spinner orderStatusSpinner;
     private Spinner clientsSpinner;
     private Toolbar ordersToolbar;
     private RecyclerView ordersRecyclerView;
@@ -224,6 +378,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private String CLIENT_ID = "CLIENT_ID";
     private int ClientID = 0;
     private Boolean SEARCH_PRESS = false;
+    public Boolean FLAG = false;
 
     private List<Customers> customers = new ArrayList<>();
     private List<Orders> orders = new ArrayList<>();
@@ -367,7 +522,12 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                             qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
                             totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-                        ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                     }
                 }
@@ -385,7 +545,12 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                             qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
                             totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-                        ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                     }
                 }
@@ -488,6 +653,15 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (FLAG){
+            OrdersActivity.this.recreate();
+        }
+        FLAG = false;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.search_button_item){
             AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
@@ -577,7 +751,12 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                             qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
                             totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-                        ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                         Toast.makeText(this,"Se han encontrado " + orders.size() + " similitudes",Toast.LENGTH_SHORT).show();
                     }
@@ -631,7 +810,12 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                             qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
                             totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-                        ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                         Toast.makeText(this,"Se han encontrado " + orders.size() + " similitudes",Toast.LENGTH_SHORT).show();
                     }
