@@ -34,6 +34,9 @@ import android.widget.Toast;
 import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
+import com.example.sales_partner_v21.Database.Orders;
+import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
+import com.example.sales_partner_v21.Database.OrdersDao;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ import android.app.Dialog;
         private TextView txtx_email;
 
         private Customers customers;
+        private Context context;
 
         public ViewHolder(@NonNull final View itemView ) {
             super(itemView);
@@ -60,8 +64,9 @@ import android.app.Dialog;
             final View parent = itemView;
             itemView.setOnCreateContextMenuListener(this);
         }
-        public void bind(Customers customers) {
+        public void bind(Customers customers, Context context) {
             this.customers = customers;
+            this.context = context;
 
             txt_first_name.setText(customers.getFirstName());
             txt_last_name.setText(String.valueOf(customers.getLastName()));
@@ -80,23 +85,18 @@ import android.app.Dialog;
             information.setOnMenuItemClickListener(onEditMenu);
             edit.setOnMenuItemClickListener(onEditMenu);
             delete.setOnMenuItemClickListener(onEditMenu);
-
         }
 
         public String CUSTOMER_ID = "CUSTOMER_ID";
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 switch (item.getItemId()){
                             case 1:
-
-                new Dialog_customers(itemView.getContext(),customers);
-
+                                new Dialog_customers(itemView.getContext(),customers);
                                 return true;
 
                             case 2:
-
                                 //ACTIVITY DESNTRO DEL MENU CONTEXTUAL Y ADEMAS DENTOR DEL VIEW HOLDER
                                 Intent intent2 = new Intent(itemView.getContext(), edit_custormer.class);
                                 intent2.putExtra(CUSTOMER_ID, customers.getId());
@@ -112,29 +112,43 @@ import android.app.Dialog;
                                 builder.setMessage("¿Desea eliminar el cliente?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //accion de eliminar
-                                        //TOAST
+                                        AppDatabase database = AppDatabase.getAppDatabase(context.getApplicationContext());
+                                        CustomersDao customersDao = database.customersDao();
+                                        OrdersDao ordersDao = database.ordersDao();
+                                        OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
+
+                                        int counter = 0;
+                                        int[] order_ids = new int[ordersDao.getOrdersByCustomerID(customers.getId()).size()];
+                                        for (Orders order : ordersDao.getOrdersByCustomerID(customers.getId())){
+                                            order_ids[counter] = order.getId();
+                                            counter++;
+                                        }
+                                        ordersAssembliesDao.DeleteOrderAssembliesByOrdersID(order_ids);
+                                        ordersDao.DeleteOrdersByOrderID(order_ids);
+                                        customersDao.Deleteuser(customers);
                                     }
                                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
                                         //no realiza nada
                                     }
                                 });
                                 AlertDialog alertDialog = builder.create();
                                 alertDialog.show();
+                                return true;
                                 //Dialogo confirmacion de accion
-                               default: return true;
+
+                            default: return true;
                         }
             }
         };
     }
 
     private List<Customers> customers;
-    public CustomerAdapter(List<Customers> customers){
+    private Context context;
+    public CustomerAdapter(List<Customers> customers, Context context){
         this.customers = customers;
-
+        this.context = context;
     }
 
      @Override
@@ -154,7 +168,7 @@ import android.app.Dialog;
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.bind(customers.get(i));
+        viewHolder.bind(customers.get(i),context);
     }
 
     @Override
@@ -207,7 +221,7 @@ public class ClientesActivity extends AppCompatActivity  {
         recyclerView = findViewById(R.id.recycler_clients);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new CustomerAdapter(customersAll);
+        adapter = new CustomerAdapter(customersAll,this);
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 new LinearLayoutManager(this).getOrientation());
@@ -225,7 +239,6 @@ public class ClientesActivity extends AppCompatActivity  {
         arrayAdapterCustomer = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, customersList);
         arrayAdapterCustomer.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         customerSpinner.setAdapter(arrayAdapterCustomer);
-
 
         if(savedInstanceState != null){
 
@@ -268,7 +281,7 @@ public class ClientesActivity extends AppCompatActivity  {
                     customerSpinner.setSelection(5);
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                adapter = new CustomerAdapter(customersAll);
+                adapter = new CustomerAdapter(customersAll,this);
                 recyclerView.setAdapter(adapter);
             }
         }
@@ -363,7 +376,7 @@ public class ClientesActivity extends AppCompatActivity  {
                 }
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                adapter = new CustomerAdapter(customersAll);
+                adapter = new CustomerAdapter(customersAll,this);
                 recyclerView.setAdapter(adapter);
 
                 Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();

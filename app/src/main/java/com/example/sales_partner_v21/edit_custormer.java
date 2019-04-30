@@ -80,7 +80,7 @@ public class edit_custormer extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-            Customer_id = intent.getIntExtra(CUSTOMER_ID, 0);
+        Customer_id = intent.getIntExtra(CUSTOMER_ID, 0);
         AppDatabase dbCus = AppDatabase.getAppDatabase(getApplicationContext());
          dbCusDao = dbCus.customersDao();
         custumer = dbCusDao.getCustomerById(Customer_id);
@@ -96,10 +96,10 @@ public class edit_custormer extends AppCompatActivity {
           check_phone2 = findViewById(R.id.chk_phone2_edit_edit);
           check_phone3 = findViewById(R.id.chk_phone3_edit_edit);
 
-        txt_name = findViewById(R.id.txt_name_new);
-        txt_lastname = findViewById(R.id.txt_last_name_new);
-        txt_address = findViewById(R.id.txt_address_new);
-        txt_phone1 = findViewById(R.id.txt_phone1_new);
+        txt_name = findViewById(R.id.txt_edit_name);
+        txt_lastname = findViewById(R.id.txt_edit_lastname);
+        txt_address = findViewById(R.id.txt_edit_address);
+        txt_phone1 = findViewById(R.id.txt_edit_phone1);
 
 
           txt_ema = findViewById(R.id.txt_em);
@@ -128,6 +128,7 @@ public class edit_custormer extends AppCompatActivity {
             phone3.setText(savedInstanceState.getString(PHONE_3));
             ema = savedInstanceState.getBoolean(BANDERA_EMAIL);
             pho2 = savedInstanceState.getBoolean(BANDERA_PHONE2);
+            Customer_id = savedInstanceState.getInt("CUSTOMER_ID");
             pho3 = savedInstanceState.getBoolean(BANDERA_PHONE3);
         }
 
@@ -270,7 +271,6 @@ public class edit_custormer extends AppCompatActivity {
                 }else {
                      n = name.getText().toString();
                     txt_name.setTextColor(Color.GREEN);
-
                 }
                 String L;
                 if(last_name.getText().length() == 0){
@@ -338,10 +338,10 @@ public class edit_custormer extends AppCompatActivity {
                     pho3 = phone3.getText().toString();
                     txt_pho3.setTextColor(Color.GREEN);
                 }
-                if(control_edit == true){
+                if(control_edit){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(edit_custormer.this);
 
-                    builder.setMessage("Put all the information").setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    builder.setMessage("Completa los campos obligatorios").setOnKeyListener(new DialogInterface.OnKeyListener() {
                         @Override
                         public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                             return false;
@@ -352,12 +352,17 @@ public class edit_custormer extends AppCompatActivity {
                     control_edit = false;
                     return true;
                 }else{
+                    AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+                    CustomersDao customersDao = database.customersDao();
+
                     customer_edit = new Customers(custumer.getId(), n, L, ad,  ph, pho2, pho3, em );
                     new Dialog_customers(this ,customer_edit);
-
+                    Customers auxCustomer = customersDao.getCustomerById(Customer_id);
+                    customersDao.Deleteuser(auxCustomer);
+                    customersDao.InsertNewUser(customer_edit);
+                    edit_custormer.super.finish();
                     //agrego query para actualizar confirmo actualizacion con un Toast
                     control_edit = false;
-
                 }
 
                 return true;
@@ -372,12 +377,12 @@ public class edit_custormer extends AppCompatActivity {
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(edit_custormer.this);
 
-        builder.setMessage("Are you sure you want get out? You will lost your changes").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setMessage("¿Seguro que quiere salir? Se perderan todos los datos").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 edit_custormer.super.finish();
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -385,8 +390,6 @@ public class edit_custormer extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
-
     }
 
     @Override
@@ -398,6 +401,7 @@ public class edit_custormer extends AppCompatActivity {
         savedInstanceState.putString(E_MAIL, e_mail.getText().toString());
         savedInstanceState.putString(PHONE_1, phone1.getText().toString());
         savedInstanceState.putString(PHONE_2, phone2.getText().toString());
+        savedInstanceState.putInt("CUSTOMER_ID",Customer_id);
         savedInstanceState.putString(PHONE_3, phone3.getText().toString());
         savedInstanceState.putBoolean(BANDERA_EMAIL, ema);
         savedInstanceState.putBoolean(BANDERA_PHONE2, pho2);

@@ -259,7 +259,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (4, 'Finalizado', 0, '-', '-')");
 
                             // ORDERS
-
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (0, 4, 5, '20161005', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (1, 4, 2, '20161112', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (2, 4, 2, '20161226', NULL)");

@@ -209,21 +209,23 @@ public class new_user extends AppCompatActivity {
                 //se puede implementar una manera de checar los id que faltan en la base de datos
                 // para usarlos, se podria decr rellenar si es que se elimino un usuario
 
-                if(control = false){
+                if(!control){
+                    AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+                    CustomersDao customersDao = database.customersDao();
                     new_customer = new Customers(dbCusDao.getMaxId()+1, n, L, ad,  ph, pho2, pho3, em );
                     new Dialog_customers(new_user.this ,new_customer);
+                    customersDao.InsertNewUser(new_customer);
                     new_user.super.finish();
-                    //agregar el query de insert
                 }else{
                     control = false;
                     final AlertDialog.Builder builder = new AlertDialog.Builder(new_user.this);
 
-                    builder.setMessage("Put all the information").setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    builder.setMessage("Completa todos los campos obligatorios").setOnKeyListener(new DialogInterface.OnKeyListener() {
                         @Override
                         public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                             return false;
                         }
-                    }).setIcon(R.drawable.ic_warning_black_24dp).setTitle("WARNING");
+                    }).setIcon(R.drawable.ic_warning_black_24dp).setTitle("Aviso");
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
