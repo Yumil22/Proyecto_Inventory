@@ -227,6 +227,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                         }
                     }
                     CONTROL_CUSTOMER = true;
+                    customerNameList2 = customerNameList3;
                     recyclerView_last.setLayoutManager(new LinearLayoutManager(orders_simulator.this));
                     recyclerView_last.setAdapter(new SimulatorAdapter(customerList, verificacion, orders_simulator.this));
                     //Allproducts = productsDao.getAllProducts();
@@ -251,18 +252,20 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
 
                     CONTROL_DATE = false;
                     CONTROL_AMOUNT= false;
-                    //CONTROL_CUSTOMER = false;
+                    if(CONTROL_CUSTOMER == false){
+                        customerNameList = new ArrayList<>();
+                        customerList = new ArrayList<>();
+                        customerNameList = ordersDao.getcustomerForComfirm();
+                        customerNameList.add(0, "Choose one");
+                        Control_customer = customerNameList.size();
 
-                    customerNameList = new ArrayList<>();
-                    customerList = new ArrayList<>();
-                    customerNameList = ordersDao.getcustomerForComfirm();
-                    customerNameList.add(0, "Choose one");
-                    Control_customer = customerNameList.size();
+                        arrayAdapterFinal = new ArrayAdapter<>(orders_simulator.this, R.layout.support_simple_spinner_dropdown_item, customerNameList);
+                        arrayAdapterFinal.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        spinner_optional.setAdapter(arrayAdapterFinal);
+                        spinner_optional.setFocusableInTouchMode(true);
+                    }
 
-                    arrayAdapterFinal = new ArrayAdapter<>(orders_simulator.this, R.layout.support_simple_spinner_dropdown_item, customerNameList);
-                    arrayAdapterFinal.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                    spinner_optional.setAdapter(arrayAdapterFinal);
-                    spinner_optional.setFocusableInTouchMode(true);
+
 
                 }else if (item =="Date"){
                     CONTROL_DATE= true;
@@ -312,8 +315,6 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                             Control_verificacion = false;
                             recyclerView_last.setLayoutManager(new LinearLayoutManager(orders_simulator.this));
                             recyclerView_last.setAdapter(new SimulatorAdapter(customerList, verificacion, orders_simulator.this));
-                            //Allproducts = productsDao.getAllProducts();
-                            //no lo actualizo para demostrar el funcionamiento correcto, de que se gastan los productos necesarios
 
                         }else
                         {
