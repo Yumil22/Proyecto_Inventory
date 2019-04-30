@@ -22,7 +22,6 @@ public interface OrdersAssembliesDao {
     @Query("SELECT * FROM order_assemblies")
     public List<OrderAssemblies> getAllorderAssemblies();
 
-<<<<<<< HEAD
     @Query("SELECT oa.id as id, oa.id as order_id, oa.assembly_id, oa.qty FROM orders o " +
             "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
             "INNER JOIN assemblies a ON a.id = oa.assembly_id  " +
@@ -37,8 +36,6 @@ public interface OrdersAssembliesDao {
             "WHERE date >= :date AND date <= :date2   ORDER BY oa.order_id")
     public List<String> getDescriptionbyDate(String date, String date2);
 
-    }
-=======
     @Query("SELECT assemblies.* FROM order_assemblies INNER JOIN assemblies ON order_assemblies.assembly_id = assemblies.id WHERE order_assemblies.order_id = :id")
     List<Assemblies> getAllAssembliesByOrderID(int id);
 
@@ -60,4 +57,3 @@ public interface OrdersAssembliesDao {
     @Delete
     void DeleteOrderAssemblies(OrderAssemblies orderAssembly);
 }
->>>>>>> 554a569e6615e8e61d6c429d521f1c32b5c5385c

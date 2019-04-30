@@ -6,10 +6,12 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -39,10 +41,6 @@ import java.util.List;
 import android.app.Dialog;
 
  class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
-
-
-
-
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private TextView txt_first_name;
         private TextView txt_last_name;
@@ -54,20 +52,13 @@ import android.app.Dialog;
 
         public ViewHolder(@NonNull final View itemView ) {
             super(itemView);
-
-
             txt_first_name =itemView.findViewById(R.id.txt_first_name);
             txt_last_name =itemView.findViewById(R.id.txt_last_name);
             txt_address =itemView.findViewById(R.id.txt_address);
             txt_phone =itemView.findViewById(R.id.txt_phone);
             txtx_email =itemView.findViewById(R.id.txt_email);
-
-
             final View parent = itemView;
-
             itemView.setOnCreateContextMenuListener(this);
-
-
         }
         public void bind(Customers customers) {
             this.customers = customers;
@@ -77,18 +68,14 @@ import android.app.Dialog;
             txt_address.setText(customers.getAddress());
             txt_phone.setText(String.valueOf(customers.getPhone1()));
             txtx_email.setText(String.valueOf(customers.getEmail()));
-
-
-
         }
-
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-           MenuItem information =  menu.add(this.getAdapterPosition(), 1, 0, "Information");
-            MenuItem edit =menu.add(this.getAdapterPosition(), 2, 1, "Edit");
-            MenuItem delete = menu.add(this.getAdapterPosition(), 3, 1, "Delete");
+           MenuItem information =  menu.add(this.getAdapterPosition(), 1, 0, "Información");
+            MenuItem edit =menu.add(this.getAdapterPosition(), 2, 1, "Editar");
+            MenuItem delete = menu.add(this.getAdapterPosition(), 3, 1, "Eliminar");
 
             information.setOnMenuItemClickListener(onEditMenu);
             edit.setOnMenuItemClickListener(onEditMenu);
@@ -104,7 +91,7 @@ import android.app.Dialog;
                 switch (item.getItemId()){
                             case 1:
 
-            new Dialog_customers(itemView.getContext(),customers);
+                new Dialog_customers(itemView.getContext(),customers);
 
                                 return true;
 
@@ -114,21 +101,21 @@ import android.app.Dialog;
                                 Intent intent2 = new Intent(itemView.getContext(), edit_custormer.class);
                                 intent2.putExtra(CUSTOMER_ID, customers.getId());
 
-//TIENES QUE OBTENER EL CONTEXTO PARA PODER CREAR EL ACTIVITY
+                                //TIENES QUE OBTENER EL CONTEXTO PARA PODER CREAR EL ACTIVITY
                                 itemView.getContext().startActivity(intent2);
-//AQUI ES DONDE CREE EL ACTIVITY DESNTRO DEL VIEW HOLDER
+                                //AQUI ES DONDE CREE EL ACTIVITY DESNTRO DEL VIEW HOLDER
                                 return true;
 
                             case 3:
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
 
-                                builder.setMessage("Are you sure you want delete the costumer?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                builder.setMessage("¿Desea eliminar el cliente?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         //accion de eliminar
                                         //TOAST
                                     }
-                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
@@ -142,11 +129,6 @@ import android.app.Dialog;
                         }
             }
         };
-
-
-
-
-
     }
 
     private List<Customers> customers;
@@ -170,8 +152,6 @@ import android.app.Dialog;
 
     }
 
-
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.bind(customers.get(i));
@@ -181,14 +161,9 @@ import android.app.Dialog;
     public int getItemCount() {
         return customers.size();
     }
-
-
 }
 
 public class ClientesActivity extends AppCompatActivity  {
-
-
-
     public static String CLIENTES_FLAG_KEY = "CLIENTES_FLAG_KEY";
     public static final int CLIENTES_REQUEST_CODE = 1;
 
@@ -234,6 +209,9 @@ public class ClientesActivity extends AppCompatActivity  {
 
         adapter = new CustomerAdapter(customersAll);
         recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
 
         customersList = new ArrayList<>();
@@ -255,7 +233,7 @@ public class ClientesActivity extends AppCompatActivity  {
             control_search = savedInstanceState.getBoolean(CONTROL);
             searched = savedInstanceState.getString(SEARCHED);
 
-            if(control_search == true){
+            if(control_search){
 
                 if(type_search == 0){
                     customersAll = dbCusDao.getAllCustomers();
@@ -293,8 +271,8 @@ public class ClientesActivity extends AppCompatActivity  {
                 adapter = new CustomerAdapter(customersAll);
                 recyclerView.setAdapter(adapter);
             }
-
         }
+
         customerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -322,7 +300,6 @@ public class ClientesActivity extends AppCompatActivity  {
 
                     itemSearch = 5;
                     type_search=5;
-
                 }
             }
 
@@ -334,9 +311,6 @@ public class ClientesActivity extends AppCompatActivity  {
             }
         });
     }
-
-
-
 
     @Override
     public void onBackPressed() {
@@ -408,8 +382,6 @@ public class ClientesActivity extends AppCompatActivity  {
 
                 default:
                     return super.onOptionsItemSelected(item);
-
-
         }
 
     }

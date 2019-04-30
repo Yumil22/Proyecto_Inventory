@@ -2,27 +2,47 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    style="?android:listSeparatorTextViewStyle"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/productDescription"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Descripcion"
-        android:maxLength="30"
-        style="?android:listSeparatorTextViewStyle" />
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Producto: "/>
+        <TextView
+            android:id="@+id/productDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Descripcion"
+            android:textSize="15sp"
+            android:maxLength="25" />
+    </LinearLayout>
 
-    <TextView
-        android:layout_weight="1"
-        android:id="@+id/required_quantity"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Numero de productos"/>
-
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Cantidad requerida: "/>
+        <TextView
+            android:id="@+id/required_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="Numero de productos"/>
+    </LinearLayout>
 </LinearLayout>

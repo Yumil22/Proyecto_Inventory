@@ -2,35 +2,64 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    style="?android:listSeparatorTextViewStyle"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/productDescription"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Descripcion"
-        android:maxLength="20"
-        style="?android:listSeparatorTextViewStyle" />
-
-    <TextView
-        android:layout_weight="1"
-        android:id="@+id/price_text"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Descripcion: " />
+        <TextView
+            android:id="@+id/productDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="Descripcion"
+            android:maxLength="20" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Precio"/>
-
-    <TextView
-        android:layout_weight="1"
-        android:id="@+id/qty_stock"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Precio: " />
+        <TextView
+            android:id="@+id/price_text"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Precio"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Cantidad en Stock"/>
-
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Cantidad en stock: " />
+        <TextView
+            android:id="@+id/qty_stock"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Cantidad en Stock"/>
+    </LinearLayout>
 </LinearLayout>

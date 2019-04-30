@@ -50,7 +50,6 @@ public class new_user extends AppCompatActivity {
     public String pho2;
     public String pho3;
 
-
     private CustomersDao dbCusDao;
     private Customers new_customer;
 
@@ -73,8 +72,6 @@ public class new_user extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
-
-
 
         AppDatabase dbCus = AppDatabase.getAppDatabase(getApplicationContext());
         dbCusDao = dbCus.customersDao();
@@ -230,7 +227,6 @@ public class new_user extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
             }
         });
 
@@ -239,20 +235,22 @@ public class new_user extends AppCompatActivity {
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(new_user.this);
 
-                builder.setMessage("Are you sure you want back? You will lose the information").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setMessage("¿Desea regresar? Los datos no se guardaran").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new_user.super.finish();
+
                     }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                         //no realiza nada
                     }
-                });
+                }).setTitle("Advertencia");
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
             }
         });
 
@@ -322,29 +320,26 @@ public class new_user extends AppCompatActivity {
 //
 
         super.onSaveInstanceState(savedInstanceState);
-
-
     }
-
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
         AlertDialog.Builder builder = new AlertDialog.Builder(new_user.this);
 
-        builder.setMessage("Are you sure you want back? You will lose the information").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setMessage("¿Desea regresar? Los datos no se guardaran").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new_user.super.finish();
 
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
                 //no realiza nada
             }
-        }).setTitle("WARNING");
+        }).setTitle("Advertencia");
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 

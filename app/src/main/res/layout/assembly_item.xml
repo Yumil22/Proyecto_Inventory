@@ -2,31 +2,62 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    style="?android:listSeparatorTextViewStyle"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
-
-    <TextView
-        android:id="@+id/description"
+    android:layout_margin="16dp">
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Descripcion"
-        style="?android:listSeparatorTextViewStyle" />
-
-    <TextView
-        android:id="@+id/number_products"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Descripción: " />
+        <TextView
+            android:id="@+id/description"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Descripcion" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Numero de productos"/>
-
-    <TextView
-        android:id="@+id/total_cost"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Número de productos: " />
+        <TextView
+            android:id="@+id/number_products"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Numero de productos"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:listSeparatorTextViewStyle"
-        tools:text="Costo total del ensamble"/>
-
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:text="Costo total del ensamble: " />
+        <TextView
+            android:id="@+id/total_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="Costo total del ensamble"/>
+    </LinearLayout>
 </LinearLayout>

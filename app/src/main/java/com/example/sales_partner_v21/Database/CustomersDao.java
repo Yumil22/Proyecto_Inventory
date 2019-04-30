@@ -1,6 +1,7 @@
 package com.example.sales_partner_v21.Database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -39,4 +40,10 @@ public interface CustomersDao {
 
     @Query("SELECT MAX(id) FROM customers")
     int getLastID();
+
+    @Insert
+    void InsertNewUser(Customers customer);
+
+    @Delete
+    void Deleteuser(Customers customers);
 }

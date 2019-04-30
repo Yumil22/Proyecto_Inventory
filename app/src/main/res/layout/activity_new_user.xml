@@ -8,9 +8,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer:"
+        android:text="Cliente"
         android:gravity="center"
-        android:fontFamily="casual"
+        android:textStyle="bold|italic"
         android:textSize="25dp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,25 +18,17 @@
         android:orientation="horizontal">
 
         <TextView
-
             android:id="@+id/txt_name_new"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="*First name: "/>
+            android:textStyle="bold|italic"
+            android:text="*Nombre: "/>
 
         <EditText
-
             android:id="@+id/add_first_name"
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-
-            android:inputType="text"
-
-            />
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,26 +38,16 @@
 
         <TextView
             android:id="@+id/txt_last_name_new"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="*Last name:"
-
-            />
+            android:textStyle="bold|italic"
+            android:text="*Apellido:" />
 
         <EditText
-
             android:id="@+id/add_last_name"
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:inputType="text"
-
-
-            />
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,19 +57,14 @@
 
         <TextView
             android:id="@+id/txt_address_new"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="*Address: "/>
+            android:textStyle="bold|italic"
+            android:text="*Dirección: "/>
 
         <EditText
-
             android:id="@+id/add_address"
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:inputType="textPostalAddress"/>
     </LinearLayout>
@@ -101,24 +78,17 @@
 
         <TextView
             android:id="@+id/txt_email_new"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
+            android:textStyle="bold|italic"
             android:text="E-mail"/>
 
         <EditText
-
             android:id="@+id/add_email"
-
             android:layout_width="216dp"
-
             android:layout_height="wrap_content"
             android:focusableInTouchMode="false"
-            android:inputType="textEmailAddress"
-
-            />
+            android:inputType="textEmailAddress" />
         <CheckBox
             android:id="@+id/chk_e_mail_new"
             android:layout_width="wrap_content"
@@ -130,62 +100,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
         <TextView
             android:id="@+id/txt_phone1_new"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="*Phone1:"/>
+            android:textStyle="bold|italic"
+            android:text="*Telefóno 1:"/>
 
         <EditText
-
             android:id="@+id/add_phone1"
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:maxLength="11"
-            android:inputType="phone"
-            />
+            android:inputType="phone" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-
-
         <TextView
             android:id="@+id/txt_phone2_new"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Phone2:"/>
-
+            android:textStyle="bold|italic"
+            android:text="Telefóno 2:"/>
         <EditText
-
             android:id="@+id/add_phone2"
-
-            android:layout_width="216dp"
-
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="false"
             android:maxLength="11"
-            android:inputType="phone"
-            />
+            android:inputType="phone" />
 
         <CheckBox
             android:id="@+id/chk_phone2_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone2"
-            />
+            android:text="Phone2" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -195,32 +147,24 @@
 
 
         <TextView
-
             android:id="@+id/txt_phone3_new"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Phone3:"/>
+            android:textStyle="bold|italic"
+            android:text="Telefóno 3: "/>
 
         <EditText
-
             android:id="@+id/add_phone3"
-
-            android:layout_width="216dp"
-
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="false"
             android:maxLength="11"
-            android:inputType="phone"
-            />
+            android:inputType="phone" />
         <CheckBox
             android:id="@+id/chk_phone3_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone3"
-            />
+            android:text="Phone3" />
     </LinearLayout>
 
     <LinearLayout
@@ -228,19 +172,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-
 
         <Button
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Add"/>
+            android:text="Agregar cliente"/>
         <Button
             android:id="@+id/button_cancel_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:text="Cancelar"/>
     </LinearLayout>
 
     <TextView
@@ -248,5 +191,6 @@
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="4"
         android:layout_gravity="center"
-        android:text="You have to complete with all the request with *"/>
+        android:textStyle="italic"
+        android:text="*Campos obligatorios"/>
 </LinearLayout>

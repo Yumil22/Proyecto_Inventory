@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -525,8 +526,14 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                         int orientation = getResources().getConfiguration().orientation;
                         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         } else {
                             ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                     }
@@ -548,8 +555,14 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                         int orientation = getResources().getConfiguration().orientation;
                         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         } else {
                             ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                     }
@@ -754,8 +767,14 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                         int orientation = getResources().getConfiguration().orientation;
                         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         } else {
                             ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                         Toast.makeText(this,"Se han encontrado " + orders.size() + " similitudes",Toast.LENGTH_SHORT).show();
@@ -813,8 +832,14 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                         int orientation = getResources().getConfiguration().orientation;
                         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         } else {
                             ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
                         }
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                         Toast.makeText(this,"Se han encontrado " + orders.size() + " similitudes",Toast.LENGTH_SHORT).show();
