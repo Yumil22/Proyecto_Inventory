@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="94dp"
+            android:layout_width="66dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -36,8 +36,7 @@
                 android:id="@+id/orderStatus_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
-            </com.example.sales_partner_v21.MultiSpinner>
+                android:layout_gravity="center"></com.example.sales_partner_v21.MultiSpinner>
 
         </LinearLayout>
         <LinearLayout
@@ -74,18 +73,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
                 android:textStyle="bold"
                 android:text="@string/initialDate"/>
 
             <Button
                 android:id="@+id/button_initialDate"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
                 android:background="#388E3C"
-                android:text="@string/filterDate"
-                android:layout_gravity="center" />
+                android:text="@string/filterDate" />
         </LinearLayout>
 
         <LinearLayout
@@ -98,18 +96,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
                 android:textStyle="bold"
                 android:text="@string/finalDate"/>
 
             <Button
                 android:id="@+id/button_finalDate"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filterDate"
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
                 android:background="#D32F2F"
-                android:layout_gravity="center" />
+                android:text="@string/filterDate" />
         </LinearLayout>
     </LinearLayout>
 

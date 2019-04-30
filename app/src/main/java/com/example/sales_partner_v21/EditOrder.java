@@ -5,11 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
-import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +31,7 @@ import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Assemblies;
 import com.example.sales_partner_v21.Database.AssembliesDao;
 import com.example.sales_partner_v21.Database.AssembliesProductsDao;
+import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
 import com.example.sales_partner_v21.Database.OrderAssemblies;
 import com.example.sales_partner_v21.Database.Orders;
@@ -46,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-class AddNewOrderAdapter extends RecyclerView.Adapter<AddNewOrderAdapter.ViewHolder>{
+class EditOrderAdapter extends RecyclerView.Adapter<EditOrderAdapter.ViewHolder>{
     public List<Assemblies> assembliesOrder;
     public List<Integer> assembliesTotalProducts;
     public List<Integer> assembliesTotalCost;
@@ -114,12 +112,12 @@ class AddNewOrderAdapter extends RecyclerView.Adapter<AddNewOrderAdapter.ViewHol
                         alertdialog.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ((activityAddNewOrder)context).assembliesOrder.remove(getAdapterPosition());
-                                ((activityAddNewOrder)context).assembliesTotalProducts.remove(getAdapterPosition());
-                                ((activityAddNewOrder)context).assembliesTotalCost.remove(getAdapterPosition());
-                                ((activityAddNewOrder)context).assembliesQuantities.remove(getAdapterPosition());
-                                ((activityAddNewOrder)context).assembliesIDsList.remove(Integer.valueOf(assembly.getId()));
-                                ((activityAddNewOrder)context).recreate();
+                                ((EditOrder)context).assembliesOrder.remove(getAdapterPosition());
+                                ((EditOrder)context).assembliesTotalProducts.remove(getAdapterPosition());
+                                ((EditOrder)context).assembliesTotalCost.remove(getAdapterPosition());
+                                ((EditOrder)context).assembliesQuantities.remove(getAdapterPosition());
+                                ((EditOrder)context).assembliesIDsList.remove(Integer.valueOf(assembly.getId()));
+                                ((EditOrder)context).recreate();
                             }
                         });
 
@@ -139,7 +137,7 @@ class AddNewOrderAdapter extends RecyclerView.Adapter<AddNewOrderAdapter.ViewHol
         };
     }
 
-    public AddNewOrderAdapter(List<Assemblies> assembliesOrder, List<Integer> assembliesTotalProducts, List<Integer> assembliesTotalCost, List<Integer> quantities, Context context) {
+    public EditOrderAdapter(List<Assemblies> assembliesOrder, List<Integer> assembliesTotalProducts, List<Integer> assembliesTotalCost, List<Integer> quantities, Context context) {
         this.assembliesOrder = assembliesOrder;
         this.assembliesTotalProducts = assembliesTotalProducts;
         this.assembliesTotalCost = assembliesTotalCost;
@@ -149,14 +147,14 @@ class AddNewOrderAdapter extends RecyclerView.Adapter<AddNewOrderAdapter.ViewHol
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public EditOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.new_order_item,viewGroup,false);
         ((Activity)viewGroup.getContext()).registerForContextMenu(view);
-        return new ViewHolder(view);
+        return new EditOrderAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull EditOrderAdapter.ViewHolder viewHolder, int i) {
         viewHolder.bind(assembliesOrder.get(i),assembliesTotalProducts.get(i),assembliesTotalCost.get(i),quantities.get(i),context);
         viewHolder.PickerQuantity.setValue(quantities.get(i));
     }
@@ -167,24 +165,23 @@ class AddNewOrderAdapter extends RecyclerView.Adapter<AddNewOrderAdapter.ViewHol
     }
 }
 
-public class activityAddNewOrder extends AppCompatActivity {
-    private Spinner clientsSpinner;
+public class EditOrder extends AppCompatActivity {
+    private TextView clientTxt;
     private RecyclerView assembliesRecycler;
     private Toolbar addNewOrder_toolbar;
-    private ArrayAdapter<String> clientsAdapter;
-    private ArrayList<String> clientsList;
     public static final int ENSAMBLES_REQUEST_CODE = 1;
 
     public List<Assemblies> assembliesOrderAUX = new ArrayList<>();
     public List<Assemblies> assembliesOrder;
     public List<Orders> orders;
-    public List<OrderAssemblies> orderAssemblies;
     public List<Integer> assembliesTotalProducts = new ArrayList<>();
     public List<Integer> assembliesTotalCost = new ArrayList<>();
-    public List<Integer> assembliesQuantities = new ArrayList<>();
-    public AddNewOrderAdapter adapter;
-    public ArrayList<Integer> assembliesIDsList = new ArrayList<>();
+    public List<Integer> assembliesQuantities;
+    public EditOrderAdapter adapter;
+    public ArrayList<Integer> assembliesIDsList;
+    private Customers customer;
     private int ClientID;
+    private int OrderID;
 
     private String CLIENT_ID = "CLIENT_ID";
     private int AssemblyID = -1;
@@ -195,67 +192,67 @@ public class activityAddNewOrder extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_order);
+        setContentView(R.layout.activity_edit_order);
 
-        clientsSpinner = findViewById(R.id.clients_spinner);
+        clientTxt = findViewById(R.id.client);
         assembliesRecycler = findViewById(R.id.assemblies_RecyclerView);
         addNewOrder_toolbar = findViewById(R.id.toolbar_newOrder);
         setSupportActionBar(addNewOrder_toolbar);
+
+        Intent intent = getIntent();
+        ClientID = intent.getIntExtra("CLIENT_ID",0);
+        OrderID = intent.getIntExtra("ORDER_ID",0);
 
         AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
         CustomersDao customersDao = database.customersDao();
         AssembliesDao assembliesDao = database.assembliesDao();
         AssembliesProductsDao assembliesProductsDao = database.assembliesProductsDao();
+        OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
 
         if (savedInstanceState != null){
             assembliesIDsList = savedInstanceState.getIntegerArrayList(ASSEMBLIES_IDS);
             ClientID = savedInstanceState.getInt(CLIENT_ID,0);
+            OrderID = savedInstanceState.getInt("ORDER_ID",0);
             assembliesQuantities = savedInstanceState.getIntegerArrayList(QTYS);
-            for (int id : assembliesIDsList){
-                if (assembliesDao.getAllAssembliesIDs().contains(id)){
-                    assembliesOrderAUX.add(assembliesDao.getAssemblyByID(id));
-                    int size = assembliesOrderAUX.size();
-                    int counter = 0;
-                    int[] Assemblies_IDs = new int[size];
-                    for (Assemblies assembly : assembliesOrderAUX){
-                        Assemblies_IDs[counter] = assembly.getId();
-                        counter++;
-                    }
-                    assembliesOrder = assembliesDao.getAssembliesAlphabetically(Assemblies_IDs);
-                }
-            }
-            if (assembliesOrder != null){
-                for(Assemblies assembly: assembliesOrder){
-                    assembliesTotalProducts.add(assembliesProductsDao.getNumberProductsById(assembly.getId()));
-                    assembliesTotalCost.add(assembliesProductsDao.getCostByAssemblyID(assembly.getId()));
-                }
-                int orientation = getResources().getConfiguration().orientation;
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    assembliesRecycler.setLayoutManager(new GridLayoutManager(this,2));
-                } else {
-                    assembliesRecycler.setLayoutManager(new LinearLayoutManager(this));
-                }
-                adapter = new AddNewOrderAdapter(assembliesOrder,assembliesTotalProducts,assembliesTotalCost,assembliesQuantities,this);
-                assembliesRecycler.setAdapter(adapter);
-            }
         }
 
-        clientsList = new ArrayList<>(customersDao.getAllCustomerLastNames());
-        clientsAdapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,clientsList);
-        clientsSpinner.setAdapter(clientsAdapter);
-        clientsSpinner.setSelection(ClientID);
+        customer = customersDao.getCustomerById(ClientID);
+        clientTxt.setText(customer.getFirstName() + " " + customer.getLastName());
+        if (assembliesIDsList == null){
+            assembliesIDsList = new ArrayList<>(ordersAssembliesDao.getAssembliesIDsByOrderID(OrderID));
+        }
 
-        clientsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ClientID = position;
-            }
+        if (assembliesQuantities == null){
+            assembliesQuantities = new ArrayList<>(ordersAssembliesDao.getQtyAssembliesByOrderID(OrderID));
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                ClientID = 0;
+        for (int id : assembliesIDsList){
+            if (assembliesDao.getAllAssembliesIDs().contains(id)){
+                assembliesOrderAUX.add(assembliesDao.getAssemblyByID(id));
+                int size = assembliesOrderAUX.size();
+                int counter = 0;
+                int[] Assemblies_IDs = new int[size];
+                for (Assemblies assembly : assembliesOrderAUX){
+                    Assemblies_IDs[counter] = assembly.getId();
+                    counter++;
+                }
+                assembliesOrder = assembliesDao.getAssembliesAlphabetically(Assemblies_IDs);
             }
-        });
+        }
+        if (assembliesOrder != null){
+            for(Assemblies assembly: assembliesOrder){
+                assembliesTotalProducts.add(assembliesProductsDao.getNumberProductsById(assembly.getId()));
+                assembliesTotalCost.add(assembliesProductsDao.getCostByAssemblyID(assembly.getId()));
+            }
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                assembliesRecycler.setLayoutManager(new GridLayoutManager(this,2));
+            } else {
+                assembliesRecycler.setLayoutManager(new LinearLayoutManager(this));
+            }
+            adapter = new EditOrderAdapter(assembliesOrder,assembliesTotalProducts,assembliesTotalCost,assembliesQuantities,this);
+            assembliesRecycler.setAdapter(adapter);
+        }
     }
 
     @Override
@@ -263,6 +260,7 @@ public class activityAddNewOrder extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(CLIENT_ID,ClientID);
         outState.putIntegerArrayList(ASSEMBLIES_IDS,assembliesIDsList);
+        outState.putInt("ORDER_ID",OrderID);
         if (assembliesOrder != null){
             outState.putIntegerArrayList(QTYS,new ArrayList<>(adapter.quantities));
         }
@@ -271,20 +269,20 @@ public class activityAddNewOrder extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_new_order_menu,menu);
+        inflater.inflate(R.menu.edit_order_menu,menu);
         return true;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.add_new_order_menu,menu);
+        getMenuInflater().inflate(R.menu.edit_order_menu,menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.add_button_item){
-            Intent intent = new Intent(activityAddNewOrder.this,activityAddNewAssembly.class);
+            Intent intent = new Intent(this, activityAddNewAssembly.class);
             startActivityForResult(intent,ENSAMBLES_REQUEST_CODE);
         }
         if (item.getItemId() == R.id.save_action){
@@ -305,19 +303,23 @@ public class activityAddNewOrder extends AppCompatActivity {
                 AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
                 alertdialog.setTitle("Aviso");
                 alertdialog.setMessage("¿Confirma guardar la orden?");
-
                 alertdialog.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
                         OrdersDao ordersDao = database.ordersDao();
                         OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
+                        // ELIMINAMOS DE LA BASE DE DATOS Y VOLVEMOS A GUARDAR PARA EVITAR DUPLICADOS
+                        for (OrderAssemblies orderAssemblies : ordersAssembliesDao.getOrdersAssembliesByOrderID(OrderID)){
+                            ordersAssembliesDao.DeleteOrderAssemblies(orderAssemblies);
+                        }
+
                         Calendar calendar = Calendar.getInstance();
-                        calendar = Calendar.getInstance();
                         int Year = calendar.get(Calendar.YEAR);
                         int Month = calendar.get(Calendar.MONTH);
                         int DayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                         String month;
+
                         if (Month < 10){
                             month = "0" + Month;
                         }
@@ -325,14 +327,13 @@ public class activityAddNewOrder extends AppCompatActivity {
                             month = String.valueOf(Month);
                         }
                         final String date = Year  + month  + DayOfMonth;
-                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null);
-                        ordersDao.InsertNewOrder(NewOrder);
+
                         int counter = 0;
                         for (Assemblies assembly : assembliesOrder){
-                            ordersAssembliesDao.InsertNewOrdersAssembly(new OrderAssemblies(ordersDao.getMaxID(),assembly.getId(),adapter.quantities.get(counter)));
+                            ordersAssembliesDao.InsertNewOrdersAssembly(new OrderAssemblies(OrderID,assembly.getId(),adapter.quantities.get(counter)));
                             counter++;
                         }
-                        activityAddNewOrder.this.finish();
+                        EditOrder.this.finish();
                     }
                 });
 
@@ -386,7 +387,7 @@ public class activityAddNewOrder extends AppCompatActivity {
                     } else {
                         assembliesRecycler.setLayoutManager(new LinearLayoutManager(this));
                     }
-                    adapter = new AddNewOrderAdapter(assembliesOrder,assembliesTotalProducts,assembliesTotalCost,assembliesQuantities,this);
+                    adapter = new EditOrderAdapter(assembliesOrder,assembliesTotalProducts,assembliesTotalCost,assembliesQuantities,this);
                     assembliesRecycler.setAdapter(adapter);
                 }
             }
@@ -402,7 +403,7 @@ public class activityAddNewOrder extends AppCompatActivity {
         alertdialog.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activityAddNewOrder.this.finish();
+                EditOrder.this.finish();
             }
         });
 
@@ -417,3 +418,4 @@ public class activityAddNewOrder extends AppCompatActivity {
         alertdialog.show();
     }
 }
+
