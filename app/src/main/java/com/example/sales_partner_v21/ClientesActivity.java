@@ -236,6 +236,8 @@ public class ClientesActivity extends AppCompatActivity  {
         recyclerView.setAdapter(adapter);
 
 
+        customersList = new ArrayList<>();
+
         customersList.add("First Name");
         customersList.add("Last Name");
         customersList.add("Address");

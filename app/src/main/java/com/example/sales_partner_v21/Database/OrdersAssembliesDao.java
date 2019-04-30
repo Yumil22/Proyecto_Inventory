@@ -20,4 +20,19 @@ public interface OrdersAssembliesDao {
 
     @Query("SELECT * FROM order_assemblies")
     public List<OrderAssemblies> getAllorderAssemblies();
-}
+
+    @Query("SELECT oa.id as id, oa.id as order_id, oa.assembly_id, oa.qty FROM orders o " +
+            "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
+            "INNER JOIN assemblies a ON a.id = oa.assembly_id  " +
+            "WHERE date >= :date AND date <= :date2  ORDER BY oa.order_id")
+    public List<OrderAssemblies> getordersAssembliesbyDate(String date, String date2);
+
+
+
+    @Query( "SELECT a.description FROM orders o " +
+            "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
+            "INNER JOIN Assemblies a ON a.id = oa.assembly_id " +
+            "WHERE date >= :date AND date <= :date2   ORDER BY oa.order_id")
+    public List<String> getDescriptionbyDate(String date, String date2);
+
+    }

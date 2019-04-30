@@ -39,8 +39,15 @@ public interface OrdersDao {
     @Query("SELECT date FROM orders")
     public List<String> getDates();
 
-    @Query("SELECT date FROM orders WHERE date >= (:Year +'-01-01') " +
-            "AND date <= (:Year +'-12-31')")
-    public List<String> getDatesbyyear(String Year);
+    @Query("SELECT * FROM orders WHERE date >= :date " +
+            "AND date <= :date2")
+    public List<Orders> getordersbydate(String date, String date2);
 
+    @Query("SELECT SUM(p.price * oa.qty) FROM orders o " +
+            " INNER JOIN order_assemblies oa  ON o.id = oa.order_id" +
+            " INNER JOIN assemblies a ON a.id = oa.assembly_id  " +
+            " INNER JOIN assembly_products ap ON ap.assembly_id = a.id " +
+            " INNER JOIN products p ON ap.product_id = p.id " +
+            " WHERE date >= :date AND date <= :date2 AND o.status_id = 4 OR o.status_id = 3")
+    public int getCountbyDate(String date, String date2);
 }

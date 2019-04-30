@@ -23,4 +23,10 @@ public interface AssembliesDao {
 
     @Query("SELECT * FROM assemblies WHERE id IN (:ids) ORDER BY description")
     List<Assemblies> getAssembliesAlphabetically(int[] ids);
+
+    @Query("SELECT SUM(p.price) FROM assemblies a " +
+            "INNER JOIN assembly_products ap ON a.id = ap.assembly_id " +
+            "INNER JOIN products p ON p.id = ap.product_id " +
+            " WHERE a.id = :asid")
+    public int getPriceyAssembled(int asid);
 }
