@@ -35,6 +35,13 @@ public interface CustomersDao {
     @Query("SELECT * FROM CUSTOMERS WHERE phone1 LIKE '%' || :phone || '%' OR phone2 || '%' LIKE '%' || :phone || '%'OR phone3 LIKE '%' || :phone || '%'")
     List<Customers> getCustomersbyPhone (String phone);
 
+    @Query("SELECT * FROM CUSTOMERS WHERE first_name LIKE '%' || :name  || '%' OR " +
+            "last_name LIKE '%' || :last_name || '%' OR " +
+            "address LIKE '%' || :address || '%' OR " +
+            "email LIKE '%' || :email  || '%' OR " +
+            "phone1 LIKE '%' || :phone || '%' OR phone2 || '%' LIKE '%' || :phone || '%'OR phone3 LIKE '%' || :phone || '%'")
+    List<Customers> getCustomerByAll(String name, String last_name, String address, String email, String phone);
+
     @Query("SELECT id FROM CUSTOMERS ORDER BY id DESC LIMIT 1")
     int getMaxId();
 
