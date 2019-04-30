@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -247,8 +248,14 @@ public class EditOrder extends AppCompatActivity {
             int orientation = getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 assembliesRecycler.setLayoutManager(new GridLayoutManager(this,2));
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(assembliesRecycler.getContext(),
+                        new GridLayoutManager(this,2).getOrientation());
+                assembliesRecycler.addItemDecoration(dividerItemDecoration);
             } else {
                 assembliesRecycler.setLayoutManager(new LinearLayoutManager(this));
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(assembliesRecycler.getContext(),
+                        new LinearLayoutManager(this).getOrientation());
+                assembliesRecycler.addItemDecoration(dividerItemDecoration);
             }
             adapter = new EditOrderAdapter(assembliesOrder,assembliesTotalProducts,assembliesTotalCost,assembliesQuantities,this);
             assembliesRecycler.setAdapter(adapter);
@@ -384,8 +391,14 @@ public class EditOrder extends AppCompatActivity {
                     int orientation = getResources().getConfiguration().orientation;
                     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         assembliesRecycler.setLayoutManager(new GridLayoutManager(this,2));
+                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(assembliesRecycler.getContext(),
+                                new GridLayoutManager(this,2).getOrientation());
+                        assembliesRecycler.addItemDecoration(dividerItemDecoration);
                     } else {
                         assembliesRecycler.setLayoutManager(new LinearLayoutManager(this));
+                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(assembliesRecycler.getContext(),
+                                new LinearLayoutManager(this).getOrientation());
+                        assembliesRecycler.addItemDecoration(dividerItemDecoration);
                     }
                     adapter = new EditOrderAdapter(assembliesOrder,assembliesTotalProducts,assembliesTotalCost,assembliesQuantities,this);
                     assembliesRecycler.setAdapter(adapter);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -135,6 +136,9 @@ public class secondaryActivity_assemblies extends AppCompatActivity implements P
         productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         productsRecyclerView.setHasFixedSize(true);
         productsRecyclerView.setAdapter(new ProductAssemblyAdapter(products,assembliesProducts,this));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(productsRecyclerView.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        productsRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     @Override

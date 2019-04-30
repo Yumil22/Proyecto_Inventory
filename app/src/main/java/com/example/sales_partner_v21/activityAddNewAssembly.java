@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -190,6 +191,9 @@ public class activityAddNewAssembly extends AppCompatActivity{
                 assembliesRecyclerView = findViewById(R.id.assemblies_RecyclerView);
                 assembliesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 assembliesRecyclerView.setAdapter(new AddNewAssemblyAdapter(assemblies,assembliesProducts,assembliesTotalCost,this));
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(assembliesRecyclerView.getContext(),
+                        new LinearLayoutManager(this).getOrientation());
+                assembliesRecyclerView.addItemDecoration(dividerItemDecoration);
             }
         }
 
@@ -235,6 +239,9 @@ public class activityAddNewAssembly extends AppCompatActivity{
                 assembliesRecyclerView = findViewById(R.id.assemblies_RecyclerView);
                 assembliesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 assembliesRecyclerView.setAdapter(new AddNewAssemblyAdapter(assemblies,assembliesProducts,assembliesTotalCost,this));
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(assembliesRecyclerView.getContext(),
+                        new LinearLayoutManager(this).getOrientation());
+                assembliesRecyclerView.addItemDecoration(dividerItemDecoration);
                 SEARCH_ACTION = true;
                 return true;
             }

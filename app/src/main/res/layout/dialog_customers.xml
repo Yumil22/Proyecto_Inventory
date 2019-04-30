@@ -8,162 +8,109 @@
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Customer:"
+    android:text="Cliente"
     android:gravity="center"
-    android:fontFamily="casual"
-    android:textSize="25dp"/>
+    android:textStyle="bold"
+    android:textSize="25sp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="First name: "/>
-
+            android:textStyle="italic|bold"
+            android:text="Nombre: "/>
         <TextView
-
             android:id="@+id/txt_first_name_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
             android:text=""/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Last name:"
-
-            />
-
+            android:textStyle="italic|bold"
+            android:text="Apellido: " />
         <TextView
-
             android:id="@+id/txt_last_name_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
             android:text=""/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Address: "/>
+            android:textStyle="italic|bold"
+            android:text="Dirección: "/>
 
         <TextView
-
             android:id="@+id/txt_address_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="E-mail"/>
-
+            android:textStyle="italic|bold"
+            android:text="Correo electrónico: "/>
         <TextView
-
             android:id="@+id/txt_email_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Phone1:"/>
+            android:textStyle="italic|bold"
+            android:text="Telefóno 1: "/>
 
         <TextView
-
             android:id="@+id/txt_phone1_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Phone2:"/>
-
+            android:textStyle="italic|bold"
+            android:text="Telefóno 2: "/>
         <TextView
-
             android:id="@+id/txt_phone2_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-
         <TextView
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:text="Phone3:"/>
+            android:textStyle="italic|bold"
+            android:text="Telefóno 3: "/>
 
         <TextView
-
             android:id="@+id/txt_phone3_dialog"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content" />
     </LinearLayout>
 

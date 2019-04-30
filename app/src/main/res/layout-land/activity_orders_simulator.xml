@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+=======
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> 3b179b1bdb32ccc52949f8c1e8cc328d18c3e67f
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
+    tools:context=".orders_simulator">
+
+</android.support.constraint.ConstraintLayout>
+=======
     tools:context=".orders_simulator"
     android:orientation="vertical">
     <LinearLayout
@@ -51,3 +60,4 @@
 
 
 </LinearLayout>
+>>>>>>> 3b179b1bdb32ccc52949f8c1e8cc328d18c3e67f
