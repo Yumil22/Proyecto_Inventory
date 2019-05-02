@@ -35,11 +35,7 @@ public interface CustomersDao {
     @Query("SELECT * FROM CUSTOMERS WHERE phone1 LIKE '%' || :phone || '%' OR phone2 || '%' LIKE '%' || :phone || '%'OR phone3 LIKE '%' || :phone || '%'")
     List<Customers> getCustomersbyPhone (String phone);
 
-    @Query("SELECT * FROM CUSTOMERS WHERE first_name LIKE '%' || :name  || '%' OR " +
-            "last_name LIKE '%' || :last_name || '%' OR " +
-            "address LIKE '%' || :address || '%' OR " +
-            "email LIKE '%' || :email  || '%' OR " +
-            "phone1 LIKE '%' || :phone || '%' OR phone2 || '%' LIKE '%' || :phone || '%'OR phone3 LIKE '%' || :phone || '%'")
+    @Query("SELECT * FROM CUSTOMERS WHERE first_name LIKE '%' || :name  || '%' OR last_name LIKE '%' || :last_name || '%' OR address LIKE '%' || :address || '%' OR email LIKE '%' || :email  || '%' OR phone1 LIKE '%' || :phone || '%' OR phone2 || '%' LIKE '%' || :phone || '%'OR phone3 LIKE '%' || :phone || '%'")
     List<Customers> getCustomerByAll(String name, String last_name, String address, String email, String phone);
 
     @Query("SELECT id FROM CUSTOMERS ORDER BY id DESC LIMIT 1")
@@ -76,4 +72,13 @@ public interface CustomersDao {
             " WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)ASC")
     List<Integer> getIdLesscount();
 
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
+>>>>>>> fd0fde5797ece391726ddfa40d0e09e58c483ed4
+>>>>>>> 2c5736d3a202ce4fb27433c867da725dc3f71d9a
 }

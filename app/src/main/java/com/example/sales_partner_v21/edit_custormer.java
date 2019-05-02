@@ -211,6 +211,7 @@ public class edit_custormer extends AppCompatActivity {
                     //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
                     e_mail.setFocusableInTouchMode(false);
                     ema = false;
+                    txt_email.setTextColor(Color.GRAY);
 
                 }
 
@@ -230,6 +231,7 @@ public class edit_custormer extends AppCompatActivity {
                     //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
                     phone2.setFocusableInTouchMode(false);
                     pho2 = false;
+                    txt_phone2.setTextColor(Color.GRAY);
                 }
 
             }
@@ -246,6 +248,7 @@ public class edit_custormer extends AppCompatActivity {
                     //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
                     phone3.setFocusableInTouchMode(false);
                     pho3 = false;
+                    txt_phone3.setTextColor(Color.GRAY);
                 }
             }
         });

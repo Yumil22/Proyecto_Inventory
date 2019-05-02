@@ -221,7 +221,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
         MultiSpinner customerSpinner = findViewById(R.id.spinner_checkbox);
         recyclerView = findViewById(R.id.recycler_clients);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         adapter = new CustomerAdapter(customersAll,this);
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -290,6 +289,7 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 adapter = new CustomerAdapter(customersAll,this);
                 recyclerView.setAdapter(adapter);
+                recyclerView.addItemDecoration(dividerItemDecoration);
             }
         }
 
@@ -348,65 +348,79 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
     }
 
 
+    public AppDatabase database;
+    public  CustomersDao customersDao;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.search_button_item:
-//comenzamos la funcion de busqueda
-                String first_name = "";
-                String last_name = "";
-                String direccion = "";
-                String email = "";
-                String phone = "";
-                if (optionsSelected.contains(0)){// STRING NAME
-                    first_name = searchCustomer.getText().toString();
+        if (item.getItemId() == R.id.search_button_item){
+            String first_name = "";
+            String last_name = "";
+            String direccion = "";
+            String email = "";
+            String phone = "";
+            customersAll.clear();
+            database = AppDatabase.getAppDatabase(getApplicationContext());
+            customersDao = database.customersDao();
+
+            if (optionsSelected.contains(0)){// STRING NAME
+                first_name = searchCustomer.getText().toString();
+                customersAll.addAll(customersDao.getCustomersbyFirstname(first_name));
+            }
+            if (optionsSelected.contains(1)){ // APELLIDO
+                last_name = searchCustomer.getText().toString();
+                customersAll.addAll(customersDao.getCustomersbyLastname(last_name));
+            }
+            if (optionsSelected.contains(2)){ // DIRECCION
+                direccion = searchCustomer.getText().toString();
+                customersAll.addAll(customersDao.getCustomersbyAddress(direccion));
+            }
+            if (optionsSelected.contains(3)){ // EMAIL
+                email = searchCustomer.getText().toString();
+                customersAll.addAll(customersDao.getCustomersbyEmail(email));
+            }
+            if (optionsSelected.contains(4)){ // TELEFONO
+                phone = searchCustomer.getText().toString();
+                customersAll.addAll(customersDao.getCustomersbyPhone(phone));
+            }
+            else {
+                Toast.makeText(this,"Selecciona minimo una opción",Toast.LENGTH_SHORT).show();
+            }
+
+            List<Customers> finalList = new ArrayList<>();
+
+            for (int i = 0; i < customersAll.size(); i++){
+                if (!finalList.contains(customersAll.get(i)))
+                {
+                    finalList.add(customersAll.get(i));
                 }
-                else if (optionsSelected.contains(1)){ // APELLIDO
-                    last_name = searchCustomer.getText().toString();
-                }
-                else if (optionsSelected.contains(2)){ // DIRECCION
-                    direccion = searchCustomer.getText().toString();
-                }
-                else if (optionsSelected.contains(3)){ // EMAIL
-                    email = searchCustomer.getText().toString();
-                }
-                else if (optionsSelected.contains(4)){ // TELEFONO
-                    phone = searchCustomer.getText().toString();
-                }
-                else {
-                    Toast.makeText(this,"Selecciona minimo una opción",Toast.LENGTH_SHORT).show();
-                }
-                AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
-                CustomersDao customersDao = database.customersDao();
+            }
 
+            //customersAll.clear();
+            //customersAll.addAll(customersDao.getCustomerByAll(first_name,last_name,direccion,email,phone));
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new CustomerAdapter(finalList,this);
+            recyclerView.setAdapter(adapter);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                    new LinearLayoutManager(this).getOrientation());
+            recyclerView.addItemDecoration(dividerItemDecoration);
 
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                adapter = new CustomerAdapter(customersAll,this);
-                recyclerView.setAdapter(adapter);
-
-                Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
-
-                return true;
-            case R.id.add_button_item:
-//agregamos un activity para anexar a nuevo usuario
-
-                Intent intent2 = new Intent(ClientesActivity.this, new_user.class);
-                //ClientesActivity.super.finish();
-                startActivityForResult(intent2, new_user.NEW_USER_REQUEST_CODE);
-
-
-                return true;
-
-
-                default:
-                    return super.onOptionsItemSelected(item);
+            Toast.makeText(this, "Buscando...", Toast.LENGTH_SHORT).show();
+            return true;
         }
-
+        else if (item.getItemId() == R.id.add_button_item){
+            //agregamos un activity para anexar a nuevo usuario
+            Intent intent2 = new Intent(ClientesActivity.this, new_user.class);
+            //ClientesActivity.super.finish();
+            startActivityForResult(intent2, new_user.NEW_USER_REQUEST_CODE);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if(control_search == true){
+        if(control_search){
             outState.getBoolean(CONTROL, control_search);
             outState.getString(SEARCHED, searched);
             outState.getInt(TYPE_SEARCH, type_search);
