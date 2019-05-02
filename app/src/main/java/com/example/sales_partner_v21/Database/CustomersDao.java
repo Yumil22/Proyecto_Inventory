@@ -44,6 +44,10 @@ public interface CustomersDao {
     @Query("SELECT MAX(id) FROM customers")
     int getLastID();
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
     @Insert
     void InsertNewUser(Customers customer);
 
@@ -70,5 +74,12 @@ public interface CustomersDao {
             " INNER JOIN products p ON p.id = ap.product_id" +
             " WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)ASC")
     List<Integer> getIdLesscount();
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
+>>>>>>> fd0fde5797ece391726ddfa40d0e09e58c483ed4
 }

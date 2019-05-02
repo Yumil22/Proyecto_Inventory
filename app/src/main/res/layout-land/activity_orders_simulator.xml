@@ -8,6 +8,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".orders_simulator">
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
