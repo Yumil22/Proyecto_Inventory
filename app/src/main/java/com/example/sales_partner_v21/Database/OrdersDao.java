@@ -38,10 +38,6 @@ public interface OrdersDao {
     @Query("SELECT date FROM orders")
     public List<String> getDates();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
     @Query("SELECT * FROM orders WHERE date >= :date " +
             "AND date <= :date2")
     public List<Orders> getordersbydate(String date, String date2);
@@ -60,10 +56,7 @@ public interface OrdersDao {
 
     @Query("UPDATE orders SET status_id = :newStatusID WHERE id = :order_id")
     void UpdateStatusID(int order_id, int newStatusID);
-<<<<<<< HEAD
 
-=======
->>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
 
     @Query("SELECT  c.first_name FROM orders o " +
             "INNER JOIN customers c ON c.id = o.customer_id " +
@@ -85,8 +78,4 @@ public interface OrdersDao {
 
     @Query("DELETE FROM orders WHERE id IN (:ids)")
     void DeleteOrdersByOrderID(int[] ids);
-<<<<<<< HEAD
-
-=======
->>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
 }
