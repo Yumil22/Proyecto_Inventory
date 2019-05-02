@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
     android:orientation="vertical"
     tools:context=".orders_simulator">
-=======
-    tools:context=".orders_simulator"
-    android:orientation="vertical">
 
->>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

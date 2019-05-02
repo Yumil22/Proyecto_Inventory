@@ -9,19 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".secundary_Sales"></activity>
-        <activity android:name=".EditOrder"></activity>
-        <activity android:name=".missing_products_again"></activity>
-=======
 
         <activity android:name=".secundary_Sales"></activity>
         <activity android:name=".EditOrder"></activity>
-
         <activity android:name=".missing_products_again"></activity>
 
-
->>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
         <activity android:name=".OrdersDetails" />
         <activity android:name=".Sales_summary_mounth" />
         <activity android:name=".orders_simulator" />

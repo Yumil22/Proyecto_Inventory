@@ -22,11 +22,7 @@ public interface OrdersAssembliesDao {
     @Query("SELECT * FROM order_assemblies")
     public List<OrderAssemblies> getAllorderAssemblies();
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
     @Query("SELECT oa.id as id, oa.order_id , oa.assembly_id, oa.qty FROM orders o " +
             "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
             "INNER JOIN Assemblies a ON a.id = oa.assembly_id  " +
@@ -62,12 +58,10 @@ public interface OrdersAssembliesDao {
 
     @Delete
     void DeleteOrderAssemblies(OrderAssemblies orderAssembly);
-<<<<<<< HEAD
 
     @Query("DELETE FROM order_assemblies WHERE order_id IN (:orders_ids)")
     void DeleteOrderAssembliesByOrdersID(int[] orders_ids);
-}
-=======
+
 }
 
->>>>>>> 3841b1362b7477e0e27828ed224ab1df07711cb3
+
