@@ -77,69 +77,53 @@ import android.app.Dialog;
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-           MenuItem information =  menu.add(this.getAdapterPosition(), 1, 0, "Información");
-            MenuItem edit =menu.add(this.getAdapterPosition(), 2, 1, "Editar");
-            MenuItem delete = menu.add(this.getAdapterPosition(), 3, 1, "Eliminar");
-
+            AppDatabase database = AppDatabase.getAppDatabase(context.getApplicationContext());
+            OrdersDao ordersDao = database.ordersDao();
+            MenuItem information =  menu.add(this.getAdapterPosition(), 1, 0, "Información");
+            MenuItem edit =menu.add(this.getAdapterPosition(), 2, 0, "Editar");
+            if (ordersDao.getOrdersByCustomerID(customers.getId()).isEmpty()){
+                MenuItem delete = menu.add(this.getAdapterPosition(), 3, 0, "Eliminar");
+                delete.setOnMenuItemClickListener(onEditMenu);
+            }
             information.setOnMenuItemClickListener(onEditMenu);
             edit.setOnMenuItemClickListener(onEditMenu);
-            delete.setOnMenuItemClickListener(onEditMenu);
         }
 
         public String CUSTOMER_ID = "CUSTOMER_ID";
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                            case 1:
-                                new Dialog_customers(itemView.getContext(),customers);
-                                return true;
-
-                            case 2:
-                                //ACTIVITY DESNTRO DEL MENU CONTEXTUAL Y ADEMAS DENTOR DEL VIEW HOLDER
-                                Intent intent2 = new Intent(itemView.getContext(), edit_custormer.class);
-                                intent2.putExtra(CUSTOMER_ID, customers.getId());
-
-                                //TIENES QUE OBTENER EL CONTEXTO PARA PODER CREAR EL ACTIVITY
-                                itemView.getContext().startActivity(intent2);
-                                //AQUI ES DONDE CREE EL ACTIVITY DESNTRO DEL VIEW HOLDER
-                                return true;
-
-                            case 3:
-                                final AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
-
-                                builder.setMessage("¿Desea eliminar el cliente?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        AppDatabase database = AppDatabase.getAppDatabase(context.getApplicationContext());
-                                        CustomersDao customersDao = database.customersDao();
-                                        OrdersDao ordersDao = database.ordersDao();
-                                        OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
-
-                                        int counter = 0;
-                                        int[] order_ids = new int[ordersDao.getOrdersByCustomerID(customers.getId()).size()];
-                                        for (Orders order : ordersDao.getOrdersByCustomerID(customers.getId())){
-                                            order_ids[counter] = order.getId();
-                                            counter++;
-                                        }
-                                        ordersAssembliesDao.DeleteOrderAssembliesByOrdersID(order_ids);
-                                        ordersDao.DeleteOrdersByOrderID(order_ids);
-                                        customersDao.Deleteuser(customers);
-                                    }
-                                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //no realiza nada
-                                    }
-                                });
-                                AlertDialog alertDialog = builder.create();
-                                alertDialog.show();
-                                return true;
-                                //Dialogo confirmacion de accion
-
-                            default: return true;
+                if (item.getItemId() == 1){
+                    new Dialog_customers(itemView.getContext(),customers);
+                    return true;
+                } else if (item.getItemId() == 2) {
+                    Intent intent2 = new Intent(itemView.getContext(), edit_custormer.class);
+                    intent2.putExtra(CUSTOMER_ID, customers.getId());
+                    itemView.getContext().startActivity(intent2);
+                    return true;
+                } else if (item.getItemId() == 3){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                    builder.setMessage("¿Desea eliminar el cliente?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppDatabase database = AppDatabase.getAppDatabase(context.getApplicationContext());
+                            CustomersDao customersDao = database.customersDao();
+                            customersDao.Deleteuser(customers);
+                            ((ClientesActivity)context).recreate();
                         }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    builder.show();
+                    return true;
+                }
+                else {
+                    return true;
+                }
             }
         };
     }
@@ -383,9 +367,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
                 phone = searchCustomer.getText().toString();
                 customersAll.addAll(customersDao.getCustomersbyPhone(phone));
             }
-            else {
-                Toast.makeText(this,"Selecciona minimo una opción",Toast.LENGTH_SHORT).show();
-            }
 
             List<Customers> finalList = new ArrayList<>();
 
@@ -396,8 +377,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
                 }
             }
 
-            //customersAll.clear();
-            //customersAll.addAll(customersDao.getCustomerByAll(first_name,last_name,direccion,email,phone));
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new CustomerAdapter(finalList,this);
             recyclerView.setAdapter(adapter);

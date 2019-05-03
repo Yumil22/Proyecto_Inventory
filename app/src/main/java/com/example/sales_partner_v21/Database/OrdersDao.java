@@ -3,6 +3,7 @@ package com.example.sales_partner_v21.Database;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -13,9 +14,6 @@ public interface OrdersDao {
 
     @Query("SELECT MAX(id) FROM orders")
     int getMaxID();
-
-    @Query("SELECT * FROM orders WHERE date BETWEEN :initialDate AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses);")
-    List<Orders> getFilterOrders(String initialDate, String finalDate, int[] ids, int[] statuses);
 
     @Query("SELECT * FROM orders WHERE customer_id IN (:ids) AND status_id IN (:statuses)")
     List<Orders> getFilterOrdersByIDAndStatus(int[] ids, int[] statuses);
@@ -38,10 +36,6 @@ public interface OrdersDao {
     @Query("SELECT date FROM orders")
     public List<String> getDates();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
     @Query("SELECT * FROM orders WHERE date >= :date " +
             "AND date <= :date2")
     public List<Orders> getordersbydate(String date, String date2);
@@ -60,10 +54,6 @@ public interface OrdersDao {
 
     @Query("UPDATE orders SET status_id = :newStatusID WHERE id = :order_id")
     void UpdateStatusID(int order_id, int newStatusID);
-<<<<<<< HEAD
-
-=======
->>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
 
     @Query("SELECT  c.first_name FROM orders o " +
             "INNER JOIN customers c ON c.id = o.customer_id " +
@@ -85,8 +75,13 @@ public interface OrdersDao {
 
     @Query("DELETE FROM orders WHERE id IN (:ids)")
     void DeleteOrdersByOrderID(int[] ids);
-<<<<<<< HEAD
 
-=======
->>>>>>> 93d2d557ff610215b3e942c79ba776616c1cd04c
+    @Query("UPDATE orders SET date = :newDate WHERE id = :order_id")
+    void UpdateDate(int order_id, String newDate);
+
+    @Query("SELECT * FROM orders WHERE date BETWEEN :initialDate AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses);")
+    List<Orders> getFilterOrders(String initialDate, String finalDate, int[] ids, int[] statuses);
+
+    @Query("SELECT * FROM orders WHERE date BETWEEN (SELECT MIN(date) FROM orders) AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses) ORDER BY id DESC")
+    List<Orders> getFilterOrderByFinalDate(String finalDate, int[] ids, int[] statuses);
 }

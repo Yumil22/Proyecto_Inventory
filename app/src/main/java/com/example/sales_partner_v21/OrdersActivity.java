@@ -101,7 +101,8 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
 
             client.setText(customer.getLastName());
             status.setText(orderStatus.getDescription());
-            date.setText(order.getDate().substring(6,8)+ "-" + order.getDate().substring(4,6)+ "-" + order.getDate().subSequence(0,4));
+            String dateAux = order.getDate().substring(6,8)+ "-" + order.getDate().substring(4,6)+ "-" + order.getDate().subSequence(0,4);
+            date.setText(dateAux);
             assembliesQty.setText(String.valueOf(qtyAssemblies));
             totalPrice.setText("$" + formatter.format(totalCost));
         }
@@ -378,7 +379,10 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private String SELECTED_STATUSES = "SELECTED_STATUS";
     private String CLIENT_ID = "CLIENT_ID";
     private int ClientID = 0;
-    private Boolean SEARCH_PRESS = false;
+    private Boolean SEARCH_PRESS1 = false;
+    private Boolean SEARCH_PRESS2 = false;
+    private Boolean SEARCH_PRESS3 = false;
+    private Boolean SEARCH_PRESS4 = false;
     public Boolean FLAG = false;
 
     private List<Customers> customers = new ArrayList<>();
@@ -439,10 +443,13 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
             finalYear = savedInstanceState.getInt(FINAL_YEAR,2019);
             finalMonth = savedInstanceState.getInt(FINAL_MONTH,5);
             finalDayOfMonth = savedInstanceState.getInt(FINAL_DAY,1);
+            SEARCH_PRESS1 = savedInstanceState.getBoolean("SEARCH_PRESS1");
+            SEARCH_PRESS2 = savedInstanceState.getBoolean("SEARCH_PRESS2");
+            SEARCH_PRESS3 = savedInstanceState.getBoolean("SEARCH_PRESS3");
+            SEARCH_PRESS4 = savedInstanceState.getBoolean("SEARCH_PRESS4");
 
             orderStatusSpinner.setItems(ordersStatusList,getString(R.string.for_all),this,orderStatusesSelected);
             clientsSpinner.setSelection(ClientID);
-
             // Clientes
             customers.clear();
             if (ClientID == customersDao.getLastID() + 1){
@@ -474,7 +481,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                     count++;
                 }
                 // Ordenes
-                if (initialDateCheckbox.isChecked() && finalDateCheckbox.isChecked()){
+                if (SEARCH_PRESS1){
                     String monthInicial;
                     if ((initialMonth + 1) < 10){
                         monthInicial = "0" + (initialMonth + 1);
@@ -538,11 +545,130 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                         ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
                     }
                 }
-                else {
-                    // FILTRADO POR CLIENTES Y ESTADOS
-                    orders.clear();
-                    orders.addAll(ordersDao.getFilterOrdersByIDAndStatus(clientsIDs,statuses));
+                else if (SEARCH_PRESS2){
+                    String monthInicial;
+                    if ((initialMonth + 1) < 10){
+                        monthInicial = "0" + (initialMonth + 1);
+                    }
+                    else {
+                        monthInicial = String.valueOf(initialMonth + 1);
+                    }
+                    String dayInicial;
+                    if (initialDayOfMonth < 10){
+                        dayInicial = "0" + initialDayOfMonth;
+                    }
+                    else {
+                        dayInicial = String.valueOf(initialDayOfMonth);
+                    }
+                    String initialFilterDate = initialYear + monthInicial + dayInicial;
 
+                    finalYear = calendar.get(Calendar.YEAR);
+                    finalMonth = calendar.get(Calendar.MONTH);
+                    finalDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    String monthFinal;
+
+                    if ((finalMonth + 1) <  10){
+                        monthFinal = "0" + (finalMonth + 1);
+                    }
+                    else {
+                        monthFinal = String.valueOf(finalMonth + 1);
+                    }
+
+                    String dayFinal;
+                    if (finalDayOfMonth < 10){
+                        dayFinal = "0" + finalDayOfMonth;
+                    }
+                    else {
+                        dayFinal = String.valueOf(finalDayOfMonth);
+                    }
+
+                    String finalFilterDate = finalYear + monthFinal + dayFinal;
+
+                    // FILTRADO POR FECHA, CLIENTES Y ESTADOS
+                    orders.clear();
+                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses));
+
+                    customers.clear();
+                    orderStatuses.clear();
+                    qtyAssemblies.clear();
+                    totalCosts.clear();
+
+                    if (orders != null){
+                        for (Orders order: orders){
+                            customers.add(ordersDao.getCustomerFromOrderID(order.getId()));
+                            orderStatuses.add(ordersDao.getOrderStatusFromOrderID(order.getId()));
+                            qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
+                            totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
+                        }
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        }
+                        ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
+                    }
+                }
+                else if (SEARCH_PRESS3){
+                    String monthFinal;
+
+                    if ((finalMonth + 1) <  10){
+                        monthFinal = "0" + (finalMonth + 1);
+                    }
+                    else {
+                        monthFinal = String.valueOf(finalMonth + 1);
+                    }
+
+                    String dayFinal;
+                    if (finalDayOfMonth < 10){
+                        dayFinal = "0" + finalDayOfMonth;
+                    }
+                    else {
+                        dayFinal = String.valueOf(finalDayOfMonth);
+                    }
+
+                    String finalFilterDate = finalYear + monthFinal + dayFinal;
+
+                    // FILTRADO POR FECHA, CLIENTES Y ESTADOS
+                    orders.clear();
+                    orders.addAll(ordersDao.getFilterOrderByFinalDate(finalFilterDate,clientsIDs, statuses));
+
+                    customers.clear();
+                    orderStatuses.clear();
+                    qtyAssemblies.clear();
+                    totalCosts.clear();
+
+                    if (orders != null){
+                        for (Orders order: orders){
+                            customers.add(ordersDao.getCustomerFromOrderID(order.getId()));
+                            orderStatuses.add(ordersDao.getOrderStatusFromOrderID(order.getId()));
+                            qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
+                            totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
+                        }
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        }
+                        ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
+                    }
+                }
+                else if (SEARCH_PRESS4){
+                    // FILTRADO POR CLIENTES Y ESTADOS
+                    orders.addAll(ordersDao.getFilterOrdersByIDAndStatus(clientsIDs,statuses));
                     customers.clear();
                     orderStatuses.clear();
                     if (orders != null){
@@ -652,6 +778,10 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
         outState.putInt(FINAL_YEAR,finalYear);
         outState.putInt(FINAL_MONTH,finalMonth);
         outState.putInt(FINAL_DAY,finalDayOfMonth);
+        outState.putBoolean("SEARCH_PRESS1",SEARCH_PRESS1);
+        outState.putBoolean("SEARCH_PRESS2",SEARCH_PRESS2);
+        outState.putBoolean("SEARCH_PRESS3",SEARCH_PRESS3);
+        outState.putBoolean("SEARCH_PRESS4",SEARCH_PRESS4);
     }
 
     @Override
@@ -677,6 +807,11 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.search_button_item){
+            SEARCH_PRESS1 = false;
+            SEARCH_PRESS2 = false;
+            SEARCH_PRESS3 = false;
+            SEARCH_PRESS4 = false;
+
             AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
             CustomersDao customersDao = database.customersDao();
             OrderStatusDao orderStatusDao = database.orderStatusDao();
@@ -782,34 +917,140 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                     else {
                         Toast.makeText(this,"Sin resultados",Toast.LENGTH_SHORT).show();
                     }
+                    SEARCH_PRESS1 = true;
                 }
                 else if (initialDateCheckbox.isChecked()){
-                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
-                    alertdialog.setTitle("Error");
-                    alertdialog.setMessage("Es necesario especificar una fecha final de filtrado");
+                    Toast.makeText(this,"Buscando...",Toast.LENGTH_SHORT).show();
+                    String monthInicial;
+                    if ((initialMonth + 1) < 10){
+                        monthInicial = "0" + (initialMonth + 1);
+                    }
+                    else {
+                        monthInicial = String.valueOf(initialMonth + 1);
+                    }
+                    String dayInicial;
+                    if (initialDayOfMonth < 10){
+                        dayInicial = "0" + initialDayOfMonth;
+                    }
+                    else {
+                        dayInicial = String.valueOf(initialDayOfMonth);
+                    }
+                    String initialFilterDate = initialYear + monthInicial + dayInicial;
 
-                    alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
+                    finalYear = calendar.get(Calendar.YEAR);
+                    finalMonth = calendar.get(Calendar.MONTH);
+                    finalDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    String monthFinal;
+
+                    if ((finalMonth + 1) <  10){
+                        monthFinal = "0" + (finalMonth + 1);
+                    }
+                    else {
+                        monthFinal = String.valueOf(finalMonth + 1);
+                    }
+
+                    String dayFinal;
+                    if (finalDayOfMonth < 10){
+                        dayFinal = "0" + finalDayOfMonth;
+                    }
+                    else {
+                        dayFinal = String.valueOf(finalDayOfMonth);
+                    }
+
+                    String finalFilterDate = finalYear + monthFinal + dayFinal;
+
+                    // FILTRADO POR FECHA, CLIENTES Y ESTADOS
+                    orders.clear();
+                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses));
+
+                    customers.clear();
+                    orderStatuses.clear();
+                    qtyAssemblies.clear();
+                    totalCosts.clear();
+
+                    if (orders != null){
+                        for (Orders order: orders){
+                            customers.add(ordersDao.getCustomerFromOrderID(order.getId()));
+                            orderStatuses.add(ordersDao.getOrderStatusFromOrderID(order.getId()));
+                            qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
+                            totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-                    });
-                    AlertDialog alert = alertdialog.create();
-                    alertdialog.show();
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        }
+                        ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
+                        Toast.makeText(this,"Se han encontrado " + orders.size() + " similitudes",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(this,"Sin resultados",Toast.LENGTH_SHORT).show();
+                    }
+                    SEARCH_PRESS2 = true;
                 }
                 else if (finalDateCheckbox.isChecked()){
-                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
-                    alertdialog.setTitle("Error");
-                    alertdialog.setMessage("Es necesario especificar una fecha inicial de filtrado");
+                    Toast.makeText(this,"Buscando...",Toast.LENGTH_SHORT).show();
+                    String monthFinal;
 
-                    alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
+                    if ((finalMonth + 1) <  10){
+                        monthFinal = "0" + (finalMonth + 1);
+                    }
+                    else {
+                        monthFinal = String.valueOf(finalMonth + 1);
+                    }
+
+                    String dayFinal;
+                    if (finalDayOfMonth < 10){
+                        dayFinal = "0" + finalDayOfMonth;
+                    }
+                    else {
+                        dayFinal = String.valueOf(finalDayOfMonth);
+                    }
+
+                    String finalFilterDate = finalYear + monthFinal + dayFinal;
+
+                    // FILTRADO POR FECHA, CLIENTES Y ESTADOS
+                    orders.clear();
+                    orders.addAll(ordersDao.getFilterOrderByFinalDate(finalFilterDate,clientsIDs, statuses));
+
+                    customers.clear();
+                    orderStatuses.clear();
+                    qtyAssemblies.clear();
+                    totalCosts.clear();
+
+                    if (orders != null){
+                        for (Orders order: orders){
+                            customers.add(ordersDao.getCustomerFromOrderID(order.getId()));
+                            orderStatuses.add(ordersDao.getOrderStatusFromOrderID(order.getId()));
+                            qtyAssemblies.add(ordersAssembliesDao.getQtyAssemblies(order.getId()));
+                            totalCosts.add(ordersAssembliesDao.getTotalCostOrdersAssemblies(order.getId()));
                         }
-                    });
-                    AlertDialog alert = alertdialog.create();
-                    alertdialog.show();
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            ordersRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new GridLayoutManager(this,2).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        } else {
+                            ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(ordersRecyclerView.getContext(),
+                                    new LinearLayoutManager(this).getOrientation());
+                            ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+                        }
+                        ordersRecyclerView.setAdapter(new OrdersAdapter(customers,orders,orderStatuses,qtyAssemblies,totalCosts,this));
+                        Toast.makeText(this,"Se han encontrado " + orders.size() + " similitudes",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(this,"Sin resultados",Toast.LENGTH_SHORT).show();
+                    }
+                    SEARCH_PRESS3 = true;
                 }
                 else {
                     Toast.makeText(this,"Buscando...",Toast.LENGTH_SHORT).show();
@@ -847,6 +1088,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                     else {
                         Toast.makeText(this,"Sin resultados",Toast.LENGTH_SHORT).show();
                     }
+                    SEARCH_PRESS4 = true;
                 }
             }
             else {
@@ -871,7 +1113,6 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
         else{
             return super.onOptionsItemSelected(item);
         }
-        SEARCH_PRESS = true;
         return super.onOptionsItemSelected(item);
     }
 
