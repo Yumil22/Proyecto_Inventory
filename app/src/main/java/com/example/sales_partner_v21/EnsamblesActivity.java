@@ -222,11 +222,11 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.assemblies_menu,menu);
-    }
+   // @Override
+   // public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+   //     super.onCreateContextMenu(menu, v, menuInfo);
+   //     getMenuInflater().inflate(R.menu.assemblies_menu,menu);
+   // }
 
 
     @Override

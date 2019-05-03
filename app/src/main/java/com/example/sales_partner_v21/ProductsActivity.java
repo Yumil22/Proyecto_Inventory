@@ -218,11 +218,11 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     }
 
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.products_menu,menu);
-    }
+  //  @Override
+  //  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+  //      super.onCreateContextMenu(menu, v, menuInfo);
+  //      getMenuInflater().inflate(R.menu.products_menu,menu);
+  //  }
 
     @Override
     public void onBackPressed() {
