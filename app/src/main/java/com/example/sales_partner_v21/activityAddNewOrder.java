@@ -325,13 +325,20 @@ public class activityAddNewOrder extends AppCompatActivity {
                         int Month = calendar.get(Calendar.MONTH);
                         int DayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                         String month;
+                        String day;
                         if (Month < 10){
                             month = "0" + Month;
                         }
                         else {
                             month = String.valueOf(Month);
                         }
-                        final String date = Year  + month  + DayOfMonth;
+                        if (DayOfMonth < 10){
+                            day = "0" + DayOfMonth;
+                        }
+                        else {
+                            day = String.valueOf(DayOfMonth);
+                        }
+                        final String date = Year  + month  + day;
                         Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null);
                         ordersDao.InsertNewOrder(NewOrder);
                         int counter = 0;

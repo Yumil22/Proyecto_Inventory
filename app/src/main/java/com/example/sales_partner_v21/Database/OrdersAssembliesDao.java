@@ -29,8 +29,6 @@ public interface OrdersAssembliesDao {
             "WHERE date >= :date AND date <= :date2  ORDER BY oa.order_id")
     public List<OrderAssemblies> getordersAssembliesbyDate(String date, String date2);
 
-
-
     @Query( "SELECT a.description FROM orders o " +
             "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
             "INNER JOIN Assemblies a ON a.id = oa.assembly_id " +
@@ -63,5 +61,3 @@ public interface OrdersAssembliesDao {
     void DeleteOrderAssembliesByOrdersID(int[] orders_ids);
 
 }
-
-

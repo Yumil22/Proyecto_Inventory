@@ -47,7 +47,10 @@ class SimulatorAdapter extends RecyclerView.Adapter<SimulatorAdapter.ViewHolder>
         private LinearLayout linear;
         private AppDatabase database;
         private OrdersDao ordersDao;
+        private ProductsDao productsDao ;
         onNoteListener onNoteListener;
+        private List<Products> listmissing;
+        private List<Products> listmissing2;
 
         public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener) {
             super(itemView);
@@ -56,6 +59,7 @@ class SimulatorAdapter extends RecyclerView.Adapter<SimulatorAdapter.ViewHolder>
             linear = itemView.findViewById(R.id.layout_simulator_customer);
             database = AppDatabase.getAppDatabase(itemView.getContext());
             ordersDao = database.ordersDao();
+            productsDao = database.productsDao();
             this.onNoteListener = onNoteListener;
             itemView.setOnClickListener(this);
         }
@@ -67,6 +71,24 @@ class SimulatorAdapter extends RecyclerView.Adapter<SimulatorAdapter.ViewHolder>
             txt_order_id.setText(String.valueOf(ordersDao.getOrdercountbyid(customers.getId())));
             if(integer ==0){
                 linear.setBackgroundColor(CYAN);
+                listmissing = new ArrayList<>();
+                listmissing2 = new ArrayList<>();
+                listmissing = productsDao.getproductsNeededbyId(customers.getId());
+                for(int i=0; i <listmissing.size();i++){
+
+                    if(listmissing.get(i).getCategoryId() - listmissing.get(i).getQty() > 0||listmissing.get(i).getCategoryId() - listmissing.get(i).getQty() == 0
+                            ||listmissing.get(i).getCategoryId() - listmissing.get(i).getQty() == 1){
+                        listmissing.remove(i);
+
+                    }else {
+                        listmissing2.add(listmissing.get(i));
+                    }
+                }
+                if(listmissing2.isEmpty()){
+                    linear.setBackgroundColor(GREEN);
+
+                }
+
             } else if(integer ==1){
                 linear.setBackgroundColor(GREEN);
 
@@ -147,7 +169,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
     public boolean CONTROL_AMOUNT = false;
     public boolean CONTROL_CUSTOMER= false;
 
-    public int aux;
+    public int aux = 0;
 
     public List<Integer> id_orders;
     @Override
@@ -187,6 +209,8 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
         if(CONTROL_CUSTOMER == true){
 
             customerNameList3 = savedInstanceState.getStringArrayList(LISTCUSTOMER);
+
+
             if(customerNameList3 != null){
 
                 customerList = new ArrayList<>();
@@ -370,7 +394,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                     customerList = new ArrayList<>();
                     checkProducts = new ArrayList<>();
 
-                    int aux =0;
+                    aux =0;
                     if(customersDao.getIdHighercount() != null) {
 
                         verificacion = new ArrayList<>();
@@ -425,7 +449,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                     customerList = new ArrayList<>();
                     checkProducts = new ArrayList<>();
 
-                    int aux =0;
+                    aux =0;
                     if(customersDao.getIdLesscount() != null) {
 
                         verificacion = new ArrayList<>();
@@ -487,12 +511,13 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
 
 
                         controlcount++;
-                        int aux =0;
+                        aux =0;
                         if(Control_customer == 1 && customerList != null){
 
                             verificacion = new ArrayList<>();
                             for(int j=0; j< customerList.size();j++){
                                 checkProducts = productsDao.getproductsNeeded(customerList.get(j).getId());
+                                aux =0;
                                 for(int a =0; a<checkProducts.size(); a++){
                                     for(int b=0; b< Allproducts.size(); b++){
                                         if(checkProducts.get(a).getId() == Allproducts.get(b).getId()){
@@ -558,7 +583,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
     public void onNoteClick(int position) {
 
         Intent intent = new Intent(orders_simulator.this, missing_products_again.class);
-        orders_simulator.super.finish();
+        //orders_simulator.super.finish();
         intent.putExtra(ID_CUSTOMER, customerList.get(position).getId());
         intent.putExtra(VERIFICACION, verificacion.get(position));
         startActivityForResult(intent, missing_products_again.MISSING_PRODUCTS_AGAIN);

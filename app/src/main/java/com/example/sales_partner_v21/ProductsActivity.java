@@ -115,6 +115,8 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     private String CATEGORY_SELECTED = "CATEGORY_SELECTED";
     private String SEARCH_BUTTON_PRESS = "SEARCH_BUTTON_PRESS";
     private String PRODUCT_ID = "PRODUCT_ID";
+    private int CategorySelected = 0;
+    private String SearchText;
 
     private static final String DATA_BASE= "productsactivity";
     @Override
@@ -162,6 +164,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                 productsRecyclerView.setAdapter(new ProductsAdapter(products,this));
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(productsRecyclerView.getContext(),
                         new LinearLayoutManager(this).getOrientation());
+                SEARCH_PRESS = true;
                 productsRecyclerView.addItemDecoration(dividerItemDecoration);
             }
         }
@@ -171,6 +174,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.app_bar_search:{
+                SEARCH_PRESS = false;
                 Toast.makeText(this,"Buscando...",Toast.LENGTH_SHORT).show();
                 AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
                 ProductsCategoriesDao productsCategoriesDao = database.productsCategoriesDao();
@@ -197,6 +201,9 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                 else{
                     Toast.makeText(this,"Se han encontrado " + String.valueOf(products.size()) + " similitudes",Toast.LENGTH_SHORT).show();
                 }
+                CategorySelected = categoriesSpinner.getSelectedItemPosition();
+                SearchText = searchProduct.getText().toString();
+
                 productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 productsRecyclerView.setAdapter(new ProductsAdapter(products,this));
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(productsRecyclerView.getContext(),
@@ -236,8 +243,8 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SEARCH_BUTTON_PRESS,SEARCH_PRESS);
-        outState.putInt(CATEGORY_SELECTED,categoriesSpinner.getSelectedItemPosition());
-        outState.putString(SEARCH_TEXT,searchProduct.getText().toString());
+        outState.putInt(CATEGORY_SELECTED,CategorySelected);
+        outState.putString(SEARCH_TEXT,SearchText);
     }
 
     @Override

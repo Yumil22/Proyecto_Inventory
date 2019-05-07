@@ -3,6 +3,7 @@ package com.example.sales_partner_v21.Database;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -13,9 +14,6 @@ public interface OrdersDao {
 
     @Query("SELECT MAX(id) FROM orders")
     int getMaxID();
-
-    @Query("SELECT * FROM orders WHERE date BETWEEN :initialDate AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses);")
-    List<Orders> getFilterOrders(String initialDate, String finalDate, int[] ids, int[] statuses);
 
     @Query("SELECT * FROM orders WHERE customer_id IN (:ids) AND status_id IN (:statuses)")
     List<Orders> getFilterOrdersByIDAndStatus(int[] ids, int[] statuses);
@@ -44,11 +42,11 @@ public interface OrdersDao {
 
     @Query("SELECT SUM(p.price * oa.qty) FROM orders o " +
             " INNER JOIN order_assemblies oa  ON o.id = oa.order_id" +
-            " INNER JOIN assemblies a ON a.id = oa.assembly_id  " +
-            " INNER JOIN assembly_products ap ON ap.assembly_id = a.id " +
+            " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id " +
             " INNER JOIN products p ON ap.product_id = p.id " +
-            " WHERE date >= :date AND date <= :date2 AND o.status_id = 4 OR o.status_id = 3")
+            " WHERE date >= :date AND date <= :date2 ")
     public int getCountbyDate(String date, String date2);
+    //este es el superior, no el que es por orden
 
     @Query("SELECT date FROM orders WHERE date >= (:Year +'-01-01') " +
             "AND date <= (:Year +'-12-31')")
@@ -60,7 +58,7 @@ public interface OrdersDao {
 
     @Query("SELECT  c.first_name FROM orders o " +
             "INNER JOIN customers c ON c.id = o.customer_id " +
-            " WHERE status_id = 0")
+            " WHERE o.status_id = 0")
     public List<String> getcustomerForComfirm();
 
     @Query(" SELECT count() FROM orders WHERE customer_id = :id_cus")
@@ -70,7 +68,7 @@ public interface OrdersDao {
             " INNER JOIN order_assemblies oa ON o.id = oa.order_id  " +
             " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id " +
             " INNER JOIN products p ON p.id = ap.product_id " +
-            "  WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)DESC")
+            "  WHERE o.status_id = 0 GROUP BY o.id ORDER BY o.date DESC")
     List<Integer> getCountsOrders();
 
     @Query("SELECT * FROM orders WHERE customer_id = :customer_id")
@@ -78,4 +76,13 @@ public interface OrdersDao {
 
     @Query("DELETE FROM orders WHERE id IN (:ids)")
     void DeleteOrdersByOrderID(int[] ids);
+
+    @Query("UPDATE orders SET date = :newDate WHERE id = :order_id")
+    void UpdateDate(int order_id, String newDate);
+
+    @Query("SELECT * FROM orders WHERE date BETWEEN :initialDate AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses);")
+    List<Orders> getFilterOrders(String initialDate, String finalDate, int[] ids, int[] statuses);
+
+    @Query("SELECT * FROM orders WHERE date BETWEEN (SELECT MIN(date) FROM orders) AND :finalDate AND customer_id IN (:ids) AND status_id IN (:statuses) ORDER BY id DESC")
+    List<Orders> getFilterOrderByFinalDate(String finalDate, int[] ids, int[] statuses);
 }

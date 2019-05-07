@@ -313,19 +313,16 @@ public class new_user extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
-
         savedInstanceState.putString(NAME, name.getText().toString());
         savedInstanceState.putString(LAST_NAME, last_name.getText().toString());
-      savedInstanceState.putString(ADDRESS, address.getText().toString());
-      savedInstanceState.putString(E_MAIL, e_mail.getText().toString());
-      savedInstanceState.putString(PHONE_1, phone1.getText().toString());
-      savedInstanceState.putString(PHONE_2, phone2.getText().toString());
-      savedInstanceState.putString(PHONE_3, phone3.getText().toString());
-      savedInstanceState.putBoolean(BANDERA_EMAIL, bandera_email);
-      savedInstanceState.putBoolean(BANDERA_PHONE2, bandera_phone2);
-       savedInstanceState.putBoolean(BANDERA_PHONE3, bandera_phone3);
-//
-
+        savedInstanceState.putString(ADDRESS, address.getText().toString());
+        savedInstanceState.putString(E_MAIL, e_mail.getText().toString());
+        savedInstanceState.putString(PHONE_1, phone1.getText().toString());
+        savedInstanceState.putString(PHONE_2, phone2.getText().toString());
+        savedInstanceState.putString(PHONE_3, phone3.getText().toString());
+        savedInstanceState.putBoolean(BANDERA_EMAIL, bandera_email);
+        savedInstanceState.putBoolean(BANDERA_PHONE2, bandera_phone2);
+        savedInstanceState.putBoolean(BANDERA_PHONE3, bandera_phone3);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -349,9 +346,5 @@ public class new_user extends AppCompatActivity {
         }).setTitle("Advertencia");
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
     }
-
-
-
 }

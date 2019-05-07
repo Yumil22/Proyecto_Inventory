@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
 
 
+
         <activity android:name=".secundary_Sales"></activity>
         <activity android:name=".EditOrder"></activity>
         <activity android:name=".missing_products_again"></activity>
