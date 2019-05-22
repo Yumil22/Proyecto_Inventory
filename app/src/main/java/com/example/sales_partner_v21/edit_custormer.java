@@ -355,7 +355,7 @@ public class edit_custormer extends AppCompatActivity {
                     AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
                     CustomersDao customersDao = database.customersDao();
 
-                    customer_edit = new Customers(custumer.getId(), n, L, ad,  ph, pho2, pho3, em );
+                    customer_edit = new Customers(custumer.getId(), n, L, ad,  ph, pho2, pho3, em, 1);
                     new Dialog_customers(this ,customer_edit);
                     Customers auxCustomer = customersDao.getCustomerById(Customer_id);
                     customersDao.Deleteuser(auxCustomer);

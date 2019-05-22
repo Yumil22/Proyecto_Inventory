@@ -51,7 +51,7 @@ public interface CustomersDao {
     @Delete
     void Deleteuser(Customers customers);
 
-    @Query(" SELECT o.customer_id as id, c.first_name, c.last_name, c.address, c.phone1, c.phone2, c.phone3, c.email FROM customers c " +
+    @Query(" SELECT o.customer_id as id, c.first_name, c.last_name, c.address, c.phone1, c.phone2, c.phone3, c.email, c.active FROM customers c " +
             " INNER JOIN orders o ON c.id = o.customer_id " +
             " WHERE o.id = :oder")
     public Customers getcustomerbyOrderId(int oder);

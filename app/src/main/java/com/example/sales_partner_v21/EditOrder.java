@@ -341,6 +341,11 @@ public class EditOrder extends AppCompatActivity {
                         }
                         final String date = Year  + month  + day;
                         ordersDao.UpdateDate(OrderID,date);
+<<<<<<< HEAD
+                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
+                        ordersDao.InsertNewOrder(NewOrder);
+=======
+>>>>>>> a5dc9d222b4af6b5f6e55132c5c678981298d2ef
 
                         int counter = 0;
                         for (Assemblies assembly : assembliesOrder){
