@@ -33,6 +33,10 @@ public class Orders {
     @ColumnInfo(name = "change_log")
     private String change_log;
 
+    @NonNull
+    @ColumnInfo(name = "seller_id")
+    private int seller_id;
+
     public int getId() {
         return id;
     }
@@ -75,11 +79,20 @@ public class Orders {
         this.change_log = change_log;
     }
 
-    public Orders(int id, int status_id, int customer_id, @NonNull String date, @NonNull String change_log) {
+    public int getSeller_id() {
+        return seller_id;
+    }
+
+    public void setSeller_id(int seller_id) {
+        this.seller_id = seller_id;
+    }
+
+    public Orders(int id, int status_id, int customer_id, @NonNull String date, @Nullable String change_log, int seller_id) {
         this.id = id;
         this.status_id = status_id;
         this.customer_id = customer_id;
         this.date = date;
         this.change_log = change_log;
+        this.seller_id = seller_id;
     }
 }

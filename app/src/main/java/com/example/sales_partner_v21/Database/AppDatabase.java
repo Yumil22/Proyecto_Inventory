@@ -232,18 +232,24 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO assembly_products (assembly_id, product_id, qty) VALUES (7, 605, 1)");
 
                             // CUSTOMERS
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
-                                    "VALUES (0, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
-                                    "VALUES (1, 'José', 'Medina', 'C.42 x 51 y 53, Col. Centro', '997-5491235', '997-4561289', NULL, 'medina96@yahoo.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
-                                    "VALUES (2, 'Erika', 'Mojica', 'C.18 x Av. Sierra, Fracc. La Huerta', '952-4567823', '998-6324582', '998-6541279', 'erikam98@gmail.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
-                                    "VALUES (3, 'Gabriel', 'Alemán', 'Av. Justo Madero x 44, Col. Boulevard', NULL, NULL, NULL, 'gabasoluciones@live.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
-                                    "VALUES (4, 'Perla', 'Montalvo', 'C.101B x 98 y 100, Fracc. Vista Alegre', '977-4612536', '995-1268745', NULL, NULL)");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email) " +
-                                    "VALUES (5, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email, active) " +
+                                    "VALUES (0, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com', 0)");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email, active) " +
+                                    "VALUES (1, 'José', 'Medina', 'C.42 x 51 y 53, Col. Centro', '997-5491235', '997-4561289', NULL, 'medina96@yahoo.com', 1)");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email, active) " +
+                                    "VALUES (2, 'Erika', 'Mojica', 'C.18 x Av. Sierra, Fracc. La Huerta', '952-4567823', '998-6324582', '998-6541279', 'erikam98@gmail.com', 1)");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email, active) " +
+                                    "VALUES (3, 'Gabriel', 'Alemán', 'Av. Justo Madero x 44, Col. Boulevard', NULL, NULL, NULL, 'gabasoluciones@live.com', 0)");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email, active) " +
+                                    "VALUES (4, 'Perla', 'Montalvo', 'C.101B x 98 y 100, Fracc. Vista Alegre', '977-4612536', '995-1268745', NULL, NULL, 1)");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, email, active) " +
+                                    "VALUES (5, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx', 0)");
+
+                            // SELLERS
+                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Alejandro', 'Matos', 'AlexJMatos7', 'alexmatos777')");
+                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Yumil', 'Rueda', 'Yumil98', 'yumil69')");
+                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Tony', 'Jimenez', 'Tony98', 'pikachu98')");
+                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Karim', 'Caamal', 'Karim98', 'paola')");
 
                             // ORDER STATUS
                             // Pendiente: es cuando se introduce al sistema, puede ser confirmado o cancelado por el cliente
@@ -259,15 +265,15 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (4, 'Finalizado', 0, '-', '-')");
 
                             // ORDERS
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (0, 4, 5, '20161005', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (1, 4, 2, '20161112', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (2, 4, 2, '20161226', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (3, 3, 4, '20170103', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (4, 1, 1, '20170115', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (5, 3, 0, '20170204', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (6, 2, 1, '20170305', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (7, 0, 4, '20170312', NULL)");
-                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (8, 0, 3, '20170318', NULL)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (0, 4, 5, '20161005', NULL, 0)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (1, 4, 2, '20161112', NULL, 1)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (2, 4, 2, '20161226', NULL, 0 )");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (3, 3, 4, '20170103', NULL, 2)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (4, 1, 1, '20170115', NULL, 3)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (5, 3, 0, '20170204', NULL, 1)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (6, 2, 1, '20170305', NULL, 0)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (7, 0, 4, '20170312', NULL, 2)");
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log, seller_id) VALUES (8, 0, 3, '20170318', NULL, 3)");
 
                             // ORDERS ASSEMBLIES
                             db.execSQL("INSERT INTO order_assemblies (order_id, assembly_id, qty) VALUES (0, 0, 2)");

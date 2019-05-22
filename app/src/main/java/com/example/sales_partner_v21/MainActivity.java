@@ -2,6 +2,7 @@ package com.example.sales_partner_v21;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.facebook.stetho.Stetho;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton ClientsBtn;
     ImageButton AssembliesBtn;
     ImageButton InfoBtn;
+    private RequestQueue queue;
 
     public static final int PRINCIPAL_REQUEST_CODE = 1;
 
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         ClientsBtn = findViewById(R.id.ClientsBtn);
         AssembliesBtn = findViewById(R.id.AssembliesBtn);
         InfoBtn = findViewById(R.id.InfoBtn);
+
+        queue = Volley.newRequestQueue(this);
 
         productsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+    }
 
-
+    private void ObtenerDatosVolley(){
+        String url = "https:";
     }
 }

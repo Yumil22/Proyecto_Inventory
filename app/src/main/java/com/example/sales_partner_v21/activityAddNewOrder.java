@@ -339,7 +339,7 @@ public class activityAddNewOrder extends AppCompatActivity {
                             day = String.valueOf(DayOfMonth);
                         }
                         final String date = Year  + month  + day;
-                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null);
+                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
                         ordersDao.InsertNewOrder(NewOrder);
                         int counter = 0;
                         for (Assemblies assembly : assembliesOrder){

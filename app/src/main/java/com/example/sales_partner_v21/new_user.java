@@ -212,7 +212,7 @@ public class new_user extends AppCompatActivity {
                 if(!control){
                     AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
                     CustomersDao customersDao = database.customersDao();
-                    new_customer = new Customers(dbCusDao.getMaxId()+1, n, L, ad,  ph, pho2, pho3, em );
+                    new_customer = new Customers(dbCusDao.getMaxId()+1, n, L, ad,  ph, pho2, pho3, em, 1);
                     new Dialog_customers(new_user.this ,new_customer);
                     customersDao.InsertNewUser(new_customer);
                     new_user.super.finish();

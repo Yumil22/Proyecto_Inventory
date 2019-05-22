@@ -341,7 +341,7 @@ public class EditOrder extends AppCompatActivity {
                         }
                         final String date = Year  + month  + day;
                         ordersDao.UpdateDate(OrderID,date);
-                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null);
+                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
                         ordersDao.InsertNewOrder(NewOrder);
 
                         int counter = 0;

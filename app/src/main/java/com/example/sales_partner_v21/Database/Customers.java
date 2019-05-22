@@ -35,6 +35,9 @@ public class Customers {
     @ColumnInfo(name = "email")
     private String email;
 
+    @ColumnInfo(name = "active")
+    private int active;
+
     public int getId() {
         return id;
     }
@@ -102,7 +105,15 @@ public class Customers {
         this.email = email;
     }
 
-    public Customers(int id, @NonNull String firstName, @NonNull String lastName, @NonNull String address, String phone1, String phone2, String phone3, String email) {
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    public Customers(int id, @NonNull String firstName, @NonNull String lastName, @NonNull String address, String phone1, String phone2, String phone3, String email, int active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -111,5 +122,6 @@ public class Customers {
         this.phone2 = phone2;
         this.phone3 = phone3;
         this.email = email;
+        this.active = active;
     }
 }
