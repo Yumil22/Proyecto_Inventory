@@ -120,6 +120,7 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
     public String ENSAMBLE_ID = "ENSAMBLE_ID";
     public Boolean SEARCH_ACTION = false;
     public String SEARCH_ACTION_CODE = "SEARCH_CODE";
+    private String SearchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +209,7 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
                     assembliesProducts.add(assembliesProductsDao.getNumberProductsById(assembly.getId()));
                     assembliesTotalCost.add(assembliesProductsDao.getCostByAssemblyID(assembly.getId()));
                 }
+                SearchText = searchTextOption.getText().toString();
                 assembliesRecyclerView = findViewById(R.id.assemblies_RecyclerView);
                 assembliesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 assembliesRecyclerView.setAdapter(new AssembliesAdapter(assemblies,assembliesProducts,assembliesTotalCost,this,this));
@@ -222,11 +224,11 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.assemblies_menu,menu);
-    }
+   // @Override
+   // public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+   //     super.onCreateContextMenu(menu, v, menuInfo);
+   //     getMenuInflater().inflate(R.menu.assemblies_menu,menu);
+   // }
 
 
     @Override
@@ -240,7 +242,7 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(SEARCH_TEXT,searchTextOption.getText().toString());
+        outState.putString(SEARCH_TEXT,SearchText);
         outState.putBoolean(SEARCH_ACTION_CODE,SEARCH_ACTION);
     }
 

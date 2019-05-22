@@ -263,10 +263,13 @@ public class new_user extends AppCompatActivity {
                     //Toast.makeText(edit_custormer.this, "Selected", Toast.LENGTH_SHORT).show();
                     e_mail.setFocusableInTouchMode(true);
                     bandera_email = true;
+                    txt_email.setTextColor(Color.GRAY);
                 }else if(!isChecked){
                     //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
                     e_mail.setFocusableInTouchMode(false);
                     bandera_email = false;
+                    txt_email.setTextColor(Color.GRAY);
+
                 }
 
             }
@@ -283,6 +286,7 @@ public class new_user extends AppCompatActivity {
                     //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
                     phone2.setFocusableInTouchMode(false);
                     bandera_phone3 = false;
+                    txt_phone2.setTextColor(Color.GRAY);
                 }
 
             }
@@ -299,6 +303,7 @@ public class new_user extends AppCompatActivity {
                     //Toast.makeText(edit_custormer.this, "DON't selected", Toast.LENGTH_SHORT).show();
                     phone3.setFocusableInTouchMode(false);
                     bandera_phone3 = false;
+                    txt_phone3.setTextColor(Color.GRAY);
                 }
 
 

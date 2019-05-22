@@ -22,6 +22,7 @@ public interface OrdersAssembliesDao {
     @Query("SELECT * FROM order_assemblies")
     public List<OrderAssemblies> getAllorderAssemblies();
 
+
     @Query("SELECT oa.id as id, oa.order_id , oa.assembly_id, oa.qty FROM orders o " +
             "INNER JOIN order_assemblies oa ON o.id = oa.order_id " +
             "INNER JOIN Assemblies a ON a.id = oa.assembly_id  " +

@@ -11,9 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+
         <activity android:name=".secundary_Sales"></activity>
         <activity android:name=".EditOrder"></activity>
         <activity android:name=".missing_products_again"></activity>
+
 
         <activity android:name=".OrdersDetails" />
         <activity android:name=".Sales_summary_mounth" />

@@ -44,6 +44,7 @@ public interface CustomersDao {
     @Query("SELECT MAX(id) FROM customers")
     int getLastID();
 
+
     @Insert
     void InsertNewUser(Customers customer);
 
@@ -55,7 +56,7 @@ public interface CustomersDao {
             " WHERE o.id = :oder")
     public Customers getcustomerbyOrderId(int oder);
 
-    @Query("SELECT o.id FROM customers C " +
+    @Query("SELECT o.id FROM customers c " +
             " INNER JOIN orders o ON o.customer_id = c.id " +
             " INNER JOIN order_assemblies oa ON oa.order_id = o.id " +
             " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id" +

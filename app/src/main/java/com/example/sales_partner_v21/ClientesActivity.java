@@ -169,7 +169,7 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
     private Spinner customerSpinner;
     private RecyclerView recyclerView;
     private CustomerAdapter adapter;
-    private List<Customers> customersAll ;
+    private List<Customers> customersAll = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapterCustomer;
     private EditText searchCustomer;
     private ArrayList<String> customersList = new ArrayList<>();
@@ -179,16 +179,19 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
 
     private boolean control_search = false;
     public String searched;
-    public int type_search = 0;
 
-    public int itemSearch = 0;
 
     static final String CONTROL = "SAVED_CONTROL";
     static final String SEARCHED = "SAVED_SEARCHED";
-    static final String TYPE_SEARCH = "SAVED_TYPE_SEARCH";
+
+
+    public AppDatabase database;
+    public  CustomersDao customersDao;
+    public   List<Customers> check_customer= new ArrayList<>();
+    public String text_edittext;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clientes);
 
@@ -197,22 +200,18 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
 
         AppDatabase dbCus = AppDatabase.getAppDatabase(getApplicationContext());
         dbCusDao = dbCus.customersDao();
-        //customersAll = null;
-        customersAll = dbCusDao.getAllCustomers();
+
+        //customersAll = dbCusDao.getAllCustomers();
 
 
         searchCustomer = findViewById(R.id.search_customer);
+
         MultiSpinner customerSpinner = findViewById(R.id.spinner_checkbox);
         recyclerView = findViewById(R.id.recycler_clients);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CustomerAdapter(customersAll,this);
-        recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                new LinearLayoutManager(this).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        customersList = new ArrayList<>();
+
+
 
         customersList.add("First Name");
         customersList.add("Last Name");
@@ -230,90 +229,122 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
 
         if(savedInstanceState != null){
 
-            type_search = savedInstanceState.getInt(TYPE_SEARCH);
             control_search = savedInstanceState.getBoolean(CONTROL);
-            searched = savedInstanceState.getString(SEARCHED);
+            text_edittext = savedInstanceState.getString(SEARCHED);
             optionsSelected = savedInstanceState.getIntegerArrayList("SELECTED_OPTIONS");
 
             customerSpinner.setItems(customersList,getString(R.string.for_all),this,optionsSelected);
-            if(control_search){
 
-                if(type_search == 0){
-                    customersAll = dbCusDao.getAllCustomers();
+
+            if( control_search== true   && !text_edittext.isEmpty()){
+
+                customersAll = new ArrayList<>();
+                check_customer = new ArrayList<>();
+                customersAll.clear();
+
+
+                if (optionsSelected.contains(0)){// STRING NAME
+                    customersAll.addAll(dbCusDao.getCustomersbyFirstname(text_edittext));
                 }
-                if(type_search == 1){
-                    customersAll = dbCusDao.getCustomersbyFirstname(searched);
-                    control_search = true;
-                    customerSpinner.setSelection(1);
+                if (optionsSelected.contains(1)){ // APELLIDO
+                    check_customer = new ArrayList<>();
 
-                } else if(type_search == 2){
+                    check_customer = dbCusDao.getCustomersbyLastname(text_edittext);
+                    if(!check_customer.isEmpty()){
+                        for(int i =0; i<customersAll.size(); i++){
 
-                    customersAll = dbCusDao.getCustomersbyLastname(searched);
-                    control_search = true;
-                    customerSpinner.setSelection(2);
+                            for(int a=0; a< check_customer.size(); a++){
+                                if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                    check_customer.remove(check_customer.get(a));
+                                }
 
-                }else if(type_search == 3)
-                {
-                    customersAll = dbCusDao.getCustomersbyEmail(searched);
-                    control_search = true;
-                    customerSpinner.setSelection(3);
+                            }
+                        }
+                        if(check_customer.size() != 0){
+                            customersAll.addAll(check_customer);
+                        }
+                    }
 
-                }else if(type_search == 4){
 
-                    customersAll = dbCusDao.getCustomersbyPhone(searched);
-                    control_search = true;
-                    customerSpinner.setSelection(4);
-
-                }else if(type_search == 5){
-
-                    customersAll = dbCusDao.getCustomersbyAddress(searched);
-                    control_search = true;
-                    customerSpinner.setSelection(5);
                 }
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                adapter = new CustomerAdapter(customersAll,this);
-                recyclerView.setAdapter(adapter);
-                recyclerView.addItemDecoration(dividerItemDecoration);
+                if (optionsSelected.contains(2)) { // DIRECCION
+                    check_customer = new ArrayList<>();
+
+                    check_customer = dbCusDao.getCustomersbyAddress(text_edittext);
+
+                    if(!check_customer.isEmpty()){
+                        for(int i =0; i<customersAll.size(); i++){
+
+                            for(int a=0; a< check_customer.size(); a++){
+                                if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                    check_customer.remove(check_customer.get(a));
+                                }
+
+                            }
+                        }
+                        if(check_customer.size() != 0){
+                            customersAll.addAll(check_customer);
+                        }
+                    }
+
+                }
+                if (optionsSelected.contains(3)){ // EMAIL
+                    check_customer = new ArrayList<>();
+
+                    check_customer = dbCusDao.getCustomersbyEmail(text_edittext);
+                    if(!check_customer.isEmpty()){
+                        for(int i =0; i<customersAll.size(); i++){
+
+                            for(int a=0; a< check_customer.size(); a++){
+                                if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                    check_customer.remove(check_customer.get(a));
+                                }
+
+                            }
+                        }
+                        if(check_customer.size() != 0){
+                            customersAll.addAll(check_customer);
+                        }
+                    }
+
+                }
+                if (optionsSelected.contains(4)){ // TELEFONO
+                    check_customer = new ArrayList<>();
+
+                    check_customer =dbCusDao.getCustomersbyPhone(text_edittext);
+                    if(!check_customer.isEmpty()){
+                        for(int i =0; i<customersAll.size(); i++){
+
+                            for(int a=0; a< check_customer.size(); a++){
+                                if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                    check_customer.remove(check_customer.get(a));
+                                }
+
+                            }
+                        }
+                        if(check_customer.size() != 0){
+                            customersAll.addAll(check_customer);
+                        }
+                    }
+
+                }
             }
+
+
+
+          // recyclerView.setLayoutManager(new LinearLayoutManager(this));
+          // adapter = new CustomerAdapter(customersAll,this);
+          // recyclerView.setAdapter(adapter);
+
         }
 
-        customerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CustomerAdapter(customersAll,this);
+        recyclerView.setAdapter(adapter);
 
-                if(item == "First Name"){
-                            itemSearch =1;
-                    type_search =1;
-                           // searchCustomer.setInputType();
-                } else if(item == "Last Name"){
-
-                    itemSearch = 2;
-                    type_search =2;
-                }else if(item == "E-mail")
-                {
-                    itemSearch = 3;
-                    type_search=3;
-
-                }else if(item == "Phone"){
-
-                    itemSearch = 4;
-                    type_search=4;
-
-                }else if(item == "Address"){
-
-                    itemSearch = 5;
-                    type_search=5;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-                itemSearch = 0;
-                Toast.makeText(ClientesActivity.this, "Select an item", Toast.LENGTH_SHORT);
-            }
-        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     @Override
@@ -332,59 +363,126 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
     }
 
 
-    public AppDatabase database;
-    public  CustomersDao customersDao;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.search_button_item){
-            String first_name = "";
-            String last_name = "";
-            String direccion = "";
-            String email = "";
-            String phone = "";
+            Toast.makeText(this, "Buscando...", Toast.LENGTH_SHORT).show();
+
+
             customersAll.clear();
             database = AppDatabase.getAppDatabase(getApplicationContext());
             customersDao = database.customersDao();
 
+            control_search = true;
+            //indica que se realizo la busqueda
+
+            customersAll = new ArrayList<>();
+            check_customer = new ArrayList<>();
+
+            text_edittext = searchCustomer.getText().toString();
+            //guarda el string buscado
+            if(!text_edittext.isEmpty()){
+
+
             if (optionsSelected.contains(0)){// STRING NAME
-                first_name = searchCustomer.getText().toString();
-                customersAll.addAll(customersDao.getCustomersbyFirstname(first_name));
+                customersAll.addAll(customersDao.getCustomersbyFirstname(text_edittext));
             }
             if (optionsSelected.contains(1)){ // APELLIDO
-                last_name = searchCustomer.getText().toString();
-                customersAll.addAll(customersDao.getCustomersbyLastname(last_name));
+                check_customer = new ArrayList<>();
+
+                check_customer = customersDao.getCustomersbyLastname(text_edittext);
+                if(!check_customer.isEmpty()){
+                    for(int i =0; i<customersAll.size(); i++){
+
+                        for(int a=0; a< check_customer.size(); a++){
+                            if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                check_customer.remove(check_customer.get(a));
+                            }
+
+                        }
+                    }
+                    if(check_customer.size() != 0){
+                        customersAll.addAll(check_customer);
+                    }
+                }
+
+
             }
-            if (optionsSelected.contains(2)){ // DIRECCION
-                direccion = searchCustomer.getText().toString();
-                customersAll.addAll(customersDao.getCustomersbyAddress(direccion));
+            if (optionsSelected.contains(2)) { // DIRECCION
+                check_customer = new ArrayList<>();
+
+                check_customer = customersDao.getCustomersbyAddress(text_edittext);
+
+                if(!check_customer.isEmpty()){
+                    for(int i =0; i<customersAll.size(); i++){
+
+                        for(int a=0; a< check_customer.size(); a++){
+                            if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                check_customer.remove(check_customer.get(a));
+                            }
+
+                        }
+                    }
+                    if(check_customer.size() != 0){
+                        customersAll.addAll(check_customer);
+                    }
+                }
+
             }
             if (optionsSelected.contains(3)){ // EMAIL
-                email = searchCustomer.getText().toString();
-                customersAll.addAll(customersDao.getCustomersbyEmail(email));
+                check_customer = new ArrayList<>();
+
+                check_customer = customersDao.getCustomersbyEmail(text_edittext);
+                if(!check_customer.isEmpty()){
+                    for(int i =0; i<customersAll.size(); i++){
+
+                        for(int a=0; a< check_customer.size(); a++){
+                            if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                check_customer.remove(check_customer.get(a));
+                            }
+
+                        }
+                    }
+                    if(check_customer.size() != 0){
+                        customersAll.addAll(check_customer);
+                    }
+                }
+
             }
             if (optionsSelected.contains(4)){ // TELEFONO
-                phone = searchCustomer.getText().toString();
-                customersAll.addAll(customersDao.getCustomersbyPhone(phone));
-            }
+                check_customer = new ArrayList<>();
 
-            List<Customers> finalList = new ArrayList<>();
+                check_customer =customersDao.getCustomersbyPhone(text_edittext);
+                if(!check_customer.isEmpty()){
+                    for(int i =0; i<customersAll.size(); i++){
 
-            for (int i = 0; i < customersAll.size(); i++){
-                if (!finalList.contains(customersAll.get(i)))
-                {
-                    finalList.add(customersAll.get(i));
+                        for(int a=0; a< check_customer.size(); a++){
+                            if(customersAll.get(i).getId() == check_customer.get(a).getId()){
+                                check_customer.remove(check_customer.get(a));
+                            }
+
+                        }
+                    }
+                    if(check_customer.size() != 0){
+                        customersAll.addAll(check_customer);
+                    }
                 }
+
             }
+            }
+            else {
+                customersAll = customersDao.getAllCustomers();
+            }
+
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new CustomerAdapter(finalList,this);
+            adapter = new CustomerAdapter(customersAll,this);
             recyclerView.setAdapter(adapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     new LinearLayoutManager(this).getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
 
-            Toast.makeText(this, "Buscando...", Toast.LENGTH_SHORT).show();
             return true;
         }
         else if (item.getItemId() == R.id.add_button_item){
@@ -399,11 +497,10 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if(control_search){
-            outState.getBoolean(CONTROL, control_search);
-            outState.getString(SEARCHED, searched);
-            outState.getInt(TYPE_SEARCH, type_search);
-        }
+
+            outState.putBoolean(CONTROL, control_search);
+            outState.putString(SEARCHED, text_edittext);
+
         outState.putIntegerArrayList("SELECTED_OPTIONS",new ArrayList<>(optionsSelected));
         super.onSaveInstanceState(outState);
     }

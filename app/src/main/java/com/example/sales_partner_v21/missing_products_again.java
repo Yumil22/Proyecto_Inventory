@@ -95,6 +95,9 @@ public class missing_products_again extends AppCompatActivity {
     public ProductsDao productsDao;
     private List<Products> listmissing;
     private List<Products> listmissing2;
+    private boolean cheching = false;
+    private List<Products> listm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +114,13 @@ public class missing_products_again extends AppCompatActivity {
         verificacion = intent.getIntExtra(VERIFICACION, 0);
 
         listmissing2 = new ArrayList<>();
-        if(verificacion ==1){
+        listm = new ArrayList<>();
+            listm = productsDao.getproductsNeededbyId(id_customer);
 
-            txt_auxiliar.setText("EXISTEN SUFICIENTES PRODUCTOS PARA COMPLETAR LAS ORDENES");
+
+        if( cheching ){
+
+            txt_auxiliar.setText("suficiente");
             txt_auxiliar.setTextColor(Color.GREEN);
 
         }else {
@@ -129,6 +136,10 @@ public class missing_products_again extends AppCompatActivity {
                     listmissing2.add(listmissing.get(i));
                 }
             }
+            if(listmissing2.isEmpty()){
+                txt_auxiliar.setText("HAY PRODUCTOS SUFICIENTES");
+                txt_auxiliar.setTextColor(Color.GREEN);
+            }
             recyclerView_missing.setLayoutManager(new LinearLayoutManager(missing_products_again.this));
             recyclerView_missing.setAdapter(new ProductsAdapter3(listmissing2));
 
@@ -140,6 +151,6 @@ public class missing_products_again extends AppCompatActivity {
 
         Intent intent = new Intent(missing_products_again.this, orders_simulator.class);
         missing_products_again.super.finish();
-        startActivityForResult(intent, orders_simulator.ORDERS_SIMULATOR_REQUEST_CODE);
+        //startActivityForResult(intent, orders_simulator.ORDERS_SIMULATOR_REQUEST_CODE);
     }
 }

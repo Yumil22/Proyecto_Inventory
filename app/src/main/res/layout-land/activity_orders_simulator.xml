@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context=".orders_simulator">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
