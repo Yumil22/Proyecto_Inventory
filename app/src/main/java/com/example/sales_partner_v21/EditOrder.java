@@ -343,7 +343,6 @@ public class EditOrder extends AppCompatActivity {
                         ordersDao.UpdateDate(OrderID,date);
                         Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
                         ordersDao.InsertNewOrder(NewOrder);
-
                         int counter = 0;
                         for (Assemblies assembly : assembliesOrder){
                             ordersAssembliesDao.InsertNewOrdersAssembly(new OrderAssemblies(OrderID,assembly.getId(),adapter.quantities.get(counter)));
