@@ -16,7 +16,8 @@ import android.support.annotation.NonNull;
         OrderStatus.class,
         Orders.class,
         OrderAssemblies.class,
-        OrderStatusChanges.class},version = 1,exportSchema = false)
+        OrderStatusChanges.class,
+        Sellers.class},version = 1,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE = null;
 
@@ -247,9 +248,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
                             // SELLERS
                             db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Alejandro', 'Matos', 'AlexJMatos7', 'alexmatos777')");
-                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Yumil', 'Rueda', 'Yumil98', 'yumil69')");
                             db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Tony', 'Jimenez', 'Tony98', 'pikachu98')");
                             db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Karim', 'Caamal', 'Karim98', 'paola')");
+                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Yumil', 'Rueda', 'Yumil98', 'yumil69')");
 
                             // ORDER STATUS
                             // Pendiente: es cuando se introduce al sistema, puede ser confirmado o cancelado por el cliente
@@ -322,5 +323,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ProductsDao productsDao();
     public abstract ProductsCategoriesDao productsCategoriesDao();
     public abstract OrderStatusChangesDao orderStatusChangesDao();
+    public abstract SellersDao sellersDao();
 }
 
