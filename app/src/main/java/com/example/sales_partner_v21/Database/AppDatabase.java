@@ -17,7 +17,7 @@ import android.support.annotation.NonNull;
         Orders.class,
         OrderAssemblies.class,
         OrderStatusChanges.class,
-        Sellers.class},version = 2,exportSchema = false)
+        Sellers.class},version = 1,exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE = null;

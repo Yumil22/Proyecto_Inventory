@@ -12,13 +12,23 @@
         android:text="user"
         style="@style/TextAppearance.AppCompat.Headline"
         android:textSize="18sp"
-        android:layout_above="@id/seller_login"/>
+        android:layout_above="@id/seller_login"
+        android:id="@+id/user_text"/>
 
 <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/seller_login"
     android:layout_centerVertical="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/user_text"
+        android:id="@+id/details_sm"
+        style="@style/TextAppearance.AppCompat.Display4"
+        android:textSize="32sp"
+        android:text=""/>
 
     <TextView
         android:layout_width="wrap_content"
