@@ -2,6 +2,7 @@ package com.example.sales_partner_v21;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -152,10 +153,15 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
     public int save_selected_item =0;
     public boolean control = false;
 
+    int idSeller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_summary_mounth);
+
+        SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+        idSeller = configPreferences.getInt("IDSELLER", -1);
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
         ordersDao = database.ordersDao();

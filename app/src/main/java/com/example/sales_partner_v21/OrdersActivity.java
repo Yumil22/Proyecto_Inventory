@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -384,6 +385,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
     private Boolean SEARCH_PRESS3 = false;
     private Boolean SEARCH_PRESS4 = false;
     public Boolean FLAG = false;
+    int idSeller;
 
     private List<Customers> customers = new ArrayList<>();
     private List<Orders> orders = new ArrayList<>();
@@ -403,6 +405,9 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
         clientsSpinner = findViewById(R.id.clients_spinner);
         ordersToolbar = findViewById(R.id.toolbar_orders);
         ordersRecyclerView = findViewById(R.id.orders_RecyclerView);
+
+        SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+        idSeller = configPreferences.getInt("IDSELLER", -1);
 
         setSupportActionBar(ordersToolbar);
         AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());

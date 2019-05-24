@@ -192,11 +192,15 @@ public class activityAddNewOrder extends AppCompatActivity {
     private String ASSEMBLIES_IDS = "ASSEMBLIES_IDS";
     public String ENSAMBLE_ID = "ENSAMBLE_ID";
     public String QTYS = "QTYS";
+    int idSeller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_order);
+
+        SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+        idSeller = configPreferences.getInt("IDSELLER", -1);
 
         clientsSpinner = findViewById(R.id.clients_spinner);
         assembliesRecycler = findViewById(R.id.assemblies_RecyclerView);

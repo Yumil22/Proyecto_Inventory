@@ -3,6 +3,7 @@ package com.example.sales_partner_v21;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -122,12 +123,16 @@ public class sales_summary extends AppCompatActivity {
     private List<Products> productsList2;
     public ArrayList list = new ArrayList();
 
+    int idSeller;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_summary);
 
+        SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+        idSeller = configPreferences.getInt("IDSELLER", -1);
 
         missing = findViewById(R.id.missing);
         recycler_reports = findViewById(R.id.recycler_reports);

@@ -2,6 +2,7 @@ package com.example.sales_partner_v21;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Products;
 import com.example.sales_partner_v21.Database.ProductsDao;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,12 +108,17 @@ public class missing_products_again extends AppCompatActivity {
     private List<Products> listmissing2;
     private boolean cheching = false;
     private List<Products> listm;
+    int idSeller;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missing_products_again);
+
+
+        SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+        idSeller = configPreferences.getInt("IDSELLER", -1);
 
         recyclerView_missing = findViewById(R.id.recycler_missing_products_again);
         txt_auxiliar = findViewById(R.id.txt_auxiliar);
@@ -153,4 +169,6 @@ public class missing_products_again extends AppCompatActivity {
         missing_products_again.super.finish();
         //startActivityForResult(intent, orders_simulator.ORDERS_SIMULATOR_REQUEST_CODE);
     }
+
+
 }

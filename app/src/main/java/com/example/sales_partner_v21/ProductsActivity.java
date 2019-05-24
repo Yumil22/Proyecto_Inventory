@@ -22,11 +22,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Products;
 import com.example.sales_partner_v21.Database.ProductsCategories;
 import com.example.sales_partner_v21.Database.ProductsCategoriesDao;
 import com.example.sales_partner_v21.Database.ProductsDao;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -128,9 +137,16 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
         productsRecyclerView = findViewById(R.id.productsRecyclerView);
         productsToolbar = findViewById(R.id.toolbar_products);
         setSupportActionBar(productsToolbar);
+
+
+        UpdateProducts();//ACTUALIZAMOS LAS TABLAS DE RODUCTOS
+
+
+
         AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
         ProductsCategoriesDao productsCategoriesDao = database.productsCategoriesDao();
         ProductsDao productsDao = database.productsDao();
+
 
         productsCategories = productsCategoriesDao.getAllProductsCategories();
         categories = new ArrayList<String>(productsCategoriesDao.getAllProductsDescriptionCategories());
@@ -252,5 +268,62 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
         Intent intent = new Intent(this,secondaryActivity_product.class);
         intent.putExtra(PRODUCT_ID,products.get(position).getId());
         startActivity(intent);
+    }
+
+    public RequestQueue request;
+    private JSONObject jsonObject;
+    private JSONArray jsonArray;
+
+    private String id_product_products = "" ;
+    private String category_id_products = "";
+    private String description_products = "";
+    private String price_products = "";
+    private String qty_products = "";
+    private List<Products>  ProductsRemoteDatabase= new ArrayList<>();
+    private List<Products>  ProductsRemoteDatabase2= new ArrayList<>();
+
+    private void UpdateProducts(){
+        //ACCTIALIZAMOS PRODUCTOS
+
+        String url6 = "http://192.168.1.81:3000/products/"  ;
+
+        JsonArrayRequest getRequest6 = new JsonArrayRequest(Request.Method.GET, url6, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray = response;
+
+                        try {
+                            for(int i =0; i<= jsonArray.length();i++){
+                                jsonObject = jsonArray.getJSONObject(i);
+                                id_product_products = jsonObject.getString("id");
+                                description_products = jsonObject.getString("description");
+                                category_id_products = jsonObject.getString("category_id");
+                                price_products = jsonObject.getString("price");
+                                qty_products= jsonObject.getString("qty");
+
+                                ProductsRemoteDatabase.add(new Products( Integer.parseInt(id_product_products) ,  Integer.parseInt(category_id_products), description_products,
+                                        Integer.parseInt( price_products), Integer.parseInt(qty_products)));
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ProductsRemoteDatabase2 = ProductsRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ProductsActivity.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
+        request.add(getRequest6);
     }
 }

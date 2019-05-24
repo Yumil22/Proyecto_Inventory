@@ -2,6 +2,7 @@ package com.example.sales_partner_v21;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -170,6 +171,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
     public boolean CONTROL_CUSTOMER= false;
 
     public int aux = 0;
+    int idSeller;
 
     public List<Integer> id_orders;
     @Override
@@ -179,6 +181,9 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
         spinner_final = findViewById(R.id.spinner_last);
         spinner_optional = findViewById(R.id.spinner_optional);
         recyclerView_last = findViewById(R.id.recycler_last);
+
+        SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+        idSeller = configPreferences.getInt("IDSELLER", -1);
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
         customersDao = database.customersDao();
