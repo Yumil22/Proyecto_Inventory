@@ -65,19 +65,21 @@ import java.util.List;
                             String FlagPassword = sellers.getPassword();
                            if (seller.toString().isEmpty() || seller == null || password.toString().isEmpty() || password == null){
                                Toast.makeText(SellersLogin.this, "No se detecta el usuario o contraseña", Toast.LENGTH_SHORT).show();
-                           }else {
-                               Toast.makeText(SellersLogin.this, "Worjs!", Toast.LENGTH_SHORT).show();
+                           }else if (FlagSeller.equals(seller.toString()) && FlagPassword.equals(password.toString())) {
+                               SharedPreferences newassembly = getSharedPreferences("LOG", 0);
+                               SharedPreferences.Editor asemblyEditor = newassembly.edit();
+                               asemblyEditor.putBoolean("CODIGOLOGIN", true);
+                               asemblyEditor.apply();
+                               Intent intent = new Intent(SellersLogin.this, MainActivity.class);
+                               SellersLogin.super.finish();
+                               startActivityForResult(intent, MainActivity.PRINCIPAL_REQUEST_CODE);                           
+                           }else if (!FlagSeller.equals(seller.toString()) || !FlagPassword.equals(password.toString())){
+                               Toast.makeText(SellersLogin.this, "Ingresa un usuario o contraseña correcta", Toast.LENGTH_SHORT).show();
                            }
                         }
                     });
 
-                    SharedPreferences newassembly = getSharedPreferences("LOG", 0);
-                    SharedPreferences.Editor asemblyEditor = newassembly.edit();
-                    asemblyEditor.putBoolean("CODIGOLOGIN", true);
-                    asemblyEditor.apply();
-                    Intent intent = new Intent(SellersLogin.this, MainActivity.class);
-                    SellersLogin.super.finish();
-                    startActivityForResult(intent, MainActivity.PRINCIPAL_REQUEST_CODE);
+
                 }
             });
 

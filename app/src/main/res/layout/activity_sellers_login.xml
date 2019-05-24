@@ -19,7 +19,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/seller_login"
-    android:layout_centerVertical="true"/>
+    android:layout_centerVertical="true"
+    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+    android:inputType="textFilter"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,6 +48,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@id/text_match"
         android:inputType="textPassword"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
         android:layout_marginTop="8dp"
         />
 
