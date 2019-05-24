@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         Login = findViewById(R.id.log_in_button);
         Logout = findViewById(R.id.log_out_button);
 
-        queue = Volley.newRequestQueue(this);
+
 
         if(log==true){
             Logout.setEnabled(true);
@@ -216,11 +216,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public RequestQueue request;
+    private RequestQueue request;
+    private RequestQueue request2;
     private JSONObject jsonObject;
     private JSONArray jsonArray;
+    private JSONArray jsonArray2;
     //String de assemblies
-    private String id_assemblies = "" ;
+    private int id_assemblies  ;
     private String description_assemblies = "";
     private List<Assemblies> assembliesRemoteDatabase = new ArrayList<>();
     private List<Assemblies> assembliesRemoteDatabase2 = new ArrayList<>();
@@ -294,13 +296,18 @@ public class MainActivity extends AppCompatActivity {
     private String qty_oa = "";
 
 
+    private   String url =  "http://192.168.1.77:3000/assemblies/"  ;
+
+
     private List<OrderAssemblies> ordersAssembliesRemoteDatabase = new ArrayList<>();
     private List<OrderAssemblies> ordersAssembliesRemoteDatabase2 = new ArrayList<>();
 
+    private JsonArrayRequest getRequest;
 
     private void cargarWebServiseAll() {
 //Actualizo assemblies
-        String url =  "http://192.168.1.77:3000/assemblies/"  ;
+        request = Volley.newRequestQueue(MainActivity.this);
+        request2 = Volley.newRequestQueue(MainActivity.this);
         String url2 = "http://192.168.1.77:3000/assemblies/products/"  ;
         String url3 = "http://192.168.1.77:3000/customers/"  ;
         String url4 = "http://192.168.1.77:3000/order/"  ;
@@ -309,21 +316,22 @@ public class MainActivity extends AppCompatActivity {
         String url7 = "http://192.168.1.77:3000/products/categories/"  ;
         String url8 = "http://192.168.1.77:3000/order/assemblies/"  ;
 
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+         getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
                 {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        jsonArray = response;
+                        jsonArray2 = response;
 
+                        jsonObject = null;
                         try {
-                            for(int i =0; i<= jsonArray.length();i++){
-                                jsonObject = jsonArray.getJSONObject(i);
-                                id_assemblies = jsonObject.getString("id");
+                            for(int i =0; i<= jsonArray2.length();i++){
+                                jsonObject = jsonArray2.getJSONObject(i);
+                                id_assemblies = jsonObject.getInt("id");
                                 description_assemblies = jsonObject.getString("description");
 
-                                assembliesRemoteDatabase.add(new Assemblies( Integer.parseInt(id_assemblies) , description_assemblies ));
+                                assembliesRemoteDatabase.add(new Assemblies( id_assemblies , description_assemblies ));
                             }
 
                         } catch (JSONException e) {
@@ -344,8 +352,7 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        //jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        request.add(getRequest);
+        request2.add(getRequest);
 
 
         //ACTUALIZO ASSEMBLIY_PRODUCTS
