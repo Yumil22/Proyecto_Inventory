@@ -12,11 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SellersLogin.SellersLogin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".secundary_Sales" />
         <activity android:name=".EditOrder" />
@@ -33,7 +28,11 @@
         <activity android:name=".tertiaryActivity_assemblies" />
         <activity android:name=".secondaryActivity_assemblies" />
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ReportsActivity" />
         <activity android:name=".ClientesActivity" />

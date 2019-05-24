@@ -5,10 +5,26 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-
     android:orientation="vertical"
-
     tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/log_out_button"
+            android:text="Log out"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/log_in_button"
+            android:text="Log in"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

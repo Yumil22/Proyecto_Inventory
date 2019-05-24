@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="user"
+        android:text="User"
         style="@style/TextAppearance.AppCompat.Headline"
         android:textSize="18sp"
         android:layout_above="@id/seller_login"
@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="password"
+        android:text="Password"
         android:textSize="18sp"
         style="@style/TextAppearance.AppCompat.Headline"
         android:id="@+id/text_match"
@@ -52,8 +52,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text="Log In"
         android:layout_below="@id/seller_password"
-        android:id="@+id/button_test"/>
+        android:id="@+id/button_log"/>
 
 </RelativeLayout>
