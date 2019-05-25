@@ -145,7 +145,7 @@ public class sales_summary extends AppCompatActivity {
        ordersAssembliesDao = database.ordersAssembliesDao();
 
        //productsList = productsDao.getAllProducts();
-       ordersList = ordersDao.getordersforComfirm();
+       ordersList = ordersDao.getordersforComfirm(idSeller);
        assembliesProductsList = assembliesProductsDao.getAllAssemblies();
        orderAssembliesList = ordersAssembliesDao.getAllorderAssemblies();
 

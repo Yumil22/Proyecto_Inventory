@@ -1,6 +1,7 @@
 package com.example.sales_partner_v21.Database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.ArrayList;
@@ -19,4 +20,10 @@ public interface ProductsCategoriesDao {
 
     @Query("SELECT * FROM product_categories")
     List<ProductsCategories> getAllProductsCategories();
+
+    @Query("Delete from product_categories")
+    public void DeleteProductCategoriesTable();
+
+    @Insert
+    void InsertProductCategories(ProductsCategories productsCategories);
 }

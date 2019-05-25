@@ -406,6 +406,8 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
         ordersToolbar = findViewById(R.id.toolbar_orders);
         ordersRecyclerView = findViewById(R.id.orders_RecyclerView);
 
+
+
         SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
         idSeller = configPreferences.getInt("IDSELLER", -1);
 
@@ -521,7 +523,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses));
+                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses, idSeller));
 
                     customers.clear();
                     orderStatuses.clear();
@@ -591,7 +593,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses));
+                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses, idSeller));
 
                     customers.clear();
                     orderStatuses.clear();
@@ -642,7 +644,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrderByFinalDate(finalFilterDate,clientsIDs, statuses));
+                    orders.addAll(ordersDao.getFilterOrderByFinalDate(finalFilterDate,clientsIDs, statuses, idSeller));
 
                     customers.clear();
                     orderStatuses.clear();
@@ -673,7 +675,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                 }
                 else if (SEARCH_PRESS4){
                     // FILTRADO POR CLIENTES Y ESTADOS
-                    orders.addAll(ordersDao.getFilterOrdersByIDAndStatus(clientsIDs,statuses));
+                    orders.addAll(ordersDao.getFilterOrdersByIDAndStatus(clientsIDs,statuses, idSeller));
                     customers.clear();
                     orderStatuses.clear();
                     if (orders != null){
@@ -890,7 +892,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses));
+                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses, idSeller));
 
                     customers.clear();
                     orderStatuses.clear();
@@ -966,8 +968,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses));
-
+                    orders.addAll(ordersDao.getFilterOrders(initialFilterDate,finalFilterDate,clientsIDs, statuses, idSeller));
                     customers.clear();
                     orderStatuses.clear();
                     qtyAssemblies.clear();
@@ -1023,7 +1024,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
 
                     // FILTRADO POR FECHA, CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrderByFinalDate(finalFilterDate,clientsIDs, statuses));
+                    orders.addAll(ordersDao.getFilterOrderByFinalDate(finalFilterDate,clientsIDs, statuses, idSeller));
 
                     customers.clear();
                     orderStatuses.clear();
@@ -1061,7 +1062,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
                     Toast.makeText(this,"Buscando...",Toast.LENGTH_SHORT).show();
                     // FILTRADO POR CLIENTES Y ESTADOS
                     orders.clear();
-                    orders.addAll(ordersDao.getFilterOrdersByIDAndStatus(clientsIDs,statuses));
+                    orders.addAll(ordersDao.getFilterOrdersByIDAndStatus(clientsIDs,statuses, idSeller));
 
                     customers.clear();
                     orderStatuses.clear();

@@ -60,4 +60,9 @@ public interface OrdersAssembliesDao {
     @Query("DELETE FROM order_assemblies WHERE order_id IN (:orders_ids)")
     void DeleteOrderAssembliesByOrdersID(int[] orders_ids);
 
+    @Query("Delete from order_assemblies")
+    public void DeleteOrderAssembliesTable();
+
+    @Insert
+    void InsertOrderAssemblies(OrderAssemblies orderAssemblies);
 }

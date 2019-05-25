@@ -20,15 +20,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Assemblies;
+import com.example.sales_partner_v21.Database.AssembliesDao;
 import com.example.sales_partner_v21.Database.AssembliesProducts;
+import com.example.sales_partner_v21.Database.AssembliesProductsDao;
 import com.example.sales_partner_v21.Database.Customers;
+import com.example.sales_partner_v21.Database.CustomersDao;
 import com.example.sales_partner_v21.Database.OrderAssemblies;
 import com.example.sales_partner_v21.Database.OrderStatus;
+import com.example.sales_partner_v21.Database.OrderStatusDao;
 import com.example.sales_partner_v21.Database.Orders;
+import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
+import com.example.sales_partner_v21.Database.OrdersDao;
 import com.example.sales_partner_v21.Database.Products;
 import com.example.sales_partner_v21.Database.ProductsCategories;
+import com.example.sales_partner_v21.Database.ProductsCategoriesDao;
+import com.example.sales_partner_v21.Database.ProductsDao;
 import com.example.sales_partner_v21.Database.Sellers;
+import com.example.sales_partner_v21.Database.SellersDao;
 import com.example.sales_partner_v21.SellersLogin.SellersLogin;
 import com.facebook.stetho.Stetho;
 
@@ -65,6 +75,28 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
         log = configPreferences.getBoolean("CODIGOLOGIN", false);
         idSeller = configPreferences.getInt("IDSELLER", -1);
+
+        Toast.makeText(this, "" + idSeller, Toast.LENGTH_SHORT).show();
+
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        //final SellersDao sellersDao = database.sellersDao();
+        final AssembliesDao assembliesDao = database.assembliesDao();
+        final AssembliesProductsDao assembliesProductsDao = database.assembliesProductsDao();
+        final CustomersDao customersDao = database.customersDao();
+        final OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
+        final OrdersDao ordersDao = database.ordersDao();
+        final OrderStatusDao orderStatusDao = database.orderStatusDao();
+        final ProductsCategoriesDao productsCategoriesDao = database.productsCategoriesDao();
+        final ProductsDao productsDao = database.productsDao();
+        assembliesDao.DeleteAssembliesTable();
+        assembliesProductsDao.DeleteAssemblyProductsTable();
+        customersDao.DeleteCustomersTable();
+        ordersAssembliesDao.DeleteOrderAssembliesTable();
+        ordersDao.DeleteOrdersTable();
+        //orderStatusDao.DeleteOrderStatusTable();
+        //productsCategoriesDao.DeleteProductCategoriesTable();
+        //productsDao.DeleteProductsTable();
+
 
         //ACTUALIZO TODAS MIS TABLAS
         cargarWebServiseAll();
@@ -206,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
                         OrdersBtn.setEnabled(false);
                         ClientsBtn.setEnabled(false);
                         AssembliesBtn.setEnabled(false);
+                        //sellersDao.DeleteSellersTable();
+
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel,null);
@@ -296,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
     private String qty_oa = "";
 
 
-    private   String url =  "http://192.168.1.77:3000/assemblies/"  ;
+    private   String url =  "http://192.168.43.246:3000/assemblies/"  ;
 
 
     private List<OrderAssemblies> ordersAssembliesRemoteDatabase = new ArrayList<>();
@@ -305,16 +339,28 @@ public class MainActivity extends AppCompatActivity {
     private JsonArrayRequest getRequest;
 
     private void cargarWebServiseAll() {
+
+        //Llamado a la base de datos para la utilizacion de Dao's
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        final SellersDao sellersDao = database.sellersDao();
+        final AssembliesDao assembliesDao = database.assembliesDao();
+        final AssembliesProductsDao assembliesProductsDao = database.assembliesProductsDao();
+        final CustomersDao customersDao = database.customersDao();
+        final OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
+        final OrdersDao ordersDao = database.ordersDao();
+        final OrderStatusDao orderStatusDao = database.orderStatusDao();
+        final ProductsCategoriesDao productsCategoriesDao = database.productsCategoriesDao();
+        final ProductsDao productsDao = database.productsDao();
 //Actualizo assemblies
         request = Volley.newRequestQueue(MainActivity.this);
         request2 = Volley.newRequestQueue(MainActivity.this);
-        String url2 = "http://192.168.1.77:3000/assemblies/products/"  ;
-        String url3 = "http://192.168.1.77:3000/customers/"  ;
-        String url4 = "http://192.168.1.77:3000/order/"  ;
-        String url5 = "http://192.168.1.77:3000/order/status/"  ;
-        String url6 = "http://192.168.1.77:3000/products/"  ;
-        String url7 = "http://192.168.1.77:3000/products/categories/"  ;
-        String url8 = "http://192.168.1.77:3000/order/assemblies/"  ;
+        String url2 = "http://192.168.43.246:3000/assemblies/products/"  ;
+        String url3 = "http://192.168.43.246:3000/customers/"  ;
+        String url4 = "http://192.168.43.246:3000/order/"  ;
+        String url5 = "http://192.168.43.246:3000/order/status/"  ;
+        String url6 = "http://192.168.43.246:3000/products/"  ;
+        String url7 = "http://192.168.43.246:3000/products/categories/"  ;
+        String url8 = "http://192.168.43.246:3000/order/assemblies/"  ;
 
          getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
@@ -331,9 +377,12 @@ public class MainActivity extends AppCompatActivity {
                                 id_assemblies = jsonObject.getInt("id");
                                 description_assemblies = jsonObject.getString("description");
 
-                                assembliesRemoteDatabase.add(new Assemblies( id_assemblies , description_assemblies ));
-                            }
+                                //assembliesRemoteDatabase.add(new Assemblies( id_assemblies , description_assemblies ));
 
+                                //ACTULIZACION DE LA TABLA
+                                assembliesDao.InsertAssemblies(new Assemblies( id_assemblies , description_assemblies));
+                            }
+                            Toast.makeText(MainActivity.this, "ASSEMBLIES", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -372,8 +421,11 @@ public class MainActivity extends AppCompatActivity {
                                 product_id_db = jsonObject.getString("product_id");
                                 qty_db = jsonObject.getString("qty");
 
-                                assemblyProductsRemoteDatabase.add(new AssembliesProducts( Integer.parseInt(assembly_id_db) , Integer.parseInt(product_id_db), Integer.parseInt(qty_db) ));
+                                //assemblyProductsRemoteDatabase.add(new AssembliesProducts( Integer.parseInt(assembly_id_db) , Integer.parseInt(product_id_db), Integer.parseInt(qty_db) ));
+                                //ACTUALIZACION DE LA TABLA
+                                assembliesProductsDao.InsertAssemblyProducts(new AssembliesProducts( Integer.parseInt(assembly_id_db) , Integer.parseInt(product_id_db), Integer.parseInt(qty_db)));
                             }
+                            Toast.makeText(MainActivity.this, "ASSEMBLIESPRODUCTS", Toast.LENGTH_LONG).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -420,11 +472,13 @@ public class MainActivity extends AppCompatActivity {
                                 phone_3_db = jsonObject.getString("phone3");
                                 email_db = jsonObject.getString("email");
                                 active_db = jsonObject.getString("active");
-                                customersRemoteDatabase.add(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db) ));
+                                //customersRemoteDatabase.add(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db) ));
                                 //Toast.makeText(SellersLogin.this, first_name, Toast.LENGTH_LONG).show();
 
+                                //ACTUALIZACION DE LA TABLA
+                                customersDao.InsertCustomers(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db)));
                             }
-
+                            Toast.makeText(MainActivity.this, "CUSTOMERS", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -468,10 +522,14 @@ public class MainActivity extends AppCompatActivity {
                                 change_log_db = jsonObject.getString("change_log");
                                 seller_id_orders_db = jsonObject.getString("seller_id");
 
-                                ordersRemoteDatabase.add(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
+                               // ordersRemoteDatabase.add(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
+                               //         date_orders_db, change_log_db, Integer.parseInt(seller_id_orders_db)));
+
+                                //ACTUALIZACION DE LA TABLA
+                                ordersDao.InsertOrders(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
                                         date_orders_db, change_log_db, Integer.parseInt(seller_id_orders_db)));
                             }
-
+                            Toast.makeText(MainActivity.this, "ORDERS", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -514,8 +572,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 ordersStatusRemoteDatabase.add(new OrderStatus( Integer.parseInt(id_orderStatus_db) , description_orderStatus_db, Integer.parseInt(editable_orderSatus_db),
                                         previous_orderStatus_db, next_orderStatus_db));
+                                //ACTUALIZACION DE LA TABLA
+                                //orderStatusDao.InsertOrderStatus(new OrderStatus( Integer.parseInt(id_orderStatus_db) , description_orderStatus_db, Integer.parseInt(editable_orderSatus_db),
+                                  //      previous_orderStatus_db, next_orderStatus_db));
                             }
-
+                            Toast.makeText(MainActivity.this, "ORDERSTATUS", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -558,8 +619,12 @@ public class MainActivity extends AppCompatActivity {
 
                                 ProductsRemoteDatabase.add(new Products( Integer.parseInt(id_product_products) ,  Integer.parseInt(category_id_products), description_products,
                                         Integer.parseInt( price_products), Integer.parseInt(qty_products)));
-                            }
 
+                                //ACTUALIACION DE LA TABLA
+                               // productsDao.InsertProducts(new Products( Integer.parseInt(id_product_products) ,  Integer.parseInt(category_id_products), description_products,
+                                 //       Integer.parseInt( price_products), Integer.parseInt(qty_products)));
+                            }
+                            Toast.makeText(MainActivity.this,  "PRODUCTS", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -599,7 +664,11 @@ public class MainActivity extends AppCompatActivity {
                                 description_products_category = jsonObject.getString("description");
 
                                 ProductsCategoryRemoteDatabase.add(new ProductsCategories( Integer.parseInt(id_products_category) ,  description_products_category));
+
+                                //ACTUALIACION DE LA TABLA
+                                //productsCategoriesDao.InsertProductCategories(new ProductsCategories( Integer.parseInt(id_products_category) ,  description_products_category));
                             }
+                            Toast.makeText(MainActivity.this, "PRODUCTCATEGORIES", Toast.LENGTH_LONG).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -640,9 +709,11 @@ public class MainActivity extends AppCompatActivity {
                                 assembly_id_oa = jsonObject.getString("assembly_id");
                                 qty_oa        =  jsonObject.getString("qty");
 
-                                ordersAssembliesRemoteDatabase.add(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa) ));
+                                ordersAssembliesRemoteDatabase.add(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa)));
+                                //ACTUALIZACION DE LA TABLA
+                                ordersAssembliesDao.InsertOrderAssemblies(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa)));
                             }
-
+                            Toast.makeText(MainActivity.this, "ORDERASSEMBLIES", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

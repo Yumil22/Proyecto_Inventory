@@ -1,6 +1,7 @@
 package com.example.sales_partner_v21.Database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -60,4 +61,9 @@ public interface ProductsDao {
             " WHERE o.id = :orderId")
     List<Products> getproductsNeededbyOrderId(int orderId);
 
+    @Query("Delete from products")
+    public void DeleteProductsTable();
+
+    @Insert
+    void InsertProducts(Products products);
 }

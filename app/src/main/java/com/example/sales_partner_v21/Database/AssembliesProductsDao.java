@@ -2,6 +2,7 @@ package com.example.sales_partner_v21.Database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -23,4 +24,10 @@ public interface AssembliesProductsDao {
 
     @Query("SELECT * FROM assembly_products")
     List<AssembliesProducts> getAllAssemblies();
+
+    @Query("Delete from assembly_products")
+    public void DeleteAssemblyProductsTable();
+
+    @Insert
+    void InsertAssemblyProducts(AssembliesProducts assembliesProducts);
 }

@@ -71,4 +71,10 @@ public interface CustomersDao {
             " INNER JOIN products p ON p.id = ap.product_id" +
             " WHERE o.status_id = 0 GROUP BY o.id ORDER BY SUM(p.price)ASC")
     List<Integer> getIdLesscount();
+
+    @Query("Delete from customers")
+    public void DeleteCustomersTable();
+
+    @Insert
+    void InsertCustomers(Customers customers);
 }

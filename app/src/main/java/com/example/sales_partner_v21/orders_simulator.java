@@ -284,7 +284,7 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                     if(CONTROL_CUSTOMER == false){
                         customerNameList = new ArrayList<>();
                         customerList = new ArrayList<>();
-                        customerNameList = ordersDao.getcustomerForComfirm();
+                        customerNameList = ordersDao.getcustomerForComfirm(idSeller);
                         customerNameList.add(0, "Choose one");
                         Control_customer = customerNameList.size();
 

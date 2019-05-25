@@ -1,6 +1,7 @@
 package com.example.sales_partner_v21.Database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.sql.Array;
@@ -29,4 +30,10 @@ public interface AssembliesDao {
             "INNER JOIN products p ON p.id = ap.product_id " +
             " WHERE a.id = :asid")
     public int getPriceyAssembled(int asid);
+
+    @Query("Delete from assemblies")
+    public void DeleteAssembliesTable();
+
+    @Insert
+    void InsertAssemblies(Assemblies assemblies);
 }

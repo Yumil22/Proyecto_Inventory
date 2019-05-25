@@ -248,10 +248,10 @@ public abstract class AppDatabase extends RoomDatabase {
                                     "VALUES (5, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx', 0)");
 
                             // SELLERS
-                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Alejandro', 'Matos', 'AlexJMatos7', 'alexmatos777')");
-                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Tony', 'Jimenez', 'Tony98', 'pikachu98')");
-                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Karim', 'Caamal', 'Karim98', 'paola')");
-                            db.execSQL("INSERT INTO sellers (first_name, last_name, user_name, password) VALUES ('Yumil', 'Rueda', 'Yumil98', 'yumil69')");
+                            db.execSQL("INSERT INTO sellers (id, first_name, last_name, user_name, password) VALUES (5,'Alejandro', 'Matos', 'AlexJMatos7', 'alexmatos777')");
+                            db.execSQL("INSERT INTO sellers (id, first_name, last_name, user_name, password) VALUES (1,'Tony', 'Jimenez', 'Tony98', 'pikachu98')");
+                            db.execSQL("INSERT INTO sellers (id, first_name, last_name, user_name, password) VALUES (2,'Karim', 'Caamal', 'Karim98', 'paola')");
+                            db.execSQL("INSERT INTO sellers (id, first_name, last_name, user_name, password) VALUES (3,'Yumil', 'Rueda', 'Yumil98', 'yumil69')");
 
                             // ORDER STATUS
                             // Pendiente: es cuando se introduce al sistema, puede ser confirmado o cancelado por el cliente

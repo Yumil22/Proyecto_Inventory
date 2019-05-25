@@ -184,87 +184,87 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
                 assemblyDate = new ArrayList<>(list);
                 inCome = new ArrayList<>(list);
                year = savedInstanceState.getString(SAVED_YEAR);
-                if(!ordersDao.getordersbydate(year +"0101",year + "0131").isEmpty()){
+                if(!ordersDao.getordersbydate(year +"0101",year + "0131", idSeller).isEmpty()){
                     mounths.add("Enero");
-                    countSales.add(ordersDao.getordersbydate(year +"0101",year + "0131").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0101",year + "0131", idSeller).size());
                     assemblyDate.add(year+"0101"+year + "0131");
-                    inCome.add(ordersDao.getCountbyDate(year +"0101",year + "0131"));
+                    inCome.add(ordersDao.getCountbyDate(year +"0101",year + "0131", idSeller));
                 }
-                if(!ordersDao.getordersbydate(year + "0201", year +"0229").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "0201", year +"0229", idSeller).isEmpty()){
                     mounths.add("Febrero");
-                    countSales.add(ordersDao.getordersbydate(year +"0201",year + "0229").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0201",year + "0229", idSeller).size());
                     assemblyDate.add(year+"0201"+year + "0229");
-                    inCome.add(ordersDao.getCountbyDate(year + "0201", year +"0229"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0201", year +"0229", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "0301", year + "0331").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "0301", year + "0331", idSeller).isEmpty()){
                     mounths.add("Marzo");
-                    countSales.add(ordersDao.getordersbydate(year +"0301",year + "0331").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0301",year + "0331", idSeller).size());
                     assemblyDate.add(year+"0301"+year + "0331");
-                    inCome.add(ordersDao.getCountbyDate(year + "0301", year +"0331"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0301", year +"0331", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate( year + "0401",  year +"0431").isEmpty()){
+                if(!ordersDao.getordersbydate( year + "0401",  year +"0431", idSeller).isEmpty()){
                     mounths.add("Abril");
-                    countSales.add(ordersDao.getordersbydate(year +"0401",year + "0431").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0401",year + "0431", idSeller).size());
                     assemblyDate.add(year+"0401"+year + "0431");
-                    inCome.add(ordersDao.getCountbyDate(year + "0401", year +"0431"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0401", year +"0431", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year +"0501", year + "0531").isEmpty()){
+                if(!ordersDao.getordersbydate(year +"0501", year + "0531", idSeller).isEmpty()){
                     mounths.add("Mayo");
-                    countSales.add(ordersDao.getordersbydate(year +"0501",year + "0531").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0501",year + "0531", idSeller).size());
                     assemblyDate.add(year+"0501"+year + "0531");
-                    inCome.add(ordersDao.getCountbyDate(year + "0501", year +"0531"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0501", year +"0531", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "0601", year + "0631").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "0601", year + "0631", idSeller).isEmpty()){
                     mounths.add("Junio");
-                    countSales.add(ordersDao.getordersbydate(year +"0601",year + "0631").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0601",year + "0631", idSeller).size());
                     assemblyDate.add(year+"0601"+year + "0631");
-                    inCome.add(ordersDao.getCountbyDate(year + "0601", year +"0631"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0601", year +"0631", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "0701", year + "0731").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "0701", year + "0731", idSeller).isEmpty()){
                     mounths.add("Julio");
-                    countSales.add(ordersDao.getordersbydate(year +"0701",year + "0731").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0701",year + "0731", idSeller).size());
                     assemblyDate.add(year+"0701"+year + "0731");
-                    inCome.add(ordersDao.getCountbyDate(year + "0701", year +"0731"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0701", year +"0731", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "0801", year + "0831").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "0801", year + "0831", idSeller).isEmpty()){
                     mounths.add("Agosto");
-                    countSales.add(ordersDao.getordersbydate(year +"0801",year + "0831").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0801",year + "0831", idSeller).size());
                     assemblyDate.add(year+"0801"+year + "0831");
-                    inCome.add(ordersDao.getCountbyDate(year + "0801", year +"0831"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0801", year +"0831", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "0901", year + "0931").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "0901", year + "0931", idSeller).isEmpty()){
                     mounths.add("Septiembre");
-                    countSales.add(ordersDao.getordersbydate(year +"0901",year + "0931").size());
+                    countSales.add(ordersDao.getordersbydate(year +"0901",year + "0931", idSeller).size());
                     assemblyDate.add(year+"0901"+year + "0931");
-                    inCome.add(ordersDao.getCountbyDate(year + "0901", year +"0931"));
+                    inCome.add(ordersDao.getCountbyDate(year + "0901", year +"0931", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "1001", year + "1031").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "1001", year + "1031", idSeller).isEmpty()){
                     mounths.add("Octubre");
-                    countSales.add(ordersDao.getordersbydate(year +"1001",year + "1031").size());
+                    countSales.add(ordersDao.getordersbydate(year +"1001",year + "1031", idSeller).size());
                     assemblyDate.add(year+"1001"+year + "1031");
-                    inCome.add(ordersDao.getCountbyDate(year + "1001", year +"1031"));
+                    inCome.add(ordersDao.getCountbyDate(year + "1001", year +"1031", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "1101", year + "1131").isEmpty()){
+                if(!ordersDao.getordersbydate(year + "1101", year + "1131", idSeller).isEmpty()){
                     mounths.add("Nomviembre");
-                    countSales.add(ordersDao.getordersbydate(year +"1101",year + "1131").size());
+                    countSales.add(ordersDao.getordersbydate(year +"1101",year + "1131", idSeller).size());
                     assemblyDate.add(year+"1101"+year + "1131");
-                    inCome.add(ordersDao.getCountbyDate(year + "1101", year +"1131"));
+                    inCome.add(ordersDao.getCountbyDate(year + "1101", year +"1131", idSeller));
 
                 }
-                if(!ordersDao.getordersbydate(year + "1201", year + "1231").isEmpty()) {
+                if(!ordersDao.getordersbydate(year + "1201", year + "1231", idSeller).isEmpty()) {
                     mounths.add("Diciembre");
-                    countSales.add(ordersDao.getordersbydate(year +"1201",year + "1231").size());
+                    countSales.add(ordersDao.getordersbydate(year +"1201",year + "1231", idSeller).size());
                     assemblyDate.add(year+"1201"+year + "1231");
-                    inCome.add(ordersDao.getCountbyDate(year + "1201", year +"1231"));
+                    inCome.add(ordersDao.getCountbyDate(year + "1201", year +"1231", idSeller));
 
                 }
 
@@ -336,87 +336,87 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
                     Toast.makeText(Sales_summary_mounth.this, "Selecciona un año", Toast.LENGTH_LONG);
                     //este toast es porcualquier cosa XD
                 }else {
-                    if(!ordersDao.getordersbydate(year +"0101",year + "0131").isEmpty()){
+                    if(!ordersDao.getordersbydate(year +"0101",year + "0131", idSeller).isEmpty()){
                         mounths.add("Enero");
-                        countSales.add(ordersDao.getordersbydate(year +"0101",year + "0131").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0101",year + "0131", idSeller).size());
                         assemblyDate.add(year+"0101"+year + "0131");
-                        inCome.add(ordersDao.getCountbyDate(year +"0101",year + "0131"));
+                        inCome.add(ordersDao.getCountbyDate(year +"0101",year + "0131", idSeller));
                     }
-                    if(!ordersDao.getordersbydate(year + "0201", year +"0229").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "0201", year +"0229", idSeller).isEmpty()){
                         mounths.add("Febrero");
-                        countSales.add(ordersDao.getordersbydate(year +"0201",year + "0229").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0201",year + "0229", idSeller).size());
                         assemblyDate.add(year+"0201"+year + "0229");
-                        inCome.add(ordersDao.getCountbyDate(year + "0201", year +"0229"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0201", year +"0229", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "0301", year + "0331").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "0301", year + "0331", idSeller).isEmpty()){
                         mounths.add("Marzo");
-                        countSales.add(ordersDao.getordersbydate(year +"0301",year + "0331").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0301",year + "0331", idSeller).size());
                         assemblyDate.add(year+"0301"+year + "0331");
-                        inCome.add(ordersDao.getCountbyDate(year + "0301", year +"0331"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0301", year +"0331", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate( year + "0401",  year +"0431").isEmpty()){
+                    if(!ordersDao.getordersbydate( year + "0401",  year +"0431", idSeller).isEmpty()){
                         mounths.add("Abril");
-                        countSales.add(ordersDao.getordersbydate(year +"0401",year + "0431").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0401",year + "0431", idSeller).size());
                         assemblyDate.add(year+"0401"+year + "0431");
-                        inCome.add(ordersDao.getCountbyDate(year + "0401", year +"0431"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0401", year +"0431", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year +"0501", year + "0531").isEmpty()){
+                    if(!ordersDao.getordersbydate(year +"0501", year + "0531", idSeller).isEmpty()){
                         mounths.add("Mayo");
-                        countSales.add(ordersDao.getordersbydate(year +"0501",year + "0531").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0501",year + "0531", idSeller).size());
                         assemblyDate.add(year+"0501"+year + "0531");
-                        inCome.add(ordersDao.getCountbyDate(year + "0501", year +"0531"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0501", year +"0531", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "0601", year + "0631").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "0601", year + "0631", idSeller).isEmpty()){
                         mounths.add("Junio");
-                        countSales.add(ordersDao.getordersbydate(year +"0601",year + "0631").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0601",year + "0631", idSeller).size());
                         assemblyDate.add(year+"0601"+year + "0631");
-                        inCome.add(ordersDao.getCountbyDate(year + "0601", year +"0631"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0601", year +"0631", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "0701", year + "0731").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "0701", year + "0731", idSeller).isEmpty()){
                         mounths.add("Julio");
-                        countSales.add(ordersDao.getordersbydate(year +"0701",year + "0731").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0701",year + "0731", idSeller).size());
                         assemblyDate.add(year+"0701"+year + "0731");
-                        inCome.add(ordersDao.getCountbyDate(year + "0701", year +"0731"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0701", year +"0731", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "0801", year + "0831").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "0801", year + "0831", idSeller).isEmpty()){
                         mounths.add("Agosto");
-                        countSales.add(ordersDao.getordersbydate(year +"0801",year + "0831").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0801",year + "0831", idSeller).size());
                         assemblyDate.add(year+"0801"+year + "0831");
-                        inCome.add(ordersDao.getCountbyDate(year + "0801", year +"0831"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0801", year +"0831", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "0901", year + "0931").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "0901", year + "0931", idSeller).isEmpty()){
                         mounths.add("Septiembre");
-                        countSales.add(ordersDao.getordersbydate(year +"0901",year + "0931").size());
+                        countSales.add(ordersDao.getordersbydate(year +"0901",year + "0931", idSeller).size());
                         assemblyDate.add(year+"0901"+year + "0931");
-                        inCome.add(ordersDao.getCountbyDate(year + "0901", year +"0931"));
+                        inCome.add(ordersDao.getCountbyDate(year + "0901", year +"0931", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "1001", year + "1031").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "1001", year + "1031", idSeller).isEmpty()){
                         mounths.add("Octubre");
-                        countSales.add(ordersDao.getordersbydate(year +"1001",year + "1031").size());
+                        countSales.add(ordersDao.getordersbydate(year +"1001",year + "1031", idSeller).size());
                         assemblyDate.add(year+"1001"+year + "1031");
-                        inCome.add(ordersDao.getCountbyDate(year + "1001", year +"1031"));
+                        inCome.add(ordersDao.getCountbyDate(year + "1001", year +"1031", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "1101", year + "1131").isEmpty()){
+                    if(!ordersDao.getordersbydate(year + "1101", year + "1131", idSeller).isEmpty()){
                         mounths.add("Nomviembre");
-                        countSales.add(ordersDao.getordersbydate(year +"1101",year + "1131").size());
+                        countSales.add(ordersDao.getordersbydate(year +"1101",year + "1131", idSeller).size());
                         assemblyDate.add(year+"1101"+year + "1131");
-                        inCome.add(ordersDao.getCountbyDate(year + "1101", year +"1131"));
+                        inCome.add(ordersDao.getCountbyDate(year + "1101", year +"1131", idSeller));
 
                     }
-                    if(!ordersDao.getordersbydate(year + "1201", year + "1231").isEmpty()) {
+                    if(!ordersDao.getordersbydate(year + "1201", year + "1231", idSeller).isEmpty()) {
                         mounths.add("Diciembre");
-                        countSales.add(ordersDao.getordersbydate(year +"1201",year + "1231").size());
+                        countSales.add(ordersDao.getordersbydate(year +"1201",year + "1231", idSeller).size());
                         assemblyDate.add(year+"1201"+year + "1231");
-                        inCome.add(ordersDao.getCountbyDate(year + "1201", year +"1231"));
+                        inCome.add(ordersDao.getCountbyDate(year + "1201", year +"1231", idSeller));
 
                     }
 

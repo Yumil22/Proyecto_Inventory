@@ -20,7 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sales_partner_v21.Database.AppDatabase;
+import com.example.sales_partner_v21.Database.CustomersDao;
 import com.example.sales_partner_v21.Database.Sellers;
+import com.example.sales_partner_v21.Database.SellersDao;
 import com.example.sales_partner_v21.MainActivity;
 import com.example.sales_partner_v21.ProductsActivity;
 import com.example.sales_partner_v21.R;
@@ -53,21 +56,31 @@ import java.util.List;
 
      public RequestQueue request;
 
-    @Override
+     @Override
+     public void onBackPressed() {
+         super.onBackPressed();
+         Intent intent = new Intent(SellersLogin.this, MainActivity.class);
+         SellersLogin.super.finish();
+         startActivityForResult(intent, MainActivity.PRINCIPAL_REQUEST_CODE);
+     }
+
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sellers_login);
-
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        SellersDao sellersDao = database.sellersDao();
+        sellersDao.DeleteSellersTable();
         Getseller = findViewById(R.id.seller_login);
         Getpassword = findViewById(R.id.seller_password);
         test = findViewById(R.id.button_log);
         detail = findViewById(R.id.details_sm);
 //AQUI VOY A REALIZAR LA ACTUALIZACION DE LOS USUARIOS
         request = Volley.newRequestQueue(SellersLogin.this);
-
         cargarWebServise(); //GENERO LA LISTA DE NUEVOS USUARIOS, POR LO TANTO REALIZO EL UPDATE GENERAL DE LA TABLA
 
 //AQUI VOY A REALIZAR LA ACTUALIZACION DE LOS USUARIOS
+
 
         model = ViewModelProviders.of(this).get(SellersModel.class);
 
@@ -115,14 +128,17 @@ import java.util.List;
      private JSONObject jsonObject;
      private JSONArray jsonArray;
      private String first_name_list = "";
+     private String id_list = "";
      private String last_name_list = "";
      private String user_name_list = "";
      private String password_list = "";
      private List<Sellers> sellersRemoteDatabase = new ArrayList<>();
      private List<Sellers> sellersRemoteDatabase2 = new ArrayList<>();
      private void cargarWebServise() {
+         AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+         final SellersDao sellersDao = database.sellersDao();
 
-         String url = "http://192.168.1.81:3000/sellers/"  ;
+         String url = "http://192.168.43.246:3000/sellers/"  ;
 
          JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                  new Response.Listener<JSONArray>()
@@ -137,19 +153,28 @@ import java.util.List;
                              for(int i =0; i<= jsonArray.length();i++){
                                  jsonObject = jsonArray.getJSONObject(i);
                                  password_list = jsonObject.getString("password");
+                                 id_list = jsonObject.getString("id");
                                  first_name_list = jsonObject.getString("first_name");
                                  last_name_list = jsonObject.getString("last_name");
                                  user_name_list = jsonObject.getString("user_name");
-                                 sellersRemoteDatabase.add(new Sellers(i ,first_name_list, last_name_list, user_name_list, password_list ));
-                                 //Toast.makeText(SellersLogin.this, first_name, Toast.LENGTH_LONG).show();
-
+                                 //sellersRemoteDatabase.add(new Sellers(Integer.valueOf(id_list) ,String.valueOf(first_name_list), String.valueOf(last_name_list),String.valueOf(user_name_list),String.valueOf(password_list) ));
+                                 sellersDao.InsertSeller(new Sellers(Integer.valueOf(id_list) ,String.valueOf(first_name_list), String.valueOf(last_name_list),String.valueOf(user_name_list),String.valueOf(password_list)));
+                                 Toast.makeText(SellersLogin.this, ""+Integer.valueOf(id_list), Toast.LENGTH_LONG).show();
+                                 SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
+                                 SharedPreferences.Editor idEditor= configPreferences.edit();
+                                 idEditor.putInt("IDSELLER", -1);
+                                 idEditor.apply();
                              }
 
                          } catch (JSONException e) {
                              e.printStackTrace();
                          }
                          sellersRemoteDatabase2 = sellersRemoteDatabase;
+
 //AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                        /** for(int i=0; i<sellersRemoteDatabase.size();i++){
+                             sellersDao.InsertSeller(new Sellers(sellersRemoteDatabase.get().getId()));
+                         }*/
                      }
                  },
                  new Response.ErrorListener()

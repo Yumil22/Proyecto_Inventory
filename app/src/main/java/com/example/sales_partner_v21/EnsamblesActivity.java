@@ -252,4 +252,12 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
         intent.putExtra(ENSAMBLE_ID,assemblies.get(position).getId());
         startActivity(intent);
     }
+
+    //String de assemblies
+    private int id_assemblies  ;
+    private String description_assemblies = "";
+    private List<Assemblies> assembliesRemoteDatabase = new ArrayList<>();
+    private List<Assemblies> assembliesRemoteDatabase2 = new ArrayList<>();
+
+
 }
