@@ -16,6 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +32,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Assemblies;
 import com.example.sales_partner_v21.Database.AssembliesDao;
@@ -41,11 +49,17 @@ import com.example.sales_partner_v21.Database.Orders;
 import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
 import com.example.sales_partner_v21.Database.OrdersDao;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class AddNewOrderAdapter extends RecyclerView.Adapter<AddNewOrderAdapter.ViewHolder>{
     public List<Assemblies> assembliesOrder;
@@ -193,11 +207,14 @@ public class activityAddNewOrder extends AppCompatActivity {
     public String ENSAMBLE_ID = "ENSAMBLE_ID";
     public String QTYS = "QTYS";
     int idSeller;
+    public RequestQueue request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_order);
+
+        request = Volley.newRequestQueue(activityAddNewOrder.this);
 
         SharedPreferences configPreferences = getSharedPreferences("LOG", 0);
         idSeller = configPreferences.getInt("IDSELLER", -1);
@@ -343,11 +360,15 @@ public class activityAddNewOrder extends AppCompatActivity {
                             day = String.valueOf(DayOfMonth);
                         }
                         final String date = Year  + month  + day;
-                        Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
-                        ordersDao.InsertNewOrder(NewOrder);
+                        //AGREGA LA ORDEN A "ORDERS"
+                       // Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
+                        AddNewOrder(0,ClientID,date,idSeller);
+                       // ordersDao.InsertNewOrder(NewOrder);
                         int counter = 0;
                         for (Assemblies assembly : assembliesOrder){
-                            ordersAssembliesDao.InsertNewOrdersAssembly(new OrderAssemblies(ordersDao.getMaxID(),assembly.getId(),adapter.quantities.get(counter)));
+                            //agrega el assembly
+                            //ordersAssembliesDao.InsertNewOrdersAssembly(new OrderAssemblies(ordersDao.getMaxID(),assembly.getId(),adapter.quantities.get(counter)));
+                            AddNewOrderAssemblies(assembly.getId(), adapter.quantities.get(counter));
                             counter++;
                         }
                         activityAddNewOrder.this.finish();
@@ -439,5 +460,182 @@ public class activityAddNewOrder extends AppCompatActivity {
 
         AlertDialog alert = alertdialog.create();
         alertdialog.show();
+    }
+
+    public JSONArray jsonArray2;
+    public JSONObject jsonObject;
+    public String id_max_orders;
+    private void AddNewOrder(final int status_id, final int customerId, final String date_new, final int idSeller ){
+        //Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
+        String url = "http://192.168.1.81:3000/add_new_order"  ;
+        String url2 = "http://192.168.1.81:3000/id_new_order";
+
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url2, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray2 = response;
+                        jsonObject = null;
+                        try {
+
+                            jsonObject = jsonArray2.getJSONObject(0);
+                            id_max_orders = jsonObject.getString("id");
+
+                            id_max_orders = String.valueOf(Integer.valueOf(id_max_orders)+1);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(activityAddNewOrder.this, "Fallo la coneccion",  Toast.LENGTH_SHORT).show();
+                        }
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(activityAddNewOrder.this, "Lost connect", Toast.LENGTH_LONG).show();
+
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        request.add(getRequest);
+
+//agregando nueva orden
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Toast.makeText(activityAddNewOrder.this, "Funcionó", Toast.LENGTH_SHORT).show();
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Toast.makeText(activityAddNewOrder.this, "Lost connect", Toast.LENGTH_LONG).show();
+                        Log.d("Error.Response", String.valueOf(error));
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(id_max_orders ));
+                params.put("status_id", String.valueOf(status_id));
+                params.put("customer_id", String.valueOf(customerId));
+                params.put("date", date_new);
+                params.put("change_log", "NULL");
+                params.put("seller_id", String.valueOf(idSeller));
+                params.put("domain", "192.168.1.81:3000");
+//CAMBIAR DOMINIO URL
+                return params;
+            }
+        };
+        request.add(postRequest);
+
+    }
+//Variables para order_assemblies
+    private String order_id_oa = "";
+    private String assembly_id_oa = "";
+    private String qty_oa = "";
+
+    private List<OrderAssemblies> ordersAssembliesRemoteDatabase = new ArrayList<>();
+    private List<OrderAssemblies> ordersAssembliesRemoteDatabase2 = new ArrayList<>();
+    private JSONArray jsonArray3;
+    private JSONObject jsonObject2;
+
+    private void AddNewOrderAssemblies(final int assembly_id, final int qty_2){
+        String url = "http://192.168.1.81:3000/add_new_order_assembly"  ;
+
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Toast.makeText(activityAddNewOrder.this, "Funcionó", Toast.LENGTH_SHORT).show();
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Toast.makeText(activityAddNewOrder.this, "Lost connect", Toast.LENGTH_LONG).show();
+                        Log.d("Error.Response", String.valueOf(error));
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("order_id", String.valueOf(id_max_orders ));
+                params.put("assembly_id", String.valueOf(assembly_id));
+                params.put("qty", String.valueOf(qty_2));
+                params.put("domain", "192.168.1.81:3000");
+//CAMBIAR DOMINIO URL
+                return params;
+            }
+        };
+        request.add(postRequest);
+
+
+        //Ya para concluir, reiniciamos todas las tablas, como un rerfresh de todo
+
+        String url8 = "http://192.168.43.246:3000/order/assemblies/"  ;
+
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        final OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
+        final OrdersDao ordersDao = database.ordersDao();
+        JsonArrayRequest getRequest8 = new JsonArrayRequest(Request.Method.GET, url8, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray3 = response;
+                        jsonObject2 = null;
+                        try {
+                            for(int i =0; i<= jsonArray3.length();i++){
+                                jsonObject2 = jsonArray3.getJSONObject(i);
+                                order_id_oa     = jsonObject2.getString("order_id");
+                                assembly_id_oa = jsonObject2.getString("assembly_id");
+                                qty_oa        =  jsonObject2.getString("qty");
+
+                                ordersAssembliesRemoteDatabase.add(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa)));
+                                //ACTUALIZACION DE LA TABLA
+                                ordersAssembliesDao.InsertOrderAssemblies(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa)));
+                            }
+                            Toast.makeText(activityAddNewOrder.this, "ORDERASSEMBLIES", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ordersAssembliesRemoteDatabase2 = ordersAssembliesRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(activityAddNewOrder.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
+        request.add(getRequest8);
+
     }
 }
