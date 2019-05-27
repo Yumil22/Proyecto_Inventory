@@ -345,7 +345,7 @@ public class EditOrder extends AppCompatActivity {
                 params.put("date", date_new);
                 params.put("change_log", "NULL");
                 params.put("seller_id", String.valueOf(idSeller));
-                params.put("domain", "192.168.1.81:3000");
+                params.put("domain", "192.168.1.101:3000");
 //CAMBIAR DOMINIO URL
                 return params;
             }
@@ -513,9 +513,13 @@ public class EditOrder extends AppCompatActivity {
     private int id_customer;
 
     private void DeleteOrder(int id_order){
+<<<<<<< HEAD
         String urlF = "http://192.168.1.101:3000/order/delete/"+ String.valueOf(id_order);
+=======
+        String urlF = "http://192.168.43.101:3000/order/delete/"+ id_order;
+>>>>>>> b053b62446efca5fc448cabc036f103bbca2d138
 
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, urlF, null,
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.DELETE, urlF, null,
                 new Response.Listener<JSONArray>()
                 {
                     @Override
@@ -540,9 +544,13 @@ public class EditOrder extends AppCompatActivity {
     }
     private void DeleteOrder_asselbly(int id_order){
 
+<<<<<<< HEAD
         String urlF = "http://192.168.1.101:3000/order_assemblies/delete/"+ String.valueOf(id_order);
+=======
+        String urlF = "http://192.168.43.101:3000/order_assemblies/delete/"+ id_order;
+>>>>>>> b053b62446efca5fc448cabc036f103bbca2d138
 
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, urlF, null,
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.DELETE, urlF, null,
                 new Response.Listener<JSONArray>()
                 {
                     @Override
@@ -715,14 +723,12 @@ public class EditOrder extends AppCompatActivity {
                 EditOrder.this.finish();
             }
         });
-
         alertdialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-
         AlertDialog alert = alertdialog.create();
         alertdialog.show();
     }

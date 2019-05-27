@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
         String url7 = "http://192.168.1.101:3000/products/categories/"  ;
         String url8 = "http://192.168.1.101:3000/order/assemblies/"  ;
 
-         getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+        getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
                 {
                     @Override
@@ -528,8 +528,7 @@ public class MainActivity extends AppCompatActivity {
                                 change_log_db = jsonObject.getString("change_log");
                                 seller_id_orders_db = jsonObject.getString("seller_id");
 
-                               // ordersRemoteDatabase.add(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
-                               //         date_orders_db, change_log_db, Integer.parseInt(seller_id_orders_db)));
+
 
                                 //ACTUALIZACION DE LA TABLA
                                 ordersDao.InsertOrders(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
@@ -574,13 +573,13 @@ public class MainActivity extends AppCompatActivity {
                                 description_orderStatus_db = jsonObject.getString("description");
                                 editable_orderSatus_db = jsonObject.getString("editable");
                                 previous_orderStatus_db = jsonObject.getString("previous");
-                                 next_orderStatus_db= jsonObject.getString("next");
+                                next_orderStatus_db= jsonObject.getString("next");
 
                                 ordersStatusRemoteDatabase.add(new OrderStatus( Integer.parseInt(id_orderStatus_db) , description_orderStatus_db, Integer.parseInt(editable_orderSatus_db),
                                         previous_orderStatus_db, next_orderStatus_db));
                                 //ACTUALIZACION DE LA TABLA
                                 //orderStatusDao.InsertOrderStatus(new OrderStatus( Integer.parseInt(id_orderStatus_db) , description_orderStatus_db, Integer.parseInt(editable_orderSatus_db),
-                                  //      previous_orderStatus_db, next_orderStatus_db));
+                                //      previous_orderStatus_db, next_orderStatus_db));
                             }
                             Toast.makeText(MainActivity.this, "ORDERSTATUS", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
@@ -627,8 +626,8 @@ public class MainActivity extends AppCompatActivity {
                                         Integer.parseInt( price_products), Integer.parseInt(qty_products)));
 
                                 //ACTUALIACION DE LA TABLA
-                               // productsDao.InsertProducts(new Products( Integer.parseInt(id_product_products) ,  Integer.parseInt(category_id_products), description_products,
-                                 //       Integer.parseInt( price_products), Integer.parseInt(qty_products)));
+                                // productsDao.InsertProducts(new Products( Integer.parseInt(id_product_products) ,  Integer.parseInt(category_id_products), description_products,
+                                //       Integer.parseInt( price_products), Integer.parseInt(qty_products)));
                             }
                             Toast.makeText(MainActivity.this,  "PRODUCTS", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {

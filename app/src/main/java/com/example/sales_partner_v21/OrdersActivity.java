@@ -34,9 +34,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
+import com.example.sales_partner_v21.Database.OrderAssemblies;
 import com.example.sales_partner_v21.Database.OrderStatus;
 import com.example.sales_partner_v21.Database.OrderStatusChanges;
 import com.example.sales_partner_v21.Database.OrderStatusChangesDao;
@@ -44,6 +51,10 @@ import com.example.sales_partner_v21.Database.OrderStatusDao;
 import com.example.sales_partner_v21.Database.Orders;
 import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
 import com.example.sales_partner_v21.Database.OrdersDao;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -846,6 +857,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
             SEARCH_PRESS3 = false;
             SEARCH_PRESS4 = false;
 
+            CargarDatosOrder();
             AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
             CustomersDao customersDao = database.customersDao();
             OrderStatusDao orderStatusDao = database.orderStatusDao();
@@ -1168,6 +1180,7 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
         Intent intent = new Intent(OrdersActivity.this, MainActivity.class);
         OrdersActivity.super.finish();
         startActivityForResult(intent, MainActivity.PRINCIPAL_REQUEST_CODE);
+        CargarDatosOrder();
     }
 
     @Override
@@ -1214,5 +1227,132 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
         }
     }
 
+    private String id_orders_db = "";
+    private String status_id_orders_db = "";
+    private String customer_id_orders_db = "";
+    private String date_orders_db = "";
+    private String change_log_db = "";
+    private String seller_id_orders_db = "";
+
+    private List<Orders> ordersRemoteDatabase = new ArrayList<>();
+    private List<Orders> ordersRemoteDatabase2 = new ArrayList<>();
+//
+    private String order_id_oa = "";
+    private String assembly_id_oa = "";
+    private String qty_oa = "";
+
+
+    private   String url =  "http://192.168.1.101:3000/assemblies/"  ;
+
+
+    private List<OrderAssemblies> ordersAssembliesRemoteDatabase = new ArrayList<>();
+    private List<OrderAssemblies> ordersAssembliesRemoteDatabase2 = new ArrayList<>();
+
+    private RequestQueue request;
+    private RequestQueue request2;
+    private JSONObject jsonObject;
+    private JSONArray jsonArray;
+    private JSONArray jsonArray2;
+
+
+    private void CargarDatosOrder(){
+
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        final OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
+        final OrdersDao ordersDao = database.ordersDao();
+
+        String url4 = "http://192.168.1.101:3000/order/"  ;
+        String url8 = "http://192.168.1.101:3000/order/assemblies/"  ;
+
+
+        request = Volley.newRequestQueue(OrdersActivity.this);
+
+        JsonArrayRequest getRequest4 = new JsonArrayRequest(Request.Method.GET, url4, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray = response;
+
+                        try {
+                            ordersDao.DeleteOrdersTable();
+                            for(int i =0; i<= jsonArray.length();i++){
+                                jsonObject = jsonArray.getJSONObject(i);
+                                id_orders_db = jsonObject.getString("id");
+                                status_id_orders_db = jsonObject.getString("status_id");
+                                customer_id_orders_db = jsonObject.getString("customer_id");
+                                date_orders_db = jsonObject.getString("date");
+                                change_log_db = jsonObject.getString("change_log");
+                                seller_id_orders_db = jsonObject.getString("seller_id");
+
+
+
+                                //ACTUALIZACION DE LA TABLA
+                                ordersDao.InsertOrders(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
+                                        date_orders_db, change_log_db, Integer.parseInt(seller_id_orders_db)));
+                            }
+                            Toast.makeText(OrdersActivity.this, "ORDERS", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ordersRemoteDatabase2 = ordersRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(OrdersActivity.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
+        request.add(getRequest4);
+
+
+        //ACCTIALIZAMOS order_assemblies
+
+
+        JsonArrayRequest getRequest8 = new JsonArrayRequest(Request.Method.GET, url8, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray = response;
+
+                        try {
+                            ordersAssembliesDao.DeleteOrderAssembliesTable();
+                            for(int i =0; i<= jsonArray.length();i++){
+                                jsonObject = jsonArray.getJSONObject(i);
+                                order_id_oa     = jsonObject.getString("order_id");
+                                assembly_id_oa = jsonObject.getString("assembly_id");
+                                qty_oa        =  jsonObject.getString("qty");
+
+                                ordersAssembliesRemoteDatabase.add(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa)));
+                                //ACTUALIZACION DE LA TABLA
+                                ordersAssembliesDao.InsertOrderAssemblies(new OrderAssemblies( Integer.parseInt(order_id_oa) ,Integer.parseInt(assembly_id_oa), Integer.parseInt(qty_oa)));
+                            }
+                            Toast.makeText(OrdersActivity.this, "ORDERASSEMBLIES", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ordersAssembliesRemoteDatabase2 = ordersAssembliesRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(OrdersActivity.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
+        request.add(getRequest8);
+    }
 
 }
