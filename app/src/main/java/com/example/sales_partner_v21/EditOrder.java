@@ -307,8 +307,8 @@ public class EditOrder extends AppCompatActivity {
 
     private void AddNewOrder(final int idOrder ,final int status_id, final int customerId, final String date_new, final int idSeller ){
         //Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
-        String url = "http://192.168.1.81:3000/add_new_order"  ;
-        String url2 = "http://192.168.1.81:3000/id_new_order";
+        String url = "http://192.168.1.101:3000/add_new_order"  ;
+        String url2 = "http://192.168.1.101:3000/id_new_order";
 
         request = Volley.newRequestQueue(EditOrder.this);
 
@@ -345,7 +345,7 @@ public class EditOrder extends AppCompatActivity {
                 params.put("date", date_new);
                 params.put("change_log", "NULL");
                 params.put("seller_id", String.valueOf(idSeller));
-                params.put("domain", "192.168.1.81:3000");
+                params.put("domain", "192.168.1.101:3000");
 //CAMBIAR DOMINIO URL
                 return params;
             }
@@ -377,9 +377,9 @@ public class EditOrder extends AppCompatActivity {
     private List<Orders> ordersRemoteDatabase2 = new ArrayList<>();
 
     private void AddNewOrderAssemblies(final int assembly_id, final int qty_2){
-        String url = "http://192.168.1.81:3000/add_new_order_assembly";
-        String url8 = "http://192.168.43.81:3000/order/assemblies/"  ;
-        String url4 = "http://192.168.43.81:3000/order/"  ;
+        String url = "http://192.168.1.101:3000/add_new_order_assembly";
+        String url8 = "http://192.168.1.101:3000/order/assemblies/"  ;
+        String url4 = "http://192.168.1.101:3000/order/"  ;
 
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -409,7 +409,7 @@ public class EditOrder extends AppCompatActivity {
                 params.put("order_id", String.valueOf(id_max_orders ));
                 params.put("assembly_id", String.valueOf(assembly_id));
                 params.put("qty", String.valueOf(qty_2));
-                params.put("domain", "192.168.1.81:3000");
+                params.put("domain", "192.168.1.101:3000");
 //CAMBIAR DOMINIO URL
                 return params;
             }
@@ -513,9 +513,9 @@ public class EditOrder extends AppCompatActivity {
     private int id_customer;
 
     private void DeleteOrder(int id_order){
-        String urlF = "http://192.168.43.246:3000/order/delete/"+ String.valueOf(id_order);
+        String urlF = "http://192.168.43.101:3000/order/delete/"+ id_order;
 
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, urlF, null,
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.DELETE, urlF, null,
                 new Response.Listener<JSONArray>()
                 {
                     @Override
@@ -540,9 +540,9 @@ public class EditOrder extends AppCompatActivity {
     }
     private void DeleteOrder_asselbly(int id_order){
 
-        String urlF = "http://192.168.43.246:3000/order_assemblies/delete/"+ String.valueOf(id_order);
+        String urlF = "http://192.168.43.101:3000/order_assemblies/delete/"+ id_order;
 
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, urlF, null,
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.DELETE, urlF, null,
                 new Response.Listener<JSONArray>()
                 {
                     @Override
@@ -715,14 +715,12 @@ public class EditOrder extends AppCompatActivity {
                 EditOrder.this.finish();
             }
         });
-
         alertdialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-
         AlertDialog alert = alertdialog.create();
         alertdialog.show();
     }

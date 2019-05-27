@@ -12,7 +12,7 @@ public interface OrdersDao {
     @Insert
     void InsertNewOrder(Orders order);
 
-    @Query("SELECT MAX(id) FROM orders")
+    @Query("SELECT MAX(id) FROM orders ")
     int getMaxID();
 
     @Query("SELECT * FROM orders WHERE customer_id IN (:ids) AND status_id IN (:statuses) and orders.seller_id in (:SellerId)")
