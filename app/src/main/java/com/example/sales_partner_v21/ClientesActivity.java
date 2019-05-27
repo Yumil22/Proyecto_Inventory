@@ -45,6 +45,7 @@ import com.example.sales_partner_v21.Database.CustomersDao;
 import com.example.sales_partner_v21.Database.Orders;
 import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
 import com.example.sales_partner_v21.Database.OrdersDao;
+import com.example.sales_partner_v21.Database.SellersDao;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
             edit.setOnMenuItemClickListener(onEditMenu);
         }
 
+        //public RequestQueue request;
         public String CUSTOMER_ID = "CUSTOMER_ID";
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -120,7 +122,12 @@ class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
                         public void onClick(DialogInterface dialog, int which) {
                             AppDatabase database = AppDatabase.getAppDatabase(context.getApplicationContext());
                             CustomersDao customersDao = database.customersDao();
-                            customersDao.Deleteuser(customers);
+                            //---------------------------------
+                            deleteClient(customers.getId());
+                            Toast.makeText(itemView.getContext(), "" + customers.getId(), Toast.LENGTH_LONG).show();
+                            //----------------------------------
+                            //customersDao.Deleteuser(customers);
+                            cargarWebServiseAssembly();
                             ((ClientesActivity)context).recreate();
                         }
                     }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -138,7 +145,115 @@ class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
                 }
             }
         };
+        //------------------------------------------------------------------------------------------
+        public RequestQueue request =  Volley.newRequestQueue(itemView.getContext());
+        private void deleteClient(int id_order){
+            String urlF = "http://192.168.1.101:3000/customers/delete/"+ String.valueOf(id_order);
+
+            JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.DELETE, urlF, null,
+                    new Response.Listener<JSONArray>()
+                    {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //Toast.makeText(EditOrder.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+                        }
+                    }
+            );
+            request.add(getRequest);
+        }
+
+
+        private RequestQueue request2;
+        private JSONObject jsonObject;
+        private JSONArray jsonArray;
+        private JSONArray jsonArray2;
+        //String de assemblies
+        private String id_customer_db = "";
+        private String first_name_db = "";
+        private String last_name_db = "";
+        private String adresss_db = "";
+        private String phone_1_db = "";
+        private String phone_2_db = "";
+        private String phone_3_db = "";
+        private String email_db = "";
+        private String active_db = ""; //se vuelve int
+        private List<Customers> customersRemoteDatabase = new ArrayList<>();
+        private List<Customers> customersRemoteDatabase2 = new ArrayList<>();
+
+        private JsonArrayRequest getRequest;
+
+        private void cargarWebServiseAssembly() {
+
+            //Llamado a la base de datos para la utilizacion de Dao's
+
+//Actualizo assemblies
+            request = Volley.newRequestQueue(itemView.getContext());
+            request2 = Volley.newRequestQueue(itemView.getContext());
+            String url3 = "http://192.168.1.101:3000/customers/"  ;
+            AppDatabase database = AppDatabase.getAppDatabase(itemView.getContext());
+            final CustomersDao customersDao = database.customersDao();
+
+            JsonArrayRequest getRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
+                    new Response.Listener<JSONArray>()
+                    {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            jsonArray = response;
+
+                            try {
+                                customersDao.DeleteCustomersTable();
+                                for(int i =0; i<= jsonArray.length();i++){
+                                    jsonObject = jsonArray.getJSONObject(i);
+                                    id_customer_db = jsonObject.getString("id");
+                                    first_name_db = jsonObject.getString("first_name");
+                                    last_name_db = jsonObject.getString("last_name");
+                                    adresss_db = jsonObject.getString("address");
+                                    phone_1_db = jsonObject.getString("phone1");
+                                    phone_2_db = jsonObject.getString("phone2");
+                                    phone_3_db = jsonObject.getString("phone3");
+                                    email_db = jsonObject.getString("email");
+                                    active_db = jsonObject.getString("active");
+                                    //customersRemoteDatabase.add(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db) ));
+                                    //Toast.makeText(SellersLogin.this, first_name, Toast.LENGTH_LONG).show();
+
+                                    //ACTUALIZACION DE LA TABLA
+                                    customersDao.InsertCustomers(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db)));
+                                }
+                                Toast.makeText(itemView.getContext(), "CUSTOMERS", Toast.LENGTH_LONG).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            customersRemoteDatabase2 = customersRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(itemView.getContext(), error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+
+                        }
+                    }
+            );
+
+            //jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            request.add(getRequest3);
+        }
     }
+
+
 
     private List<Customers> customers;
     private Context context;
@@ -220,10 +335,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
 
         MultiSpinner customerSpinner = findViewById(R.id.spinner_checkbox);
         recyclerView = findViewById(R.id.recycler_clients);
-
-
-
-
 
         customersList.add("First Name");
         customersList.add("Last Name");
@@ -341,8 +452,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
 
                 }
             }
-
-
 
           // recyclerView.setLayoutManager(new LinearLayoutManager(this));
           // adapter = new CustomerAdapter(customersAll,this);
@@ -487,7 +596,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
                 customersAll = customersDao.getAllCustomers();
             }
 
-
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new CustomerAdapter(customersAll,this);
             recyclerView.setAdapter(adapter);
@@ -584,8 +692,6 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
     private void cargarWebServiseAssembly() {
 
         //Llamado a la base de datos para la utilizacion de Dao's
-        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
-        final AssembliesDao assembliesDao = database.assembliesDao();
 
 //Actualizo assemblies
         request = Volley.newRequestQueue(ClientesActivity.this);

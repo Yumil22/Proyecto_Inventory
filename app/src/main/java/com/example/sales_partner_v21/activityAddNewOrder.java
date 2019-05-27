@@ -53,6 +53,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Console;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -465,10 +466,11 @@ public class activityAddNewOrder extends AppCompatActivity {
     public JSONArray jsonArray2;
     public JSONObject jsonObject;
     public String id_max_orders;
+    public String id_max_orders_final;
     private void AddNewOrder(final int status_id, final int customerId, final String date_new, final int idSeller ){
         //Orders NewOrder = new Orders(ordersDao.getMaxID() + 1, 0,ClientID,date,null,0);
-        String url = "http://192.168.1.81:3000/add_new_order"  ;
-        String url2 = "http://192.168.1.81:3000/id_new_order";
+        String url = "http://192.168.1.101:3000/add_new_order"  ;
+        String url2 = "http://192.168.1.101:3000/id_new_order";
 
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url2, null,
                 new Response.Listener<JSONArray>()
@@ -482,9 +484,10 @@ public class activityAddNewOrder extends AppCompatActivity {
 
                             jsonObject = jsonArray2.getJSONObject(0);
                             id_max_orders = jsonObject.getString("id");
+                            Log.d("Error",""+id_max_orders);
 
-                            id_max_orders = String.valueOf(Integer.valueOf(id_max_orders)+1);
-
+                            id_max_orders_final = String.valueOf(Integer.valueOf(id_max_orders)+1);
+                            Log.d("Error2",""+id_max_orders_final);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(activityAddNewOrder.this, "Fallo la coneccion",  Toast.LENGTH_SHORT).show();
@@ -528,14 +531,20 @@ public class activityAddNewOrder extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams()
             {
+
+                String newid = id_max_orders_final;
+                String newstatus = String.valueOf(status_id);
+                String newcustomer = String.valueOf(customerId);
+                String newseller = String.valueOf(idSeller);
+
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("id", String.valueOf(id_max_orders ));
-                params.put("status_id", String.valueOf(status_id));
-                params.put("customer_id", String.valueOf(customerId));
+                params.put("id", newid);
+                params.put("status_id", newstatus);
+                params.put("customer_id", newcustomer);
                 params.put("date", date_new);
                 params.put("change_log", "NULL");
-                params.put("seller_id", String.valueOf(idSeller));
-                params.put("domain", "192.168.1.81:3000");
+                params.put("seller_id", newseller);
+                params.put("domain", "192.168.1.101:3000");
 //CAMBIAR DOMINIO URL
                 return params;
             }
@@ -566,15 +575,14 @@ public class activityAddNewOrder extends AppCompatActivity {
     private List<Orders> ordersRemoteDatabase = new ArrayList<>();
     private List<Orders> ordersRemoteDatabase2 = new ArrayList<>();
 
-    private void AddNewOrderAssemblies(final int assembly_id, final int qty_2){
-        String url = "http://192.168.1.81:3000/add_new_order_assembly";
-        String url8 = "http://192.168.43.81:3000/order/assemblies/"  ;
-        String url4 = "http://192.168.43.81:3000/order/"  ;
+    private void AddNewOrderAssemblies(final int assembly_id, final int qty_2) {
+        String url = "http://192.168.1.101:3000/add_new_order_assembly";
+        String url8 = "http://192.168.1.101:3000/order/assemblies/";
+        String url4 = "http://192.168.1.101:3000/order/";
 
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // response
@@ -582,8 +590,7 @@ public class activityAddNewOrder extends AppCompatActivity {
                         Log.d("Response", response);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
@@ -593,13 +600,17 @@ public class activityAddNewOrder extends AppCompatActivity {
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
+            protected Map<String, String> getParams() {
+
+                String newid = id_max_orders_final;
+                String newassembly = String.valueOf(assembly_id);
+                String newqty = String.valueOf(qty_2);
+
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("order_id", String.valueOf(id_max_orders ));
-                params.put("assembly_id", String.valueOf(assembly_id));
-                params.put("qty", String.valueOf(qty_2));
-                params.put("domain", "192.168.1.81:3000");
+                params.put("order_id", newid);
+                params.put("assembly_id", newassembly);
+                params.put("qty", newqty);
+                params.put("domain", "192.168.1.101:3000");
 //CAMBIAR DOMINIO URL
                 return params;
             }
@@ -698,5 +709,6 @@ public class activityAddNewOrder extends AppCompatActivity {
                 }
         );
         request.add(getRequest4);
+
     }
 }

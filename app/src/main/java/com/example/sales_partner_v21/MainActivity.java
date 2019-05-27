@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
     private String qty_oa = "";
 
 
-    private   String url =  "http://192.168.1.101:3000/assemblies/"  ;
+    private String url =  "http://192.168.1.101:3000/assemblies/";
 
 
     private List<OrderAssemblies> ordersAssembliesRemoteDatabase = new ArrayList<>();

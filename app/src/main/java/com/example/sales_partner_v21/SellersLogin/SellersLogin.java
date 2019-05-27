@@ -151,7 +151,7 @@ import java.util.List;
 
          String url = "http://192.168.1.101:3000/sellers/"  ;
 
-         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, "http://192.168.1.101:3000/sellers/", null,
+         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                  new Response.Listener<JSONArray>()
                  {
                      @Override
