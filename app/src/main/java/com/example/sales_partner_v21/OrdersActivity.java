@@ -144,6 +144,15 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                 editOrder.setOnMenuItemClickListener(OrdersListener);
             }
         }
+        private void Change_state(int id,int state){
+            //REALIZA UN UPDATE
+
+        }
+
+        private void Changed_order_status(String date, int id_order, int status_id, String comment){
+            //REALIZA UN INSERT
+
+        }
 
         private final MenuItem.OnMenuItemClickListener OrdersListener = new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -177,6 +186,9 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                             OrdersDao ordersDao = database.ordersDao();
                             OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
                             ordersDao.UpdateStatusID(order.getId(),0);
+
+                            Change_state(order.getId(),0);
+
                             orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),0,comment.getText().toString()));
                             ((OrdersActivity)context).recreate();
                         }
@@ -207,7 +219,11 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                             OrdersDao ordersDao = database.ordersDao();
                             OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
                             ordersDao.UpdateStatusID(order.getId(),1);
+                            Change_state(order.getId(),1);
+
                             orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),1,comment.getText().toString()));
+                            Changed_order_status(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),1,comment.getText().toString());
+
                             ((OrdersActivity)context).recreate();
                         }
                     });
@@ -237,7 +253,10 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                             OrdersDao ordersDao = database.ordersDao();
                             OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
                             ordersDao.UpdateStatusID(order.getId(),2);
+                            Change_state(order.getId(),2);
+
                             orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),2,comment.getText().toString()));
+                            Changed_order_status(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),2,comment.getText().toString());
                             ((OrdersActivity)context).recreate();
                         }
                     });
@@ -267,7 +286,11 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                             OrdersDao ordersDao = database.ordersDao();
                             OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
                             ordersDao.UpdateStatusID(order.getId(),3);
+                            Change_state(order.getId(),3);
+
                             orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),3,comment.getText().toString()));
+                            Changed_order_status(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),3,comment.getText().toString());
+
                             ((OrdersActivity)context).recreate();
                         }
                     });
@@ -297,7 +320,11 @@ class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder>{
                             OrdersDao ordersDao = database.ordersDao();
                             OrderStatusChangesDao orderStatusChanges = database.orderStatusChangesDao();
                             ordersDao.UpdateStatusID(order.getId(),4);
+                            Change_state(order.getId(),4);
+
                             orderStatusChanges.InsertOrderStatusChanged(new OrderStatusChanges(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),4,comment.getText().toString()));
+                            Changed_order_status(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH),order.getId(),4,comment.getText().toString());
+
                             ((OrdersActivity)context).recreate();
                         }
                     });
@@ -1186,4 +1213,6 @@ public class OrdersActivity extends AppCompatActivity implements MultiSpinner.Mu
             orderStatusesSelected.remove(Integer.valueOf(4));
         }
     }
+
+
 }

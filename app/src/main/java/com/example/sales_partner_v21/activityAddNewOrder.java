@@ -553,8 +553,23 @@ public class activityAddNewOrder extends AppCompatActivity {
     private JSONArray jsonArray3;
     private JSONObject jsonObject2;
 
+
+    //Variables de orders
+    //Strings de orders
+    private String id_orders_db = "";
+    private String status_id_orders_db = "";
+    private String customer_id_orders_db = "";
+    private String date_orders_db = "";
+    private String change_log_db = "";
+    private String seller_id_orders_db = "";
+
+    private List<Orders> ordersRemoteDatabase = new ArrayList<>();
+    private List<Orders> ordersRemoteDatabase2 = new ArrayList<>();
+
     private void AddNewOrderAssemblies(final int assembly_id, final int qty_2){
-        String url = "http://192.168.1.81:3000/add_new_order_assembly"  ;
+        String url = "http://192.168.1.81:3000/add_new_order_assembly";
+        String url8 = "http://192.168.43.81:3000/order/assemblies/"  ;
+        String url4 = "http://192.168.43.81:3000/order/"  ;
 
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -594,7 +609,7 @@ public class activityAddNewOrder extends AppCompatActivity {
 
         //Ya para concluir, reiniciamos todas las tablas, como un rerfresh de todo
 
-        String url8 = "http://192.168.43.246:3000/order/assemblies/"  ;
+        //ACUALIZO ORDER_ASSEMBLIES
 
         AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
         final OrdersAssembliesDao ordersAssembliesDao = database.ordersAssembliesDao();
@@ -637,5 +652,51 @@ public class activityAddNewOrder extends AppCompatActivity {
         );
         request.add(getRequest8);
 
+
+//ACTUALIZO TABLAS DE ORDERS
+
+        JsonArrayRequest getRequest4 = new JsonArrayRequest(Request.Method.GET, url4, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray3 = response;
+
+                        try {
+                            for(int i =0; i<= jsonArray3.length();i++){
+                                jsonObject2 = jsonArray3.getJSONObject(i);
+                                id_orders_db = jsonObject2.getString("id");
+                                status_id_orders_db = jsonObject2.getString("status_id");
+                                customer_id_orders_db = jsonObject2.getString("customer_id");
+                                date_orders_db = jsonObject2.getString("date");
+                                change_log_db = jsonObject2.getString("change_log");
+                                seller_id_orders_db = jsonObject2.getString("seller_id");
+
+                                // ordersRemoteDatabase.add(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
+                                //         date_orders_db, change_log_db, Integer.parseInt(seller_id_orders_db)));
+
+                                //ACTUALIZACION DE LA TABLA
+                                ordersDao.InsertOrders(new Orders( Integer.parseInt(id_orders_db) , Integer.parseInt(status_id_orders_db), Integer.parseInt(customer_id_orders_db),
+                                        date_orders_db, change_log_db, Integer.parseInt(seller_id_orders_db)));
+                            }
+                            Toast.makeText(activityAddNewOrder.this, "ORDERS", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ordersRemoteDatabase2 = ordersRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(activityAddNewOrder.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
+        request.add(getRequest4);
     }
 }
