@@ -6,57 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".SellersLogin.SellersLogin">
 
-    <TextView
+    <Button
+        android:id="@+id/refresh_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User"
-        style="@style/TextAppearance.AppCompat.Headline"
-        android:textSize="18sp"
-        android:layout_above="@id/seller_login"
-        android:id="@+id/user_text"/>
-
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/seller_login"
-    android:layout_centerVertical="true"
-    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-    android:inputType="textFilter"/>
+        android:layout_alignParentRight="true"
+        android:text="Refresh" />
 
     <TextView
+        android:id="@+id/user_text"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/seller_login"
+        android:text="User"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/seller_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+        android:inputType="textFilter" />
+
+    <TextView
+        android:id="@+id/details_sm"
+        style="@style/TextAppearance.AppCompat.Display4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/user_text"
-        android:id="@+id/details_sm"
-        style="@style/TextAppearance.AppCompat.Display4"
-        android:textSize="32sp"
-        android:text=""/>
+        android:text=""
+        android:textSize="32sp" />
 
     <TextView
+        android:id="@+id/text_match"
+        style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/seller_login"
         android:text="Password"
-        android:textSize="18sp"
-        style="@style/TextAppearance.AppCompat.Headline"
-        android:id="@+id/text_match"
-        android:layout_below="@id/seller_login"/>
+        android:textSize="18sp" />
 
     <EditText
+        android:id="@+id/seller_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/seller_password"
-        android:layout_centerVertical="true"
         android:layout_below="@id/text_match"
-        android:inputType="textPassword"
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+        android:layout_centerVertical="true"
         android:layout_marginTop="8dp"
-        />
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+        android:inputType="textPassword" />
 
     <Button
+        android:id="@+id/button_log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In"
         android:layout_below="@id/seller_password"
-        android:id="@+id/button_log"/>
+        android:text="Log In" />
 
 </RelativeLayout>

@@ -276,7 +276,7 @@ public class Sales_summary_mounth extends AppCompatActivity implements SalesAdap
         }
 
         ordersList = ordersDao.getAllorders();
-        fechas = ordersDao.getDates();
+        fechas = ordersDao.getDates(idSeller);
 
         years = new ArrayList<>(list);
         int av = 0;

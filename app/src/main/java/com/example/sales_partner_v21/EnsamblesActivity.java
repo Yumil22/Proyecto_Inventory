@@ -21,11 +21,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sales_partner_v21.Database.AppDatabase;
 import com.example.sales_partner_v21.Database.Assemblies;
 import com.example.sales_partner_v21.Database.AssembliesDao;
 import com.example.sales_partner_v21.Database.AssembliesProductsDao;
+import com.example.sales_partner_v21.Database.CustomersDao;
+import com.example.sales_partner_v21.Database.OrderStatusDao;
+import com.example.sales_partner_v21.Database.OrdersAssembliesDao;
+import com.example.sales_partner_v21.Database.OrdersDao;
+import com.example.sales_partner_v21.Database.ProductsCategoriesDao;
+import com.example.sales_partner_v21.Database.ProductsDao;
+import com.example.sales_partner_v21.Database.SellersDao;
 import com.facebook.stetho.Stetho;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -131,6 +148,8 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
         AssembliesProductsDao assembliesProductsDao = database.assembliesProductsDao();
         AssembliesDao assembliesDao = database.assembliesDao();
         Stetho.initializeWithDefaults(this);
+
+        cargarWebServiseAssembly();
 
         if (savedInstanceState != null){
             searchTextOption.setText(savedInstanceState.getString(SEARCH_TEXT));
@@ -253,11 +272,65 @@ public class EnsamblesActivity extends AppCompatActivity implements AssembliesAd
         startActivity(intent);
     }
 
+    private RequestQueue request;
+    private RequestQueue request2;
+    private JSONObject jsonObject;
+    private JSONArray jsonArray;
+    private JSONArray jsonArray2;
     //String de assemblies
     private int id_assemblies  ;
     private String description_assemblies = "";
     private List<Assemblies> assembliesRemoteDatabase = new ArrayList<>();
     private List<Assemblies> assembliesRemoteDatabase2 = new ArrayList<>();
 
+    private JsonArrayRequest getRequest;
 
+    private void cargarWebServiseAssembly() {
+
+        //Llamado a la base de datos para la utilizacion de Dao's
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        final AssembliesDao assembliesDao = database.assembliesDao();
+
+//Actualizo assemblies
+        request = Volley.newRequestQueue(EnsamblesActivity.this);
+        request2 = Volley.newRequestQueue(EnsamblesActivity.this);
+        String url =  "http://192.168.1.101:3000/assemblies/"  ;
+
+        getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray2 = response;
+
+                        jsonObject = null;
+                        try {
+                            assembliesDao.DeleteAssembliesTable();
+                            for (int i = 0; i <= jsonArray2.length(); i++) {
+                                jsonObject = jsonArray2.getJSONObject(i);
+                                id_assemblies = jsonObject.getInt("id");
+                                description_assemblies = jsonObject.getString("description");
+
+                                //assembliesRemoteDatabase.add(new Assemblies( id_assemblies , description_assemblies ));
+
+                                //ACTULIZACION DE LA TABLA
+                                assembliesDao.InsertAssemblies(new Assemblies(id_assemblies, description_assemblies));
+                            }
+                            Toast.makeText(EnsamblesActivity.this, "ASSEMBLIES", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        assembliesRemoteDatabase2 = assembliesRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(EnsamblesActivity.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        request2.add(getRequest);
+    }
 }
