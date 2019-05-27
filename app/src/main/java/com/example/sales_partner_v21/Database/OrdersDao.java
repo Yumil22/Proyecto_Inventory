@@ -33,8 +33,9 @@ public interface OrdersDao {
     @Query("SELECT * FROM orders")
     public List<Orders> getAllorders();
 
-    @Query("SELECT date FROM orders")
-    public List<String> getDates();
+    @Query("SELECT date FROM orders " +
+            "where seller_id in (:SellerId) ")
+    public List<String> getDates(int SellerId);
 
     @Query("SELECT * FROM orders WHERE date >= :date " +
             "AND date <= :date2 and seller_id in (:SellerId)")
@@ -68,8 +69,8 @@ public interface OrdersDao {
             " INNER JOIN order_assemblies oa ON o.id = oa.order_id  " +
             " INNER JOIN assembly_products ap ON ap.assembly_id = oa.assembly_id " +
             " INNER JOIN products p ON p.id = ap.product_id " +
-            "  WHERE o.status_id = 0 GROUP BY o.id ORDER BY o.date DESC")
-    List<Integer> getCountsOrders();
+            "  WHERE o.status_id = 0 and o.seller_id in (:IdSeller) GROUP BY o.id ORDER BY o.date DESC")
+    List<Integer> getCountsOrders(int IdSeller);
 
     @Query("SELECT * FROM orders WHERE customer_id = :customer_id")
     List<Orders> getOrdersByCustomerID(int customer_id);

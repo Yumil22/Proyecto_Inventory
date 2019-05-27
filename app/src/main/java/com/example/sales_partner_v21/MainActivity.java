@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity {
         final OrderStatusDao orderStatusDao = database.orderStatusDao();
         final ProductsCategoriesDao productsCategoriesDao = database.productsCategoriesDao();
         final ProductsDao productsDao = database.productsDao();
-        assembliesDao.DeleteAssembliesTable();
+        /*assembliesDao.DeleteAssembliesTable();
         assembliesProductsDao.DeleteAssemblyProductsTable();
         customersDao.DeleteCustomersTable();
         ordersAssembliesDao.DeleteOrderAssembliesTable();
-        ordersDao.DeleteOrdersTable();
+        ordersDao.DeleteOrdersTable();*/
+
+
         //orderStatusDao.DeleteOrderStatusTable();
         //productsCategoriesDao.DeleteProductCategoriesTable();
         //productsDao.DeleteProductsTable();
@@ -330,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
     private String qty_oa = "";
 
 
-    private   String url =  "http://192.168.43.246:3000/assemblies/"  ;
+    private   String url =  "http://192.168.1.101:3000/assemblies/"  ;
 
 
     private List<OrderAssemblies> ordersAssembliesRemoteDatabase = new ArrayList<>();
@@ -354,13 +356,13 @@ public class MainActivity extends AppCompatActivity {
 //Actualizo assemblies
         request = Volley.newRequestQueue(MainActivity.this);
         request2 = Volley.newRequestQueue(MainActivity.this);
-        String url2 = "http://192.168.43.246:3000/assemblies/products/"  ;
-        String url3 = "http://192.168.43.246:3000/customers/"  ;
-        String url4 = "http://192.168.43.246:3000/order/"  ;
-        String url5 = "http://192.168.43.246:3000/order/status/"  ;
-        String url6 = "http://192.168.43.246:3000/products/"  ;
-        String url7 = "http://192.168.43.246:3000/products/categories/"  ;
-        String url8 = "http://192.168.43.246:3000/order/assemblies/"  ;
+        String url2 = "http://192.168.1.101:3000/assemblies/products/"  ;
+        String url3 = "http://192.168.1.101:3000/customers/"  ;
+        String url4 = "http://192.168.1.101:3000/order/"  ;
+        String url5 = "http://192.168.1.101:3000/order/status/"  ;
+        String url6 = "http://192.168.1.101:3000/products/"  ;
+        String url7 = "http://192.168.1.101:3000/products/categories/"  ;
+        String url8 = "http://192.168.1.101:3000/order/assemblies/"  ;
 
          getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
@@ -372,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
 
                         jsonObject = null;
                         try {
+                            assembliesDao.DeleteAssembliesTable();
                             for(int i =0; i<= jsonArray2.length();i++){
                                 jsonObject = jsonArray2.getJSONObject(i);
                                 id_assemblies = jsonObject.getInt("id");
@@ -415,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
                         jsonArray = response;
 
                         try {
+                            assembliesProductsDao.DeleteAssemblyProductsTable();
                             for(int i =0; i<= jsonArray.length();i++){
                                 jsonObject = jsonArray.getJSONObject(i);
                                 assembly_id_db = jsonObject.getString("assembly_id");
@@ -461,6 +465,7 @@ public class MainActivity extends AppCompatActivity {
                         jsonArray = response;
 
                         try {
+                            customersDao.DeleteCustomersTable();
                             for(int i =0; i<= jsonArray.length();i++){
                                 jsonObject = jsonArray.getJSONObject(i);
                                 id_customer_db = jsonObject.getString("id");
@@ -513,6 +518,7 @@ public class MainActivity extends AppCompatActivity {
                         jsonArray = response;
 
                         try {
+                            ordersDao.DeleteOrdersTable();
                             for(int i =0; i<= jsonArray.length();i++){
                                 jsonObject = jsonArray.getJSONObject(i);
                                 id_orders_db = jsonObject.getString("id");
@@ -703,6 +709,7 @@ public class MainActivity extends AppCompatActivity {
                         jsonArray = response;
 
                         try {
+                            ordersAssembliesDao.DeleteOrderAssembliesTable();
                             for(int i =0; i<= jsonArray.length();i++){
                                 jsonObject = jsonArray.getJSONObject(i);
                                 order_id_oa     = jsonObject.getString("order_id");

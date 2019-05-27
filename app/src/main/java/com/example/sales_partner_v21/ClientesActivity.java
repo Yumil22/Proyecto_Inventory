@@ -31,7 +31,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sales_partner_v21.Database.AppDatabase;
+import com.example.sales_partner_v21.Database.Assemblies;
+import com.example.sales_partner_v21.Database.AssembliesDao;
 import com.example.sales_partner_v21.Database.Customers;
 import com.example.sales_partner_v21.Database.CustomersDao;
 import com.example.sales_partner_v21.Database.Orders;
@@ -43,7 +51,11 @@ import java.util.ArrayList;
 import java.util.List;
 import android.app.Dialog;
 
- class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private TextView txt_first_name;
         private TextView txt_last_name;
@@ -547,6 +559,87 @@ public class ClientesActivity extends AppCompatActivity  implements MultiSpinner
         else{
             optionsSelected.remove(Integer.valueOf(4));
         }
+    }
+
+    private RequestQueue request;
+    private RequestQueue request2;
+    private JSONObject jsonObject;
+    private JSONArray jsonArray;
+    private JSONArray jsonArray2;
+    //String de assemblies
+    private String id_customer_db = "";
+    private String first_name_db = "";
+    private String last_name_db = "";
+    private String adresss_db = "";
+    private String phone_1_db = "";
+    private String phone_2_db = "";
+    private String phone_3_db = "";
+    private String email_db = "";
+    private String active_db = ""; //se vuelve int
+    private List<Customers> customersRemoteDatabase = new ArrayList<>();
+    private List<Customers> customersRemoteDatabase2 = new ArrayList<>();
+
+    private JsonArrayRequest getRequest;
+
+    private void cargarWebServiseAssembly() {
+
+        //Llamado a la base de datos para la utilizacion de Dao's
+        AppDatabase database = AppDatabase.getAppDatabase(getApplicationContext());
+        final AssembliesDao assembliesDao = database.assembliesDao();
+
+//Actualizo assemblies
+        request = Volley.newRequestQueue(ClientesActivity.this);
+        request2 = Volley.newRequestQueue(ClientesActivity.this);
+        String url3 = "http://192.168.1.101:3000/customers/"  ;
+
+        JsonArrayRequest getRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        jsonArray = response;
+
+                        try {
+                            customersDao.DeleteCustomersTable();
+                            for(int i =0; i<= jsonArray.length();i++){
+                                jsonObject = jsonArray.getJSONObject(i);
+                                id_customer_db = jsonObject.getString("id");
+                                first_name_db = jsonObject.getString("first_name");
+                                last_name_db = jsonObject.getString("last_name");
+                                adresss_db = jsonObject.getString("address");
+                                phone_1_db = jsonObject.getString("phone1");
+                                phone_2_db = jsonObject.getString("phone2");
+                                phone_3_db = jsonObject.getString("phone3");
+                                email_db = jsonObject.getString("email");
+                                active_db = jsonObject.getString("active");
+                                //customersRemoteDatabase.add(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db) ));
+                                //Toast.makeText(SellersLogin.this, first_name, Toast.LENGTH_LONG).show();
+
+                                //ACTUALIZACION DE LA TABLA
+                                customersDao.InsertCustomers(new Customers(Integer.parseInt(id_customer_db) ,first_name_db, last_name_db, adresss_db, phone_1_db, phone_2_db, phone_3_db, email_db,Integer.parseInt(active_db)));
+                            }
+                            Toast.makeText(ClientesActivity.this, "CUSTOMERS", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        customersRemoteDatabase2 = customersRemoteDatabase;
+//AQUI DEBERIAMOS REALIZAR LA ACTUALIZACION DE LA BASE DE DATOS
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ClientesActivity.this, error.toString() + "FUCK", Toast.LENGTH_LONG).show();
+
+
+                    }
+                }
+        );
+
+        //jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(getRequest3);
     }
 }
 

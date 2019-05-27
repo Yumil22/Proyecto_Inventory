@@ -149,7 +149,7 @@ public class sales_summary extends AppCompatActivity {
        assembliesProductsList = assembliesProductsDao.getAllAssemblies();
        orderAssembliesList = ordersAssembliesDao.getAllorderAssemblies();
 
-        productsList= productsDao.getProductsMissing2();
+        productsList= productsDao.getProductsMissing2(idSeller);
         //ESTA LISTA DE PRODUCTOS ESTA CON UN FORMATO DIFERENTE A LO NORMAL PARA EVITAR LA NECESIDAD DE UN NUEVO OBJETO
         // EN VES DE category_id ES LA CANTIDAD EN STOCK y el qty ES LA CANTIDAD NECESARIA PARA PODER CONFIRMAR LA SOSLICITUDES
 

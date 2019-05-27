@@ -301,13 +301,13 @@ public class orders_simulator extends AppCompatActivity implements SimulatorAdap
                     CONTROL_AMOUNT = false;
                     CONTROL_CUSTOMER= false;
                     Allproducts = productsDao.getAllProducts();
-                    orders = ordersDao.getCountsOrders();//LISTA CON LS ORDER_ID
+                    orders = ordersDao.getCountsOrders(idSeller);//LISTA CON LS ORDER_ID
 
                     customerList = new ArrayList<>();
                     checkProducts = new ArrayList<>();
 
                         int aux =0;
-                        if(ordersDao.getCountsOrders() != null) {
+                        if(ordersDao.getCountsOrders(idSeller) != null) {
 
                             verificacion = new ArrayList<>();
                             for (int j = 0; j < orders.size(); j++) {
